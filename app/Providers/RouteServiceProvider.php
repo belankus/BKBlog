@@ -7,6 +7,11 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Exception;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,6 +40,22 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('year', function ($value) {
+            $slug = request()->route('slug');
+            $getRow = DB::table('posts')->where('slug', $slug)->get()->first();
+            $published_at = $getRow->published_at;
+            $published = Carbon::parse($published_at);
+            $yearDB = $published->format('Y');
+            if ($yearDB == $value) {
+                $GLOBALS['singlePost'] = Post::where([
+                    'published_at' => $published_at,
+                    'slug' => $slug,
+                ])->firstOrFail();
+                // dd($singlePost);
+                return $GLOBALS['singlePost'];
+            }
         });
     }
 }
