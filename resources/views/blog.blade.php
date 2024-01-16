@@ -10,7 +10,7 @@
                     test assumptions and connect with the needs of your audience early and often.</p>
             </div>
             <div class="flex">
-                <aside class="sticky top-[6rem] mr-8 w-full h-full">
+                <aside class="mr-8 w-full">
                     <span class="sr-only">Blog Sidebar</span>
                     <div class="w-60 p-4 bg-white rounded-lg border">
                         <h1 class="text-lg font-bold text-gray-400">Category</h1>
@@ -70,22 +70,30 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="w-60 mt-4 p-4 bg-white rounded-lg border">
+                    <div class="sticky top-[6rem] h-max w-60 mt-4 p-4 bg-white rounded-lg border">
                         <h1 class="text-lg font-bold text-gray-400">Archive</h1>
                         <hr>
                         <ul class="mt-1">
-                            <li>2023 (25)</li>
-                            <li>2024 (10)</li>
-                            <li class="indent-2">January (5)</li>
+                            @foreach ($years as $year)
+                                <li>
+                                    {{ $year->year }} ({{ $year->total }})
+                                    <ul class="indent-2">
+                                        @foreach ($dates as $date)
+                                            @if ($date->year == $year->year)
+                                                <li>{{ $date->monthname }} ({{ $date->total }})</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
-
                 </aside>
                 <div class="grid gap-6 lg:grid-cols-3">
 
                     @foreach ($posts as $post)
                         <article
-                            class="relative flex flex-col bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+                            class="relative flex flex-col bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 overflow-clip">
                             <div class="relative w-full">
                                 <img src="https://source.unsplash.com/300x200" alt="Image">
                                 <div class="absolute w-full top-0 flex justify-between items-center p-2 text-gray-500">

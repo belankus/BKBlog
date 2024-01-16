@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Exception;
 use PhpParser\Node\Stmt\TryCatch;
 
@@ -44,17 +45,30 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('year', function ($value) {
             $slug = request()->route('slug');
-            $getRow = DB::table('posts')->where('slug', $slug)->get()->first();
+            $getRow = Post::where('slug', $slug)->firstOrFail();
             $published_at = $getRow->published_at;
             $published = Carbon::parse($published_at);
             $yearDB = $published->format('Y');
             if ($yearDB == $value) {
-                $GLOBALS['singlePost'] = Post::where([
+                $singlePost = Post::where([
                     'published_at' => $published_at,
                     'slug' => $slug,
                 ])->firstOrFail();
                 // dd($singlePost);
-                return $GLOBALS['singlePost'];
+                return $singlePost;
+            } else {
+                abort(404);
+            }
+        });
+
+        Route::bind('tahun', function ($value) {
+
+            $getRows = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("published_at BETWEEN '$value-01-01 00:00:00' AND '$value-12-31 23:59:59' AND published = 1")->paginate(10);
+
+            if (count($getRows) != 0) {
+                return array($getRows, $value);
+            } else {
+                abort(404);
             }
         });
     }

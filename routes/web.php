@@ -20,6 +20,7 @@ Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/blog', [BlogController::class, 'index']);
 Route::get('/blog/{year}/{slug}', [BlogController::class, 'show']);
+Route::get('/blog/{tahun}', [BlogController::class, 'tahun']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
