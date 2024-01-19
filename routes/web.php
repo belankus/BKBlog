@@ -41,3 +41,7 @@ Route::prefix('dashboard')->group(function () {
 });
 
 Route::resource('posts', PostController::class);
+
+Route::get('/editor', function () {
+    return view('editor');
+});

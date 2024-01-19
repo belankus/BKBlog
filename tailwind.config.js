@@ -66,5 +66,6 @@ module.exports = {
         require("flowbite/plugin"),
         require("flowbite-typography"),
         require("@tailwindcss/forms"),
+        require("@tailwindcss/typography"),
     ],
 };
