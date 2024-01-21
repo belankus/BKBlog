@@ -61,15 +61,15 @@ class RouteServiceProvider extends ServiceProvider
             }
         });
 
-        Route::bind('tahun', function ($value) {
+        // Route::bind('tahun', function ($value) {
 
-            $getRows = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("published_at BETWEEN '$value-01-01 00:00:00' AND '$value-12-31 23:59:59' AND published = 1")->paginate(10);
+        //     $getRows = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("published_at BETWEEN '$value-01-01 00:00:00' AND '$value-12-31 23:59:59' AND published = 1")->paginate(10);
 
-            if (count($getRows) != 0) {
-                return array($getRows, $value);
-            } else {
-                abort(404);
-            }
-        });
+        //     if (count($getRows) != 0) {
+        //         return array($getRows, $value);
+        //     } else {
+        //         abort(404);
+        //     }
+        // });
     }
 }

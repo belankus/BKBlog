@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,11 @@ use App\Http\Controllers\PostController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/blog/categories/{category:slug}', [BlogController::class, 'category']);
+Route::get('/blog/tags/{tag:slug}', [BlogController::class, 'tag']);
+Route::get('/blog/archive/{tahun}', [BlogController::class, 'tahun']);
+Route::get('/blog/archive/{tahun}/{bulan}', [BlogController::class, 'bulan']);
 Route::get('/blog/{year}/{slug}', [BlogController::class, 'show']);
-Route::get('/blog/{tahun}', [BlogController::class, 'tahun']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
