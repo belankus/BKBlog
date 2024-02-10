@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
+use App\Models\Comment;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use carbon\Carbon;
@@ -59,9 +60,16 @@ class BlogController extends Controller
          * Bind 2 columns on URL
          */
 
+        $comments = Comment::with('user')
+            ->where('post_id', '=', $singlePost->id)
+            ->where('published', '=', 1)
+            ->orderBy('updated_at', 'ASC')
+            ->get();
+
         return view('layouts.blog.show', [
             'title' => $singlePost->category->name . ' - ' . $singlePost->metaTitle,
-            'singlePost' => $singlePost
+            'singlePost' => $singlePost,
+            'comments' => $comments
         ]);
     }
 
@@ -79,8 +87,7 @@ class BlogController extends Controller
         ]);
     }
 
-    /* Retrieve archive of Year an
-    Month */
+    /* Retrieve archive of Year and Month */
     public function bulan($tahun, $bulan)
     {
         try {

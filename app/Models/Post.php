@@ -45,6 +45,11 @@ class Post extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function getName($post)
     {
         $firstname = Str::of($post->user->name)->split('/[\s,]+/')->get(0);
