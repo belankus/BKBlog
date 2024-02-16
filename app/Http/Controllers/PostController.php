@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -12,10 +13,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return view('blog', [
+        $posts = Post::with('category')->get();
+        $categories = Category::pluck('name', 'id');
+        return view('dashboard.posts.index', [
             'posts' => $posts,
-            'title' => 'Blog | BKA Blog'
+            'categories' => $categories,
+            'title' => 'Dashboard | Post'
         ]);
     }
 

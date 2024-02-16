@@ -18,11 +18,10 @@ class CommentFactory extends Factory
     {
         return [
             'user_id' => fake()->numberBetween(1, 5),
-            // 'post_id' => fake()->numberBetween(1, 3),
             'post_id' => 1,
-            'parent_id' => fake()->numberBetween(0, 5),
+            'parent_id' => fake()->numberBetween(0, 2),
+            'mention_id' => fake()->numberBetween(1, 5),
             'title' => fake()->sentence(),
-            // 'published' => fake()->boolean(),
             'published' => 1,
             'created_at' => now(),
             'updated_at' => fake()->dateTimeBetween('-2 years', 'now'),

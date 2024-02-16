@@ -66,10 +66,28 @@ class BlogController extends Controller
             ->orderBy('updated_at', 'ASC')
             ->get();
 
+        $user = User::with('comments')->get();
+
+        $replies = [];
+        foreach ($comments as $c1) {
+            if ($c1->parent_id == 0) {
+                $commentOriginal[] = $c1;
+            }
+            foreach ($comments as $c2) {
+                if ($c1->id == $c2->parent_id) {
+                    $replies[] = $c2;
+                }
+            }
+        }
+
+
         return view('layouts.blog.show', [
             'title' => $singlePost->category->name . ' - ' . $singlePost->metaTitle,
             'singlePost' => $singlePost,
-            'comments' => $comments
+            'comments' => $commentOriginal,
+            'replies' => $replies,
+            'users' => $user,
+            'oriComments' => $comments
         ]);
     }
 

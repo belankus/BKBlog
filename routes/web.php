@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 use App\Models\Category;
+use App\Models\Post;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +31,13 @@ Route::get('/blog/{year}/{slug}', [BlogController::class, 'show']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
-        return view('dashboard.index');
+        return view('dashboard.index', ['posts' => Post::all()]);
     });
-    Route::get('posts', function () {
-        return view('dashboard.posts.index');
-    });
-    Route::get('categories', function () {
-        return view('dashboard.categories.index');
-    });
+    Route::get('posts', [PostController::class, 'index']);
+    Route::get(
+        'categories',
+        [CategoryController::class, 'index']
+    );
     Route::get('tags', function () {
         return view('dashboard.tags.index');
     });

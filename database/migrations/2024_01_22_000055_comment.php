@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('post_id')->constrained();
             $table->integer('parent_id');
+            $table->integer('mention_id');
             $table->string('title', 100);
             $table->boolean('published');
             $table->timestamp('created_at');
