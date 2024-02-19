@@ -10,11 +10,10 @@
 </head>
 
 <body>
-    <h1 class="text-2xl mb-10 text-center">Hello Editor</h1>
-    <div class="flex justify-center">
-        <form action="" method="post">
-            @csrf
-            <div id="editorjs" class="border border-slate-300 w-3/4 h-full"></div>
+    <h1 class="mb-10 text-center text-2xl">Hello Editor</h1>
+    <div class="flex w-full justify-center">
+        <form action="" method="post" class="flex w-full justify-center">
+            <div id="editorjs" class="h-full w-3/4 border border-slate-300"></div>
         </form>
     </div>
 </body>

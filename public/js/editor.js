@@ -1,13 +1,3 @@
-import "./bootstrap";
-import "flowbite";
-
-import EditorJS from "@editorjs/editorjs";
-import Header from "@editorjs/header";
-import List from "@editorjs/list";
-import RawTool from "@editorjs/raw";
-import Paragraph from "editorjs-paragraph-with-alignment";
-import ImageTool from "@editorjs/image";
-
 const editor = new EditorJS({
     /**
      * Id of Element that should contain the Editor
