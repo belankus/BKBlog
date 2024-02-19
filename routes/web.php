@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
+use App\Models\Post;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,28 +23,31 @@ use App\Http\Controllers\PostController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/blog', [BlogController::class, 'index']);
+Route::get('/blog/categories/{category:slug}', [BlogController::class, 'category']);
+Route::get('/blog/tags/{tag:slug}', [BlogController::class, 'tag']);
+Route::get('/blog/archive/{tahun}', [BlogController::class, 'tahun']);
+Route::get('/blog/archive/{tahun}/{bulan}', [BlogController::class, 'bulan']);
 Route::get('/blog/{year}/{slug}', [BlogController::class, 'show']);
-Route::get('/blog/{tahun}', [BlogController::class, 'tahun']);
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
-        return view('dashboard.index');
+        return view('dashboard.index', ['posts' => Post::all()]);
     });
-    Route::get('posts', function () {
-        return view('dashboard.posts.index');
-    });
-    Route::get('categories', function () {
-        return view('dashboard.categories.index');
-    });
+    // Route::get('posts', [PostController::class, 'index']);
+    Route::get(
+        'categories',
+        [CategoryController::class, 'index']
+    );
     Route::get('tags', function () {
         return view('dashboard.tags.index');
     });
     Route::get('users', function () {
         return view('dashboard.users.index');
     });
+    Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
 });
 
-Route::resource('posts', PostController::class);
+Route::resource('/dashboard/posts', PostController::class);
 
 Route::get('/editor', function () {
     return view('editor');

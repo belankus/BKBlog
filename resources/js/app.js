@@ -1,5 +1,10 @@
 import "./bootstrap";
+import Alpine from "alpinejs";
 import "flowbite";
+import flatpickr from "flatpickr";
+
+window.Alpine = Alpine;
+window.flatpickr = flatpickr;
 
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
@@ -48,3 +53,4 @@ const editor = new EditorJS({
         },
     },
 });
+Alpine.start();

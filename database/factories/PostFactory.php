@@ -29,8 +29,9 @@ class PostFactory extends Factory
             'published' => fake()->boolean(),
             'created_at' => now(),
             'updated_at' => now(),
-            'published_at' => now(),
-            'content' => fake()->paragraph()
+            'published_at' => fake()->dateTimeBetween('-2 years', 'now'),
+            'image' => null,
+            'content' => fake()->paragraphs(10, true)
 
         ];
     }

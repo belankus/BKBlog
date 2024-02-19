@@ -9,17 +9,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use PhpParser\Node\Expr\AssignOp\Concat;
+use Cviebrock\EloquentSluggable\Sluggable;
+
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
-    protected $guarded = 'id';
+    protected $guarded = ['id'];
 
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 
     public function getYear($published)
@@ -43,6 +53,11 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function getName($post)

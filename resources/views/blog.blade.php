@@ -17,7 +17,10 @@
                         <hr>
                         <ul class="mt-1">
                             @foreach ($categories as $category)
-                                <li>{{ $category->name }} ({{ $category->posts->count() }})</li>
+                                <li><a href='/blog/categories/{{ $category->slug }}'
+                                        class="text-gray-500 dark:text-gray-400 hover:underline">{{ $category->name }}
+                                        ({{ $category->posts->count() }})
+                                    </a></li>
                             @endforeach
 
                         </ul>
@@ -29,43 +32,17 @@
                             <ul class="flex flex-wrap gap-1">
                                 @foreach ($tags as $tag)
                                     @php
-                                        switch ($tag->id) {
-                                            case 1:
-                                                echo "<li class='flex-grow'>
-                                                        <input type='checkbox' id='tagDefault' value='' class='hidden peer'>
-                                                        <label for='tagDefault'
-                                                            class='inline-flex items-center justify-center w-full px-2.5 py-0.5 text-blue-800 bg-blue-100 border peer-checked:border-2 border-blue-400 rounded cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700'>
-                                                            <span class='text-center text-xs font-medium'>$tag->name
-                                                            </span>
-                                                        </label>
-                                                     </li>";
-                                                break;
-                                            case 2:
-                                                echo "<li class='flex-grow'>
-                                                        <input type='checkbox' id='tagDark' value='' class='hidden peer'>
-                                                        <label for='tagDark'
-                                                            class='inline-flex items-center justify-center w-full px-2.5 py-0.5 text-gray-800 bg-gray-100 border  border-gray-500 peer-checked:border-2 rounded cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'>
-                                                            <span class='text-center text-xs font-medium'>$tag->name</span>
-                                                        </label>
-                                                    </li>";
-                                                break;
-                                            case 3:
-                                                echo "<span class='flex-grow text-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400'>$tag->name</span>";
-                                                break;
-                                            case 4:
-                                                echo "<span
-                                                        class='flex-grow text-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400'>$tag->name</span>
-                                                    ";
-                                                break;
-                                            case 5:
-                                                echo "<span
-                                                        class='flex-grow text-center bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300'>$tag->name</span>
-                                                    ";
-                                                break;
-                                            default:
-                                                echo 'No tags found';
+                                        $queryLast = $tags->sortBy('id')->last();
+                                        $queryFirst = $tags->sortBy('id')->first();
+                                        $flexGrow = 'flex-grow';
+                                        if ($queryFirst == $tag or $queryLast == $tag) {
+                                            $flexGrow = '';
                                         }
                                     @endphp
+
+                                    {!! "<li class='$flexGrow'><a href='/blog/tags/$tag->slug' class='inline-flex items-center justify-center w-full px-2.5 py-0.5 border rounded cursor-pointer $tag->class'><span class='text-center text-xs font-medium'>" .
+                                        $tag->name .
+                                        '</span></a></li>' !!}
                                 @endforeach
                             </ul>
                         </div>
@@ -73,20 +50,61 @@
                     <div class="sticky top-[6rem] h-max w-60 mt-4 p-4 bg-white rounded-lg border">
                         <h1 class="text-lg font-bold text-gray-400">Archive</h1>
                         <hr>
-                        <ul class="mt-1">
+                        {{-- <ul class="mt-1">
                             @foreach ($years as $year)
                                 <li>
-                                    {{ $year->year }} ({{ $year->total }})
+                                    <a href="/blog/archive/{{ $year->year }}">{{ $year->year }}
+                                        ({{ $year->total }})
+                                    </a>
                                     <ul class="indent-2">
                                         @foreach ($dates as $date)
                                             @if ($date->year == $year->year)
-                                                <li>{{ $date->monthname }} ({{ $date->total }})</li>
+                                                <li><a href="/blog/archive/{{ $year->year }}/{{ $date->monthname }}">{{ $date->monthname }}
+                                                        ({{ $date->total }})
+                                                    </a></li>
                                             @endif
                                         @endforeach
                                     </ul>
                                 </li>
                             @endforeach
-                        </ul>
+                        </ul> --}}
+
+                        <div id="accordion-color" class="mt-1" data-accordion="collapse"
+                            data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+                            @foreach ($years as $year)
+                                <h2 id="accordion-color-heading-{{ $loop->iteration }}">
+                                    <button type="button"
+                                        class="flex items-center justify-between w-full px-4 py-1 @if ($loop->iteration == 1) {{ 'rounded-t-lg' }} @endif font-medium rtl:text-right text-gray-500 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3"
+                                        data-accordion-target="#accordion-color-body-{{ $loop->iteration }}"
+                                        aria-expanded="true" aria-controls="accordion-color-body-{{ $loop->iteration }}">
+                                        <a href="/blog/archive/{{ $year->year }}"
+                                            class="hover:underline">{{ $year->year }}
+                                            ({{ $year->total }})
+                                        </a>
+                                        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M9 5 5 1 1 5" />
+                                        </svg>
+                                    </button>
+                                </h2>
+                                <div id="accordion-color-body-{{ $loop->iteration }}" class="hidden"
+                                    aria-labelledby="accordion-color-heading-{{ $loop->iteration }}">
+                                    <div class="px-5 py-1 border border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                        <ul>
+                                            @foreach ($dates as $date)
+                                                @if ($date->year == $year->year)
+                                                    <li><a href="/blog/archive/{{ $year->year }}/{{ $date->monthname }}"
+                                                            class="text-blue-600 dark:text-blue-500 hover:underline">{{ $date->monthname }}
+                                                            ({{ $date->total }})
+                                                        </a></li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </aside>
                 <div class="grid gap-6 lg:grid-cols-3">
@@ -127,48 +145,10 @@
                                             if ($queryFirst == $tag or $queryLast == $tag) {
                                                 $flexGrow = '';
                                             }
-
-                                            switch ($tag->id) {
-                                                case 1:
-                                                    echo "<li class='$flexGrow'>
-                                                    <input type='checkbox' id='tagDefault' value='' class='hidden peer'>
-                                                    <label for='tagDefault'
-                                                        class='inline-flex items-center justify-center w-full px-2.5 py-0.5 text-blue-800 bg-blue-100 border peer-checked:border-2 border-blue-400 rounded cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700'>
-                                                        <span class='text-center text-xs font-medium'>" .
-                                                        $tag->name .
-                                                        "
-                                                        </span>
-                                                    </label>
-                                                 </li>";
-                                                    break;
-                                                case 2:
-                                                    echo "<li class='$flexGrow'>
-                                                    <input type='checkbox' id='tagDark' value='' class='hidden peer'>
-                                                    <label for='tagDark'
-                                                        class='inline-flex items-center justify-center w-full px-2.5 py-0.5 text-gray-800 bg-gray-100 border  border-gray-500 peer-checked:border-2 rounded cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-700'>
-                                                        <span class='text-center text-xs font-medium'>" .
-                                                        $tag->name .
-                                                        "</span>
-                                                    </label>
-                                                </li>";
-                                                    break;
-                                                case 3:
-                                                    echo "<span class='$flexGrow text-center bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400'>" . $tag->name . '</span>';
-                                                    break;
-                                                case 4:
-                                                    echo "<span class='$flexGrow text-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400'>" . $tag->name . '</span>';
-                                                    break;
-                                                case 5:
-                                                    echo "<span
-                                                    class='$flexGrow text-center bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300'>" .
-                                                        $tag->name .
-                                                        "</span>
-                                                ";
-                                                    break;
-                                                default:
-                                                    echo 'No tags found';
-                                            }
                                         @endphp
+                                        {!! "<li class='$flexGrow'><a href='/blog/tags/$tag->slug' class='inline-flex items-center justify-center w-full px-2.5 py-0.5 border rounded cursor-pointer $tag->class'><span class='text-center text-xs font-medium'>" .
+                                            $tag->name .
+                                            '</span></a></li>' !!}
                                     @endforeach
                                 </ul>
                                 <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a

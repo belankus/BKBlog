@@ -3,10 +3,11 @@
 @section('content')
     <section>
         <div class="px-4 mx-auto max-w-screen-xl lg:px-6">
-            <h1 class="text-3xl font-bold text-gray-700 text-center mb-10">Showing Archive of year {{ $year }}</h1>
+            <h1 class="text-3xl font-bold text-gray-700 text-center mb-10">Showing Posts from Category {{ $title }}
+            </h1>
             <div class="grid gap-6 lg:grid-cols-3">
 
-                @foreach ($getRows as $row)
+                @foreach ($posts as $post)
                     <article
                         class="relative flex flex-col bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 overflow-clip">
                         <div class="relative w-full">
@@ -20,7 +21,7 @@
                                             d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z">
                                         </path>
                                     </svg>
-                                    {{ $row->category->name }}
+                                    {{ $title }}
                                 </span>
                                 <span class="text-sm text-white bg-black px-2.5 py-0.5 rounded bg-opacity-70">14 days
                                     ago</span>
@@ -28,13 +29,13 @@
                         </div>
                         <div class="relative p-6 flex flex-col flex-grow">
                             <ul class="flex flex-wrap gap-1 mb-1">
-                                @foreach ($row->tags->sortBy('id')->unique() as $tag)
+                                @foreach ($post->tags->sortBy('id')->unique() as $tag)
                                     @php
-                                        $queryLast = $row->tags
+                                        $queryLast = $post->tags
                                             ->sortBy('id')
                                             ->unique()
                                             ->last();
-                                        $queryFirst = $row->tags
+                                        $queryFirst = $post->tags
                                             ->sortBy('id')
                                             ->unique()
                                             ->first();
@@ -49,8 +50,8 @@
                                 @endforeach
                             </ul>
                             <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a
-                                    href="#">{{ $row->title }}</a></h2>
-                            <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ $row->summary }}
+                                    href="#">{{ $post->title }}</a></h2>
+                            <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ $post->summary }}
                             </p>
                             <div class="flex justify-between items-end flex-grow">
                                 <div class="flex items-center space-x-4">
@@ -58,11 +59,11 @@
                                         src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                                         alt="Jese Leos avatar" />
                                     <span class="font-medium dark:text-white">
-                                        {{ $row->getName($row) }}
+                                        {{ $post->getName($post) }}
 
                                     </span>
                                 </div>
-                                <a href="/blog/{{ $row->getYear($row->published_at) }}/{{ $row->slug }}"
+                                <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}"
                                     class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
                                     More
                                     <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
@@ -80,7 +81,7 @@
             </div>
             <div class="mt-10 w-full flex justify-center">
                 <div class="w-3/4">
-                    {{ $getRows->links() }}
+                    {{ $posts->links() }}
                 </div>
             </div>
         </div>
