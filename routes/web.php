@@ -45,6 +45,7 @@ Route::prefix('dashboard')->group(function () {
         return view('dashboard.users.index');
     });
     Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
+    Route::post('posts/cache-image', [PostController::class, 'cache']);
 });
 
 Route::resource('/dashboard/posts', PostController::class);

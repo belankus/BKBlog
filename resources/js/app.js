@@ -13,12 +13,22 @@ import RawTool from "@editorjs/raw";
 import Paragraph from "editorjs-paragraph-with-alignment";
 import ImageTool from "@editorjs/image";
 
+const csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
 const editor = new EditorJS({
     /**
      * Id of Element that should contain the Editor
      */
     holder: "editorjs",
-
+    onReady: () => {
+        editor.on("block:destruct", (block) => {
+            if (block.type === "image") {
+                const imageUrl = block.data.file.url; // Replace with the actual property that contains the image URL
+                deleteImageFromStorage(imageUrl);
+            }
+        });
+    },
     /**
      * Available Tools list.
      * Pass Tool's class or Settings object for each Tool you want to use
@@ -46,8 +56,11 @@ const editor = new EditorJS({
             class: ImageTool,
             config: {
                 endpoints: {
-                    byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+                    byFile: "/dashboard/posts/cache-image", // Your backend file uploader endpoint
                     byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+                },
+                additionalRequestHeaders: {
+                    "X-CSRF-TOKEN": csrfToken,
                 },
             },
         },

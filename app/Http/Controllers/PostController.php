@@ -129,4 +129,13 @@ class PostController extends Controller
 
         return response()->json(['slug' => $slug]);
     }
+
+    public function cache(Request $request)
+    {
+        $image = $request->file('image');
+        $imageName = $image->store('temp-images', 'public'); // Store the image in a temporary location
+        $imageUrl = asset('storage/' . $imageName); // Generate the temporary cache URL for the image
+
+        return response()->json(['success' => 1, 'file' => ['url' => $imageUrl]]);
+    }
 }
