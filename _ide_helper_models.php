@@ -1,6 +1,7 @@
 <?php
 
 // @formatter:off
+// phpcs:ignoreFile
 /**
  * A helper file for your Eloquent Models
  * Copy the phpDocs from this file to the correct Model,
@@ -37,26 +38,66 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Post
+ * App\Models\Comment
  *
  * @property int $id
  * @property int $user_id
- * @property int $category_id
+ * @property int $post_id
  * @property int $parent_id
+ * @property int $mention_id
  * @property string $title
- * @property string $metaTitle
- * @property string $slug
- * @property string $summary
  * @property int $published
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property string $published_at
  * @property string $content
- * @property-read \App\Models\Category $category
+ * @property-read \App\Models\Post $post
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereMentionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment wherePostId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
+ */
+	class Comment extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Post
+ *
+ * @property int $id
+ * @property int|null $user_id
+ * @property int|null $category_id
+ * @property int|null $parent_id
+ * @property string|null $title
+ * @property string|null $metaTitle
+ * @property string|null $slug
+ * @property string|null $summary
+ * @property int|null $published
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $published_at
+ * @property string|null $image
+ * @property string|null $content
+ * @property-read \App\Models\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Post findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Post query()
@@ -64,6 +105,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Post whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublished($value)
@@ -73,6 +115,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Post withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  */
 	class Post extends \Eloquent {}
 }
@@ -81,8 +124,8 @@ namespace App\Models{
 /**
  * App\Models\PostTag
  *
- * @property int $post_id
- * @property int $tag_id
+ * @property int|null $post_id
+ * @property int|null $tag_id
  * @method static \Database\Factories\PostTagFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newQuery()
@@ -100,6 +143,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
+ * @property string $class
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
@@ -107,6 +151,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
@@ -130,6 +175,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $lastLogin
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts

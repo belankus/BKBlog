@@ -33,7 +33,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('/', function () {
         return view('dashboard.index', ['posts' => Post::all()]);
     });
-    Route::get('posts', [PostController::class, 'index']);
+    // Route::get('posts', [PostController::class, 'index']);
     Route::get(
         'categories',
         [CategoryController::class, 'index']
@@ -44,6 +44,7 @@ Route::prefix('dashboard')->group(function () {
     Route::get('users', function () {
         return view('dashboard.users.index');
     });
+    Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
 });
 
-Route::resource('posts', PostController::class);
+Route::resource('/dashboard/posts', PostController::class);

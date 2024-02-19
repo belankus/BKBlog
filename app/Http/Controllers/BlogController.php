@@ -84,10 +84,10 @@ class BlogController extends Controller
         return view('layouts.blog.show', [
             'title' => $singlePost->category->name . ' - ' . $singlePost->metaTitle,
             'singlePost' => $singlePost,
-            'comments' => $commentOriginal,
-            'replies' => $replies,
+            'comments' => $commentOriginal ?? [],
+            'replies' => $replies ?? [],
             'users' => $user,
-            'oriComments' => $comments
+            'oriComments' => $comments ?? []
         ]);
     }
 

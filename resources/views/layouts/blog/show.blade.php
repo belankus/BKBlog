@@ -1,4 +1,4 @@
-@extends('layouts.templates.main')
+@extends('layouts.blog.main')
 
 @section('content')
     <main class="pb-16 pt-8 antialiased dark:bg-gray-900 lg:pb-24 lg:pt-16">
