@@ -136,7 +136,6 @@
                                         {{ $message }}
                                     </div>
                                 @enderror
-
                             </div>
 
                             <div class="sm:col-span-2">
@@ -159,31 +158,104 @@
                     </div>
                     <div class="hidden rounded-lg bg-gray-50 p-4 dark:bg-gray-800" id="advance" role="tabpanel"
                         aria-labelledby="advance-tab">
-                        <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong
-                                class="font-medium text-gray-800 dark:text-white">advance tab's associated
-                                content</strong>. Clicking another tab will toggle the visibility of this one for the next.
-                            The tab JavaScript swaps classes to control the content visibility and styling.</p>
+                        <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                            <div class="sm:col-span-2">
+                                <label for="metaTitle"
+                                    class="block text-sm font-medium text-gray-900 dark:text-white">Meta
+                                    Title</label>
+                                <span class="mb-2 block text-sm font-medium text-gray-400">Use meta title for customing
+                                    title on browser tab</span>
+                                <input type="text" name="metaTitle" id="metaTitle"
+                                    class="{{ $errors->has('metaTitle')
+                                        ? 'border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500'
+                                        : 'border-gray-300 text-gray-900 focus:border-primary-600 focus:ring-primary-600' }} block w-full rounded-lg border bg-gray-50 p-2.5 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                    placeholder="Type metaTitle" autofocus value="{{ old('metaTitle') }}">
+                                @error('metaTitle')
+                                    <div class="text-pink-600">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="sm:col-span-1" x-data="{
+                                posts: {{ $posts }},
+                                searchQuery: '',
+                                open: false,
+                                selectedPost: '',
+                                selectPost: function(post) {
+                                    this.selectedPost = post;
+                                }
+                            }" class="relative">
+                                <label for="parent_id"
+                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Related
+                                    Post</label>
+                                <input type="hidden" name="parent_id" id="parent_id" x-bind:value="selectedPost.id">
+                                <div class="group relative inline-block w-full">
+                                    <button type="button"
+                                        class="relative block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+                                        <div x-text="selectedPost ? selectedPost.title : 'Select Related post'"
+                                            x-on:click="open = !open"
+                                            class="h-full w-full cursor-pointer p-2.5 text-left text-gray-500">
+                                        </div>
+                                        <ul x-show="open" @click.outside="open = false"
+                                            class="absolute left-0 z-50 mt-1 flex max-h-48 w-full flex-col overflow-y-auto rounded border bg-white px-3 py-2.5">
+                                            <input x-model="searchQuery" type="text"
+                                                class="sticky top-0 z-[51] mb-3 h-fit w-full rounded-lg border bg-gray-50 p-2.5 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                                placeholder="Search...">
+                                            <div class="relative h-full w-full">
+                                                <template x-for="post in posts" :key="post.id">
+                                                    <li x-show="post.title.toLowerCase().includes(searchQuery.toLowerCase())"
+                                                        x-on:click="selectPost(post); open=false" x-text="post.title"
+                                                        class="w-full cursor-pointer py-1 pl-2 text-gray-400 hover:bg-gray-200">
+                                                    </li>
+                                                </template>
+                                            </div>
+                                        </ul>
+                                    </button>
+                                </div>
+                                @error('parent_id')
+                                    <div class="text-pink-600">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label for="summary" class="block text-sm font-medium text-gray-900 dark:text-white">Meta
+                                    Title</label>
+                                <span class="mb-2 block text-sm font-medium text-gray-400">Use summary for custom
+                                    desctiption SEO</span>
+                                <textarea type="text" name="summary" id="summary"
+                                    class="{{ $errors->has('summary')
+                                        ? 'border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500'
+                                        : 'border-gray-300 text-gray-900 focus:border-primary-600 focus:ring-primary-600' }} min-h-40 block w-full resize-none rounded-lg border bg-gray-50 p-2.5 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                                    placeholder="Type summary">{{ old('summary') }}</textarea>
+                                @error('summary')
+                                    <div class="text-pink-600">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
 
-
-                <div class="flex justify-between">
-                    <div>
-                        <button type="submit" name="publish" value='1'
-                            class="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
-                            Save and Publish
-                        </button>
-                        <button type="submit" name="unpublish" value='1'
-                            class="mt-4 inline-flex items-center rounded-lg bg-yellow-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-yellow-500 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
-                            Save draft
-                        </button>
+                    <div class="flex justify-between">
+                        <div>
+                            <button type="submit" name="publish" value='1'
+                                class="mt-4 inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
+                                Save and Publish
+                            </button>
+                            <button type="submit" name="unpublish" value='1'
+                                class="mt-4 inline-flex items-center rounded-lg bg-yellow-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-yellow-500 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
+                                Save draft
+                            </button>
+                        </div>
+                        <a href="{{ route('posts.index') }}"
+                            class="mt-4 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
+                            Cancel
+                        </a>
                     </div>
-                    <a href="{{ route('posts.index') }}"
-                        class="mt-4 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 sm:mt-6">
-                        Cancel
-                    </a>
-                </div>
             </form>
 
         </div>

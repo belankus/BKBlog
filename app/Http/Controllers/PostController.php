@@ -54,10 +54,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'title' => 'required|max:255',
+            'title' => 'required|max:100',
+            'metaTitle' => 'nullable|max:100',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
+            'parent_id' => 'nullable|exists:posts,id',
             'image' => 'image|file|max:1024',
+            'summary' => 'nullable|max:255',
             'content' => 'required',
             'tags' => 'required',
             'published_at' => 'nullable|date_format:Y-m-d H:i:s',

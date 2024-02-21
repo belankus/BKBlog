@@ -247,7 +247,7 @@
                                             <div class="py-1">
                                                 <button
                                                     @click="window.dispatchEvent(new CustomEvent('show-modal', { detail: { postData: post } }))"
-                                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
+                                                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-red-500 hover:text-white dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
                                             </div>
                                         </div>
                                     </td>
