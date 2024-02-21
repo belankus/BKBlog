@@ -136,7 +136,35 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         if ($post->image) Storage::delete($post->image);
+
+        $content = json_decode($post->content, true);
+        // Extract image URLs from the content
+        $imageUrls = [];
+        foreach ($content['blocks'] as $block) {
+            if ($block['type'] === 'image') {
+                $imageUrls[] = $block['data']['file']['url'];
+            }
+        }
+
+        // Delete the post images from the post-image folder
+        foreach ($imageUrls as $imageUrl) {
+            $imagePath = str_replace(config('app.url') . '/storage/post-images/', '', $imageUrl);
+            $slug = explode('/', $imagePath)[0];
+            Storage::delete('post-images/' . $imagePath);
+
+            // Delete the slug subfolder if it's empty
+            if (empty(Storage::files('post-images/' . $slug . '/temp-images'))) {
+                Storage::deleteDirectory('post-images/' . $slug);
+            }
+        }
+
+        // Update the post-images.json file to remove the image links associated with the post
+        $postImages = json_decode(file_get_contents(storage_path('app/post-images.json')), true);
+        unset($postImages[$post->slug]);
+        file_put_contents(storage_path('app/post-images.json'), json_encode($postImages, JSON_PRETTY_PRINT));
+
         Post::destroy($post->id);
+
 
         return redirect('dashboard/posts')->with('success', 'Post has been deleted!');
     }
