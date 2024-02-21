@@ -1,3 +1,7 @@
+const csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
+
 const editor = new EditorJS({
     /**
      * Id of Element that should contain the Editor
@@ -10,7 +14,7 @@ const editor = new EditorJS({
      */
     tools: {
         header: {
-            class: Header,
+            class: EJModules.Header,
             config: {
                 placeholder: "Enter a header",
                 levels: [2, 3, 4],
@@ -19,22 +23,37 @@ const editor = new EditorJS({
             inlineToolbar: ["link"],
         },
         list: {
-            class: List,
+            class: EJModules.List,
             inlineToolbar: true,
         },
-        raw: RawTool,
+        raw: EJModules.RawTool,
         paragraph: {
-            class: Paragraph,
+            class: EJModules.Paragraph,
             inlineToolbar: true,
         },
         image: {
-            class: ImageTool,
+            class: EJModules.ImageTool,
             config: {
                 endpoints: {
-                    byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
+                    byFile: "/dashboard/posts/cache-image", // Your backend file uploader endpoint
                     byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+                },
+                additionalRequestHeaders: {
+                    "X-CSRF-TOKEN": csrfToken,
                 },
             },
         },
     },
+    onChange: () => {
+        editor.save().then((outputData) => {
+            // Update the hidden input field with the JSON data
+            // console.log(outputData);
+            document.getElementById("content").value = JSON.stringify(
+                outputData,
+                null,
+                4
+            );
+        });
+    },
+    data: postData,
 });

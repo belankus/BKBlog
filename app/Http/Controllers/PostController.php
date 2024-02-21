@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Console\Scheduling\Schedule;
 
 class PostController extends Controller
 {
@@ -29,8 +30,9 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->session()->forget('temp_image_names');
         $posts = Post::with('category')->get();
         $category = Category::with('posts')->get();
         $tags = Tag::all();
@@ -78,7 +80,23 @@ class PostController extends Controller
             ]);
         }
 
+        $postSlug = $request->input('slug');
+        $tempImageNames = $request->session()->get('temp_image_names');
+        $tempImageUrls = $request->session()->get('temp_image_urls');
 
+        foreach ($tempImageNames as $key => $tempImageName) {
+            $finalImageName = "post-images/{$postSlug}/{$tempImageName}";
+            Storage::disk('public')->put($finalImageName, Storage::disk('temp')->get($tempImageName)); // Move the image from the temp disk to the public disk under the post directory
+            $finalImageUrl = Storage::disk('public')->url($finalImageName); // Generate the final URL for the image in the public storage
+
+            $this->updatePostImageJson($postSlug, $finalImageUrl);
+
+            $content = $post->content;
+            $content = str_replace($tempImageUrls[$key], $finalImageUrl, $content);
+
+            $post->content = $content;
+        }
+        $post->save();
 
 
         return redirect('dashboard/posts')->with('success', 'New post has been added!');
@@ -133,9 +151,46 @@ class PostController extends Controller
     public function cache(Request $request)
     {
         $image = $request->file('image');
-        $imageName = $image->store('temp-images', 'public'); // Store the image in a temporary location
-        $imageUrl = asset('storage/' . $imageName); // Generate the temporary cache URL for the image
+        $tempImageName = $image->store('temp-images', 'temp'); // Store the image in the temp storage
+        $tempImageUrl = Storage::disk('temp')->url($tempImageName); // Generate the temporary cache URL for the image
 
-        return response()->json(['success' => 1, 'file' => ['url' => $imageUrl]]);
+        // Store the temporary image name in the session
+        $tempImageNames = $request->session()->get('temp_image_names', []); // Retrieve the existing array of temporary image names from the session, default to an empty array if it doesn't exist
+        $tempImageNames[] = $tempImageName; // Add the new temporary image name to the array
+        $request->session()->put('temp_image_names', $tempImageNames); // Store the updated array back in the session
+
+        // Store the temporary image URL in the session
+        $tempImageUrls = $request->session()->get('temp_image_urls', []); // Retrieve the existing array of temporary image URLs from the session, default to an empty array if it doesn't exist
+        $tempImageUrls[] = $tempImageUrl; // Add the new temporary image URL to the array
+        $request->session()->put('temp_image_urls', $tempImageUrls); // Store the updated array back in the session
+
+
+        // Return the temporary image URL in the response
+        return response()->json(['success' => 1, 'file' => ['url' => $tempImageUrl]]);
+    }
+
+
+    private function updatePostImageJson($postSlug, $imageUrl)
+    {
+        $jsonFilePath = storage_path('app/post-images.json');
+        $postImages = json_decode(file_get_contents($jsonFilePath), true);
+        if (!isset($postImages[$postSlug])) {
+            $postImages[$postSlug] = [];
+        }
+        $postImages[$postSlug][] = $imageUrl;
+        file_put_contents($jsonFilePath, json_encode($postImages, JSON_PRETTY_PRINT));
+    }
+
+
+    // Function to clean up temporary images
+    public function cleanupTemporaryImages()
+    {
+        $tempImages = Storage::disk('temp')->files('temp-images');
+        foreach ($tempImages as $tempImage) {
+            $tempImageTimestamp = Storage::disk('temp')->lastModified($tempImage);
+            if (time() - $tempImageTimestamp > 60) {
+                Storage::disk('temp')->delete($tempImage);
+            }
+        }
     }
 }

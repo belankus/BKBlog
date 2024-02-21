@@ -51,5 +51,5 @@ Route::prefix('dashboard')->group(function () {
 Route::resource('/dashboard/posts', PostController::class);
 
 Route::get('/editor', function () {
-    return view('editor');
+    return view('editor', ['postData' => Post::where('id', 110)->first()]);
 });
