@@ -177,7 +177,7 @@
                                 <th scope="col" class="px-4 py-3">Title</th>
                                 <th scope="col" class="px-4 py-3">Category</th>
                                 <th scope="col" class="px-4 py-3">Tags</th>
-                                <th scope="col" class="px-4 py-3">Description</th>
+                                <th scope="col" class="px-4 py-3">Updated at</th>
                                 <th scope="col" class="px-4 py-3">Status</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
@@ -195,10 +195,16 @@
                                     <td class="px-4 py-3" x-text="(currentPage - 1) * itemsPerPage + index + 1"></td>
                                     <th scope="row"
                                         class="max-w-40 truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"
-                                        x-text="post.title"></th>
+                                        x-text="post.title" x-bind:title="post.title"></th>
                                     <td class="w-36 px-4 py-3" x-text="post.category.name"></td>
-                                    <td class="px-4 py-3">Apple</td>
-                                    <td class="px-4 py-3">300</td>
+                                    <td class="max-w-40 truncate whitespace-nowrap px-4 py-3">
+                                        <template x-for="tag in post.tags">
+                                            <span x-text="tag.name+' '"></span>
+                                        </template>
+                                    </td>
+                                    <td class="px-4 py-3"><span
+                                            x-text="new Date(post.updated_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"></span>
+                                    </td>
                                     <td class="px-4 py-3">
                                         <template x-if="post.published==1">
                                             <div class="flex items-center">

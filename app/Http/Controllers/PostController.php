@@ -18,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category')->get();
+        $posts = Post::with('category', 'tags')->get();
         $categories = Category::pluck('name', 'id');
         return view('dashboard.posts.index', [
             'posts' => $posts,
@@ -32,7 +32,11 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
-        $request->session()->forget('temp_image_names');
+        if (!$request->session()->has('errors') && !$request->old('content')) {
+
+            $request->session()->forget('temp_image_names');
+            $request->session()->forget('temp_image_urls');
+        }
         $posts = Post::with('category')->get();
         $category = Category::with('posts')->get();
         $tags = Tag::all();
@@ -56,6 +60,7 @@ class PostController extends Controller
             'image' => 'image|file|max:1024',
             'content' => 'required',
             'tags' => 'required',
+            'published_at' => 'nullable|date_format:Y-m-d H:i:s',
         ], ['tags.required' => 'Please select at least one tag']);
 
 
@@ -83,21 +88,21 @@ class PostController extends Controller
         $postSlug = $request->input('slug');
         $tempImageNames = $request->session()->get('temp_image_names');
         $tempImageUrls = $request->session()->get('temp_image_urls');
+        if ($tempImageNames) {
+            foreach ($tempImageNames as $key => $tempImageName) {
+                $finalImageName = "post-images/{$postSlug}/{$tempImageName}";
+                Storage::disk('public')->put($finalImageName, Storage::disk('temp')->get($tempImageName)); // Move the image from the temp disk to the public disk under the post directory
+                $finalImageUrl = Storage::disk('public')->url($finalImageName); // Generate the final URL for the image in the public storage
 
-        foreach ($tempImageNames as $key => $tempImageName) {
-            $finalImageName = "post-images/{$postSlug}/{$tempImageName}";
-            Storage::disk('public')->put($finalImageName, Storage::disk('temp')->get($tempImageName)); // Move the image from the temp disk to the public disk under the post directory
-            $finalImageUrl = Storage::disk('public')->url($finalImageName); // Generate the final URL for the image in the public storage
+                $this->updatePostImageJson($postSlug, $finalImageUrl);
 
-            $this->updatePostImageJson($postSlug, $finalImageUrl);
+                $content = $post->content;
+                $content = str_replace($tempImageUrls[$key], $finalImageUrl, $content);
 
-            $content = $post->content;
-            $content = str_replace($tempImageUrls[$key], $finalImageUrl, $content);
-
-            $post->content = $content;
+                $post->content = $content;
+            }
+            $post->save();
         }
-        $post->save();
-
 
         return redirect('dashboard/posts')->with('success', 'New post has been added!');
     }

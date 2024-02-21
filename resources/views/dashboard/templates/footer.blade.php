@@ -18,7 +18,17 @@
 </script>
 @if (Request::is('dashboard/posts/create'))
     <script type="module">
-        const fp = flatpickr("#published_at", {});
+        const fp = flatpickr("#published_at", {
+            altInput: true,
+            enableTime: true,
+            enableSeconds: true,
+            time_24hr: true,
+            dateFormat: "Y-m-d H:i:S",
+            onChange: function(selectedDates, dateStr, instance) {
+                this.value = dateStr;
+            },
+        });
+
         const btnClear = document.getElementById('btnClear');
 
         btnClear.addEventListener('click', function() {
@@ -35,6 +45,17 @@
 
         });
     </script>
+    <script>
+        let postData;
+        const jsonData = `{!! $post->content ?? addslashes(old('content', '')) !!}`;
+        try {
+            postData = JSON.parse(jsonData);
+        } catch (e) {
+            // Handle the case when the JSON data is not in the correct format
+            postData = {}; // Assign an empty object as the default value for postData
+        }
+    </script>
+    <script type="module" src="/js/editor.js"></script>
 @endif
 <script>
     function previewImage() {
@@ -51,6 +72,7 @@
         }
     }
 </script>
+
 
 </body>
 

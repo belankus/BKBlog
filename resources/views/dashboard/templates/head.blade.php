@@ -9,6 +9,9 @@
     <title>Dashboard | BKA Blog</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    @if (Request::is('dashboard/posts/*'))
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+    @endif
 </head>
 
 <body>
