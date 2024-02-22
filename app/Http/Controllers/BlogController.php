@@ -19,16 +19,17 @@ class BlogController extends Controller
     public function index()
     {
         // Eager Loading 'with' user model
-        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->paginate(10);
+        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->paginate(10);
         $categories = Category::with(['posts' => function (Builder $query) {
             /** @var \App\Models\Post $query **/
-            $query->where('published', '=', 1);
+            $query->where('published', '=', 1)->where('published_at', '<=', Carbon::now());
         }])->get();
         $tags = Tag::with('posts')->get();
 
         $post_date = DB::table('posts')
             ->select(DB::raw('YEAR(published_at) AS year, MONTH(published_at) AS month, MONTHNAME(published_at) AS monthname'), DB::raw('count(*) as total'))
             ->where('published', '=', 1)
+            ->where('published_at', '<=', Carbon::now())
             ->groupBy('year', 'monthname', 'month')
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
@@ -36,6 +37,7 @@ class BlogController extends Controller
         $post_year = DB::table('posts')
             ->select(DB::raw('YEAR(published_at) AS year'), DB::raw('count(*) as total'))
             ->where('published', '=', 1)
+            ->where('published_at', '<=', Carbon::now())
             ->groupBy('year')
             ->orderBy('year', 'asc')
             ->get();
@@ -93,7 +95,7 @@ class BlogController extends Controller
 
     public function tahun($year)
     {
-        $RAW = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("published_at BETWEEN '$year-01-01 00:00:00' AND '$year-12-31 23:59:59'")->whereRaw("published = 1");
+        $RAW = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("published_at BETWEEN '$year-01-01 00:00:00' AND '$year-12-31 23:59:59'")->whereRaw("published = 1")->whereRaw("published_at <= NOW()")->orderBy('published_at', 'desc');
         $check = $RAW->firstorFail();
         $getRows = $RAW->paginate(10);
 
@@ -115,7 +117,7 @@ class BlogController extends Controller
         } catch (Throwable $e) {
             abort(404);
         }
-        $getRows = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("YEAR(published_at) =" . $tahun . " AND MONTH(published_at) =" . $month)->whereRaw("published = 1")->paginate(10);
+        $getRows = Post::with('category', 'user', 'tags')->select(DB::raw('*'))->whereRaw("YEAR(published_at) =" . $tahun . " AND MONTH(published_at) =" . $month)->whereRaw("published = 1")->whereRaw("published_at <= NOW()")->orderBy('published_at', 'desc')->paginate(10);
         return view('layouts.blog.showcase', [
             'getRows' => $getRows,
             'title' => ucfirst($bulan) . ' ' . $tahun . ' Archive',
@@ -125,7 +127,7 @@ class BlogController extends Controller
 
     public function category(Category $category)
     {
-        $posts = Post::with('user', 'category', 'tags')->where('category_id', '=', $category->id)->where('published', '=', 1)->paginate(10);
+        $posts = Post::with('user', 'category', 'tags')->where('category_id', '=', $category->id)->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->paginate(10);
 
         return view('layouts.blog.category', [
 
@@ -146,7 +148,7 @@ class BlogController extends Controller
         // })->paginate(10);
 
         $slug = $tag->slug;
-        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->whereHas('tags', function ($q) use ($slug) {
+        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->whereHas('tags', function ($q) use ($slug) {
             $q->where('slug', $slug);
         })
             ->paginate(10);

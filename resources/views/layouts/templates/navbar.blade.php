@@ -24,8 +24,13 @@
             <a href="/contact" class="text-sm font-semibold leading-6 text-gray-900">Contact</a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
-                    aria-hidden="true">&rarr;</span></a>
+            @if (Auth::check())
+                <a href="/dashboard" class="text-sm font-semibold leading-6 text-gray-900">Dashboard <span
+                        aria-hidden="true">&rarr;</span></a>
+            @else
+                <a href="/login" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
+                        aria-hidden="true">&rarr;</span></a>
+            @endif
         </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
@@ -63,13 +68,18 @@
                             class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Contact</a>
                     </div>
                     <div class="py-6">
-                        <a href="#"
-                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log
-                            in</a>
+                        @if (Auth::check())
+                            <a href="/dashboard"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Dashboard</a>
+                        @else
+                            <a href="/login"
+                                class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Log
+                                in</a>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
-<div id="pseudo-navbar" class="w-full mt-12 h-12"></div>
+<div id="pseudo-navbar" class="mt-12 h-12 w-full"></div>

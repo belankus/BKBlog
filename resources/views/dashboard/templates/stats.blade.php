@@ -1,6 +1,6 @@
 <div class="grid w-full grid-cols-2 gap-4 sm:grid-cols-4">
     <div class="rounded-md bg-white p-6 shadow">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap-reverse justify-between gap-4">
             <div>
                 <h1 class="text-sm font-bold text-gray-400">TRAFFIC</h1>
                 <p class="text-3xl font-bold">125,200</p>
@@ -15,9 +15,9 @@
         </div>
     </div>
     <div class="rounded-md bg-white p-6 shadow">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap-reverse justify-between gap-4">
             <div>
-                <h1 class="text-sm font-bold text-gray-400">PUBLISHED POSTS</h1>
+                <h1 class="text-sm font-bold text-gray-400">PUBL. POSTS</h1>
                 <p class="text-3xl font-bold">{{ $posts->where('published', 1)->count() }}</p>
             </div>
             <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-400 text-white shadow-md">
@@ -30,9 +30,9 @@
         </div>
     </div>
     <div class="rounded-md bg-white p-6 shadow">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap-reverse justify-between gap-4">
             <div>
-                <h1 class="text-sm font-bold text-gray-400">UNPUBLISHED POSTS</h1>
+                <h1 class="text-sm font-bold text-gray-400">UNPUBL. POSTS</h1>
                 <p class="text-3xl font-bold">{{ $posts->where('published', 0)->count() }}</p>
             </div>
             <div class="flex h-12 w-12 items-center justify-center rounded-full bg-yellow-300 text-white shadow-md">
@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="rounded-md bg-white p-6 shadow">
-        <div class="flex justify-between">
+        <div class="flex flex-wrap-reverse justify-between gap-4">
             <div>
                 <h1 class="text-sm font-bold text-gray-400">TOTAL POSTS</h1>
                 <p class="text-3xl font-bold">{{ $posts->count() }}</p>

@@ -11,7 +11,8 @@
         "itsgoingd/clockwork": "^5.1",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "spatie/laravel-permission": "^6.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.15",

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -18,7 +18,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category', 'tags')->get();
+        $this->authorize('viewAny', Post::class);
+
+        if (Auth::user()->hasRole('superadmin')) {
+
+            $posts = Post::with('category', 'tags')->get();
+        } else {
+            $posts = Post::with('category', 'tags')->where('user_id', Auth::user()->id)->get();
+        }
+
         $categories = Category::pluck('name', 'id');
         return view('dashboard.posts.index', [
             'posts' => $posts,
@@ -32,6 +40,8 @@ class PostController extends Controller
      */
     public function create(Request $request)
     {
+        $this->authorize('create', Post::class);
+
         if (!$request->session()->has('errors') && !$request->old('content')) {
 
             $request->session()->forget('temp_image_names');
@@ -53,6 +63,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Post::class);
+
         $validatedData = $request->validate([
             'title' => 'required|max:100',
             'metaTitle' => 'nullable|max:100',
@@ -66,7 +78,7 @@ class PostController extends Controller
             'published_at' => 'nullable|date_format:Y-m-d H:i:s',
         ], ['tags.required' => 'Please select at least one tag']);
 
-
+        $validatedData['user_id'] = Auth::user()->id;
 
         if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('post-img');
@@ -74,6 +86,9 @@ class PostController extends Controller
 
         if ($request->has('publish')) {
             $validatedData['published'] = 1; // Set published to 1 if Publish button was pressed
+            if ($request->published_at == null) {
+                $validatedData['published_at'] = now();
+            }
         } elseif ($request->has('unpublish')) {
             $validatedData['published'] = 0; // Set published to 0 if Unpublish button was pressed
         }
@@ -143,6 +158,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $this->authorize('delete', $post);
+
         if ($post->image) Storage::delete($post->image);
 
         $content = json_decode($post->content, true);
