@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AuthController;
 use App\Models\Category;
 use App\Models\Post;
 
@@ -22,18 +23,19 @@ use App\Models\Post;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/blog', [BlogController::class, 'index']);
-Route::get('/blog/categories/{category:slug}', [BlogController::class, 'category']);
-Route::get('/blog/tags/{tag:slug}', [BlogController::class, 'tag']);
-Route::get('/blog/archive/{tahun}', [BlogController::class, 'tahun']);
-Route::get('/blog/archive/{tahun}/{bulan}', [BlogController::class, 'bulan']);
-Route::get('/blog/{year}/{slug}', [BlogController::class, 'show']);
+Route::prefix('blog')->group(function () {
+    Route::get('/', [BlogController::class, 'index']);
+    Route::get('categories/{category:slug}', [BlogController::class, 'category']);
+    Route::get('tags/{tag:slug}', [BlogController::class, 'tag']);
+    Route::get('archive/{tahun}', [BlogController::class, 'tahun']);
+    Route::get('archive/{tahun}/{bulan}', [BlogController::class, 'bulan']);
+    Route::get('{year}/{slug}', [BlogController::class, 'show']);
+});
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('dashboard.index', ['posts' => Post::all()]);
     });
-    // Route::get('posts', [PostController::class, 'index']);
     Route::get(
         'categories',
         [CategoryController::class, 'index']
@@ -46,10 +48,18 @@ Route::prefix('dashboard')->group(function () {
     });
     Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
     Route::post('posts/cache-image', [PostController::class, 'cache']);
+    Route::resource('posts', PostController::class);
 });
 
-Route::resource('/dashboard/posts', PostController::class);
 
 Route::get('/editor', function () {
     return view('editor', ['postData' => Post::where('id', 110)->first()]);
 });
+
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'store']);
