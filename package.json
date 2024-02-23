@@ -18,13 +18,14 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "alpinejs": "^3.13.5",
-        "flatpickr": "^4.6.13",
         "@editorjs/editorjs": "^2.28.2",
         "@editorjs/header": "^2.8.1",
         "@editorjs/image": "^2.9.0",
         "@editorjs/list": "^1.9.0",
         "@editorjs/raw": "^2.5.0",
-        "editorjs-paragraph-with-alignment": "^3.0.0"
+        "@tailwindcss/line-clamp": "^0.4.4",
+        "alpinejs": "^3.13.5",
+        "editorjs-paragraph-with-alignment": "^3.0.0",
+        "flatpickr": "^4.6.13"
     }
 }

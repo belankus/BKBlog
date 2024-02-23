@@ -210,7 +210,7 @@
                                             x-text="new Date(post.updated_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"></span>
                                     </td>
                                     <td class="px-4 py-3">
-                                        <template x-if="post.published==1">
+                                        <template x-if="post.published==1 && (Date.parse(post.published_at) < Date.now())">
                                             <div class="flex items-center">
                                                 <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
                                                 Published
@@ -220,6 +220,12 @@
                                             <div class="flex items-center">
                                                 <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
                                                 Unpublished
+                                            </div>
+                                        </template>
+                                        <template x-if="post.published==1 && (Date.parse(post.published_at) > Date.now())">
+                                            <div class="flex items-center">
+                                                <div class="me-2 h-2.5 w-2.5 rounded-full bg-yellow-400"></div>
+                                                Scheduled
                                             </div>
                                         </template>
                                     </td>
