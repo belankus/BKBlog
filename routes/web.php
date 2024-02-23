@@ -53,7 +53,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
 
 Route::get('/editor', function () {
-    return view('editor', ['postData' => Post::where('id', 110)->first()]);
+    return view('editor', ['postData' => Post::where('id', 107)->first()]);
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

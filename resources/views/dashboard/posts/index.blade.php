@@ -39,8 +39,12 @@
             <!-- Start coding here -->
             {{-- {{ $categories->values()->push('All')->sort()->values() }} --}}
             <div class="relative overflow-hidden bg-white pb-20 shadow-md dark:bg-gray-800 sm:rounded-lg">
+
                 <div class="overflow-x-auto" x-data="{
                     posts: {{ $posts }},
+                    getYear(props) {
+                        return props.substring(0, 4);
+                    },
                     currentPage: 1,
                     itemsPerPage: 10,
                     searchQuery: '',
@@ -235,11 +239,12 @@
                                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                                 aria-labelledby="apple-imac-27-dropdown-button">
                                                 <li>
-                                                    <a href="#"
+                                                    <a x-bind:href="'/blog/' + getYear(post.published_at) + '/' + post
+                                                        .slug"
                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#"
+                                                    <a x-bind:href="'/dashboard/posts/' + post.slug + '/edit'"
                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                                 </li>
                                             </ul>

@@ -16,7 +16,7 @@
         contentSection.classList.toggle('sm:ml-16');
     });
 </script>
-@if (Request::is('dashboard/posts/create'))
+@if (Request::is('dashboard/posts/create') || Request::is('dashboard/posts/*/edit'))
     <script type="module">
         const fp = flatpickr("#published_at", {
             altInput: true,
@@ -34,17 +34,20 @@
         btnClear.addEventListener('click', function() {
             fp.clear();
         })
-
-        const title = document.querySelector('#title');
-        const slug = document.querySelector('#slug');
-
-        title.addEventListener('change', function() {
-            fetch('/dashboard/posts/checkSlug?title=' + title.value)
-                .then(response => response.json())
-                .then(data => slug.value = data.slug)
-
-        });
     </script>
+    @if (Request::is('dashboard/posts/create'))
+        <script>
+            const title = document.querySelector('#title');
+            const slug = document.querySelector('#slug');
+
+            title.addEventListener('change', function() {
+                fetch('/dashboard/posts/checkSlug?title=' + title.value)
+                    .then(response => response.json())
+                    .then(data => slug.value = data.slug)
+
+            });
+        </script>
+    @endif
     <script>
         let postData;
         const jsonData = `{!! $post->content ?? addslashes(old('content', '')) !!}`;
