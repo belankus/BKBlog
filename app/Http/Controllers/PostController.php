@@ -140,9 +140,26 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function edit(Post $post, Request $request)
     {
-        //
+        $this->authorize('edit', $post);
+
+
+        if (!$request->session()->has('errors') && !$request->old('content')) {
+
+            $request->session()->forget('temp_image_names');
+            $request->session()->forget('temp_image_urls');
+        }
+
+        $posts = Post::with('category')->get();
+        $category = Category::with('posts')->get();
+        $tags = Tag::all();
+        return view('dashboard.posts.edit', [
+            'post' => $post,
+            'category' => $category,
+            'tags' => $tags,
+            'posts' => $posts,
+        ]);
     }
 
     /**
@@ -150,7 +167,95 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $this->authorize('edit', $post);
+
+        $rules = [
+            'title' => 'required|max:100',
+            'metaTitle' => 'nullable|max:100',
+            'category_id' => 'required',
+            'parent_id' => 'nullable|exists:posts,id',
+            'image' => 'image|file|max:1024',
+            'summary' => 'nullable|max:255',
+            'content' => 'required',
+            'published_at' => 'nullable|date_format:Y-m-d H:i:s',
+        ];
+
+        $request->validate([
+            'tags' => 'required',
+        ]);
+
+        // $rules['user_id'] = Auth::user()->id;
+
+        // if ($request->slug != $post->slug) {
+        //     $rules['slug'] = 'required|unique:posts';
+        // }
+
+        $validatedData = $request->validate($rules);
+
+        if ($request->file('image')) {
+            if ($post->image != null) Storage::delete($post->image);
+
+            $validatedData['image'] = $request->file('image')->store('post-img');
+        }
+
+        if ($request->has('publish')) {
+            $validatedData['published'] = 1; // Set published to 1 if Publish button was pressed
+            if ($request->published_at == null) {
+                $validatedData['published_at'] = now();
+            }
+        } elseif ($request->has('unpublish')) {
+            $validatedData['published'] = 0; // Set published to 0 if Unpublish button was pressed
+        }
+
+
+
+        // dd($validatedData);
+        $postOri = $post;
+        $postID = $post->id;
+        Post::where('id', $post->id)->update($validatedData);
+        $post = Post::where('id', $post->id)->first();
+
+
+
+        DB::table('post_tag')->where('post_id', $postID)->delete();
+        foreach ($request->tags as $tagId) {
+            DB::table('post_tag')->insertOrIgnore([
+                'post_id' => $postID,
+                'tag_id' => $tagId
+            ]);
+        }
+
+
+
+        // set link form temp to final url
+        $postSlug = $post->slug;
+        $tempImageNames = $request->session()->get('temp_image_names');
+        $tempImageUrls = $request->session()->get('temp_image_urls');
+
+
+        if ($tempImageNames) {
+            foreach ($tempImageNames as $key => $tempImageName) {
+                $finalImageName = "post-images/{$postSlug}/{$tempImageName}";
+                Storage::disk('public')->put($finalImageName, Storage::disk('temp')->get($tempImageName)); // Move the image from the temp disk to the public disk under the post directory
+                $finalImageUrl = Storage::disk('public')->url($finalImageName); // Generate the final URL for the image in the public storage
+
+                $this->updatePostImageJson($postSlug, $finalImageUrl);
+
+                $content = $post->content;
+                $content = str_replace($tempImageUrls[$key], $finalImageUrl, $content);
+
+                $post->content = $content;
+            }
+            $post->save();
+        }
+
+
+        // Delete content images if deleted from post
+        $contentUpdate = $post->content;
+        $deletedImageUrls = $this->getDeletedImageUrls($contentUpdate, $postOri->content);
+        $this->deleteImagesAndJson($deletedImageUrls, $postOri);
+
+        return redirect('dashboard/posts')->with('success', 'New post has been updated!');
     }
 
     /**
@@ -245,5 +350,66 @@ class PostController extends Controller
                 Storage::disk('temp')->delete($tempImage);
             }
         }
+    }
+
+
+    public function getDeletedImageUrls($content, $post)
+    {
+        $imageUrls = [];
+        $existingImageUrls = [];
+        $blocks = json_decode($content, true)['blocks'];
+        $existingBlocks = json_decode($post, true)['blocks'];
+
+        foreach ($blocks as $block) {
+            if ($block['type'] === 'image') {
+                $imageUrls[] = $block['data']['file']['url'];
+            }
+        }
+
+        foreach ($existingBlocks as $block) {
+            if ($block['type'] === 'image') {
+                $existingImageUrls[] = $block['data']['file']['url'];
+            }
+        }
+
+        $deletedImageUrls = array_diff($existingImageUrls, $imageUrls);
+
+        return $deletedImageUrls;
+    }
+
+    public function deleteImagesAndJson($deletedImageUrls, $post)
+    {
+        foreach ($deletedImageUrls as $deletedImageUrl) {
+            $imagePath = str_replace(config('app.url') . '/storage/post-images/', '', $deletedImageUrl);
+            $slug = explode('/', $imagePath)[0];
+            Storage::delete('post-images/' . $imagePath);
+
+            if (empty(Storage::files('post-images/' . $slug . '/temp-images'))) {
+                Storage::deleteDirectory('post-images/' . $slug);
+            }
+
+            $this->updatePostImagesJson($slug, $deletedImageUrl); // Replace with actual method to update post-images.json
+        }
+    }
+
+    public function updatePostImagesJson($slug, $deletedImageUrl, $newImageUrl = null)
+    {
+        $jsonFilePath = storage_path('app/post-images.json');
+        $postImages = json_decode(file_get_contents($jsonFilePath), true);
+
+        foreach ($postImages as &$images) {
+            if (($key = array_search($deletedImageUrl, $images)) !== false) {
+                unset($images[$key]);
+            }
+        }
+
+        if ($newImageUrl) {
+            if (!isset($postImages[$slug])) {
+                $postImages[$slug] = [];
+            }
+            $postImages[$slug][] = $newImageUrl;
+        }
+
+        file_put_contents($jsonFilePath, json_encode($postImages, JSON_PRETTY_PRINT));
     }
 }

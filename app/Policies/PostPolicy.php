@@ -40,10 +40,12 @@ class PostPolicy
     /**
      * Determine whether the user can update the model.
      */
-    // public function update(User $user, Post $post): bool
-    // {
-    //     //
-    // }
+    public function edit(User $user, Post $post): bool
+    {
+        if ($user->hasAnyRole(['superadmin', 'user']) || $user->can('edit post')) {
+            return $user->id === $post->user_id || $user->hasRole('superadmin');
+        }
+    }
 
     /**
      * Determine whether the user can delete the model.
