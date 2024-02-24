@@ -19,7 +19,7 @@ class BlogController extends Controller
     public function index()
     {
         // Eager Loading 'with' user model
-        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->paginate(10);
+        $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->orderBy('published_at', 'desc')->paginate(10);
         $categories = Category::with(['posts' => function (Builder $query) {
             /** @var \App\Models\Post $query **/
             $query->where('published', '=', 1)->where('published_at', '<=', Carbon::now());
@@ -55,6 +55,7 @@ class BlogController extends Controller
         ]);
     }
 
+
     public function show($singlePost)
     {
         /**Get Model From RouteServiceProvider.php
@@ -82,6 +83,8 @@ class BlogController extends Controller
             }
         }
 
+
+        $singlePost = Post::with('user', 'category', 'tags')->where('slug', '=', $singlePost->slug)->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->firstorFail();
 
         return view('layouts.blog.show', [
             'title' => $singlePost->category->name . ' - ' . ($singlePost->metaTitle ?? $singlePost->title),
@@ -127,7 +130,7 @@ class BlogController extends Controller
 
     public function category(Category $category)
     {
-        $posts = Post::with('user', 'category', 'tags')->where('category_id', '=', $category->id)->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->paginate(10);
+        $posts = Post::with('user', 'category', 'tags')->where('category_id', '=', $category->id)->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->orderBy('published_at', 'desc')->paginate(10);
 
         return view('layouts.blog.category', [
 
@@ -150,7 +153,7 @@ class BlogController extends Controller
         $slug = $tag->slug;
         $posts = Post::with('user', 'category', 'tags')->where('published', '=', 1)->where('published_at', '<=', Carbon::now())->whereHas('tags', function ($q) use ($slug) {
             $q->where('slug', $slug);
-        })
+        })->orderBy('published_at', 'desc')
             ->paginate(10);
 
         return view('layouts.blog.tag', [

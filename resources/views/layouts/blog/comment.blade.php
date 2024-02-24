@@ -5,14 +5,14 @@
     </div>
     <form class="mb-6">
         <div
-            class="mb-4 rounded-lg rounded-t-lg border border-gray-200 bg-white px-4 py-2 dark:border-gray-700 dark:bg-gray-800">
+            class="mb-4 rounded-lg rounded-t-lg border border-gray-200 bg-gray-100 px-4 py-2 shadow-inner dark:border-gray-700 dark:bg-gray-800">
             <label for="comment" class="sr-only">Your comment</label>
             <textarea id="comment" rows="6"
-                class="w-full border-0 px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
-                placeholder="Write a comment..." required></textarea>
+                class="w-full resize-none border-0 bg-gray-100 px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+                placeholder="Write a comment..." disabled></textarea>
         </div>
-        <button type="submit"
-            class="inline-flex items-center rounded-lg bg-primary-700 px-4 py-2.5 text-center text-xs font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">
+        <button type="submit" disabled
+            class="inline-flex cursor-not-allowed items-center rounded-lg bg-gray-500 px-4 py-2.5 text-center text-xs font-medium text-white hover:bg-gray-600 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">
             Post comment
         </button>
     </form>

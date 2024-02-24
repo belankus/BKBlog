@@ -82,4 +82,5 @@
         </div>
     </div>
 </header>
-<div id="pseudo-navbar" class="mt-12 h-12 w-full"></div>
+<div id="pseudo-navbar"
+    class="{{ Request::is('/login') || Request::is('/register') ? 'absolute' : '' }} mt-12 h-12 w-full"></div>

@@ -10,4 +10,21 @@
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    @if (env('APP_ENV') == 'production')
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-E5DM43VX3L"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-E5DM43VX3L', {
+                'cookie_domain': 'blog.bellawan.my.id',
+                'cookie_flags': 'SameSite=None;Secure'
+            });
+        </script>
+    @endif
 </head>

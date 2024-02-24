@@ -30,5 +30,11 @@ class CategorySeeder extends Seeder
             'name' => 'Web Design',
             'slug' => 'web-design',
         ]);
+
+        Category::create([
+            'parent_id' => 0,
+            'name' => 'Events',
+            'slug' => 'events',
+        ]);
     }
 }
