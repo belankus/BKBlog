@@ -74,9 +74,7 @@
                                 </svg>
                             </a>
                             <div class="flex items-center space-x-4">
-                                <img class="h-7 w-7 rounded-full"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                                    alt="Jese Leos avatar" />
+                                <img class="h-7 w-7 rounded-full" src="/img/bellawan.jpg" alt="Bellawann Kusuma Aji" />
                                 <span class="font-medium dark:text-white">
                                     {{ $post->getName($post) }}
 
