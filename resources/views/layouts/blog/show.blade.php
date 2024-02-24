@@ -8,8 +8,7 @@
                 <header class="not-format mb-4 lg:mb-6">
                     <address class="mb-6 flex items-center not-italic">
                         <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
-                            <img class="mr-4 h-16 w-16 rounded-full"
-                                src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese Leos">
+                            <img class="mr-4 h-16 w-16 rounded-full" src="/img/bellawan.jpg" alt="Bellawan Kusuma Aji">
                             <div>
                                 <a href="#" rel="author" class="text-xl text-gray-900 dark:text-white">By
                                     <span class="indent-1 font-bold">{{ $singlePost->user->name }}</span></a>
