@@ -56,10 +56,10 @@ Route::get('/editor', function () {
     return view('editor', ['postData' => Post::where('id', 107)->first()]);
 });
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/register', [AuthController::class, 'register']);
+Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
 Route::post('/register', [AuthController::class, 'store']);

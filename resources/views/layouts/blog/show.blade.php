@@ -1,22 +1,25 @@
 @extends('layouts.blog.main')
 
 @section('content')
-    <main class="pb-16 pt-8 antialiased dark:bg-gray-900 lg:pb-24 lg:pt-16">
+    <main class="pb-16 antialiased dark:bg-gray-900 lg:pb-24">
         <div class="mx-auto flex max-w-screen-xl justify-between px-4">
             <article
-                class="format format-sm format-blue mx-auto w-full max-w-2xl dark:format-invert sm:format-base lg:format-lg">
+                class="format format-sm format-blue mx-auto w-full max-w-3xl dark:format-invert sm:format-base lg:format-lg">
                 <header class="not-format mb-4 lg:mb-6">
                     <address class="mb-6 flex items-center not-italic">
                         <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
                             <img class="mr-4 h-16 w-16 rounded-full"
                                 src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese Leos">
                             <div>
-                                <a href="#" rel="author"
-                                    class="text-xl font-bold text-gray-900 dark:text-white">{{ $singlePost->user->name }}</a>
-                                <p class="text-base text-gray-500 dark:text-gray-400">Graphic Designer, educator & CEO
-                                    Flowbite</p>
-                                <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                                        title="February 8th, 2022">Feb. 8, 2022</time></p>
+                                <a href="#" rel="author" class="text-xl text-gray-900 dark:text-white">By
+                                    <span class="indent-1 font-bold">{{ $singlePost->user->name }}</span></a>
+                                <p class="text-base text-gray-500 dark:text-gray-400">Crafting a minified milestone at <a
+                                        href="https://bellawan.my.id" rel="author"
+                                        class="hover:underline">Bellawan</a></a></p>
+                                <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate
+                                        datetime="{{ Carbon\Carbon::parse($singlePost->updated_at)->format('Y-m-d') }}"
+                                        title="{{ Carbon\Carbon::parse($singlePost->updated_at)->format('F jS, Y') }}">{{ Carbon\Carbon::parse($singlePost->published_at)->format('M. j, Y') }}</time>
+                                </p>
                             </div>
                         </div>
                     </address>
@@ -24,14 +27,15 @@
                         class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 dark:text-white lg:mb-6 lg:text-4xl">
                         {{ $singlePost->title }}</h1>
                 </header>
-                {{ $singlePost->content }}
+                {{-- <div id="editorjs"></div> --}}
+                @include('layouts.blog.content')
 
                 @include('layouts.blog.comment')
             </article>
         </div>
     </main>
 
-    <aside aria-label="Related
+    {{-- <aside aria-label="Related
                                 articles" class="bg-gray-50 py-8 dark:bg-gray-800 lg:py-24">
         <div class="mx-auto max-w-screen-xl px-4">
             <h2 class="mb-8 text-2xl font-bold text-gray-900 dark:text-white">Related articles</h2>
@@ -148,5 +152,5 @@
                 </form>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

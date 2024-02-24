@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class Post extends Model
@@ -66,5 +67,33 @@ class Post extends Model
         $secondname = Str::of($post->user->name)->split('/[\s,]+/')->get(1);
         $name = $firstname . ' ' . $secondname;
         return $name;
+    }
+
+    private function getEstimateReadingTime($content, $wpm = 200)
+    {
+
+        $wordCount = str_word_count(strip_tags($content));
+
+        $minutes = (int) floor($wordCount / $wpm);
+        $seconds = (int) floor($wordCount % $wpm / ($wpm / 60));
+
+        if ($minutes === 0) {
+            return $seconds . " " . Str::of('second')->plural($seconds);
+        } else {
+            return $minutes . " " . Str::of('minute')->plural($minutes);
+        }
+    }
+
+    protected function timeToRead(): Attribute
+    {
+
+        return Attribute::make(
+            get: function ($value, $attributes) {
+
+                $value = $this->getEstimateReadingTime($attributes['content']);
+
+                return $value;
+            }
+        );
     }
 }

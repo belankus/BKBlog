@@ -74,28 +74,60 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Permission
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $guard_name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Role> $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission role($roles, $guard = null, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereGuardName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|Permission withoutRole($roles, $guard = null)
+ */
+	class Permission extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Post
  *
  * @property int $id
- * @property int|null $user_id
- * @property int|null $category_id
+ * @property int $user_id
+ * @property int $category_id
  * @property int|null $parent_id
- * @property string|null $title
+ * @property string $title
  * @property string|null $metaTitle
- * @property string|null $slug
+ * @property string $slug
  * @property string|null $summary
- * @property int|null $published
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $published
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
  * @property string|null $published_at
  * @property string|null $image
- * @property string|null $content
- * @property-read \App\Models\Category|null $category
+ * @property string $content
+ * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
- * @property-read \App\Models\User|null $user
+ * @property-read mixed $time_to_read
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\PostFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Post findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
@@ -124,8 +156,8 @@ namespace App\Models{
 /**
  * App\Models\PostTag
  *
- * @property int|null $post_id
- * @property int|null $tag_id
+ * @property int $post_id
+ * @property int $tag_id
  * @method static \Database\Factories\PostTagFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newQuery()
@@ -134,6 +166,33 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag whereTagId($value)
  */
 	class PostTag extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Role
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $guard_name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role permission($permissions, $without = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereGuardName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Role withoutPermission($permissions)
+ */
+	class Role extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -167,36 +226,38 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property string|null $mobile
+ * @property string $username
  * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property mixed $password
- * @property string $intro
- * @property string $profile
+ * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $lastLogin
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read int|null $posts_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
- * @property-read int|null $tokens_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereIntro($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastLogin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereProfile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent {}
 }
