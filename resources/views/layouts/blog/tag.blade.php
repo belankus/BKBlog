@@ -49,43 +49,52 @@
                                         '</span></a></li>' !!}
                                 @endforeach
                             </ul>
-                            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a
+                            <h2 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white"><a
                                     href="#">{{ $post->title }}</a></h2>
-                            <p class="mb-5 font-light text-gray-500 dark:text-gray-400">{{ $post->summary }}
-                            </p>
-                            <div class="flex flex-grow flex-col items-start justify-end gap-4">
-                                <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}"
-                                    class="inline-flex items-center font-medium text-primary-600 hover:underline dark:text-primary-500">
-                                    <span class="">Read in </span><span
-                                        class="indent-1">{{ $post->time_to_read }}</span>
-                                    <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                                <div class="flex items-center space-x-4">
-                                    <img class="h-7 w-7 rounded-full"
-                                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                                        alt="Jese Leos avatar" />
-                                    <span class="font-medium dark:text-white">
-                                        {{ $post->getName($post) }}
+                            <p class="mb-5 line-clamp-3 font-light text-gray-500 dark:text-gray-400">
+                                @php
+                                    $decodedContent = json_decode($post->content, true);
+                                @endphp
+                                @foreach ($decodedContent['blocks'] as $block)
+                                    @if ($block['type'] === 'paragraph')
+                                        {!! $block['data']['text'] !!}
+                                    @break
+                                @endif
+                            @endforeach
+                        </p>
+                        <div class="flex flex-grow flex-col items-start justify-end gap-4">
+                            <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}"
+                                class="inline-flex items-center font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                <span class="">Read in </span><span
+                                    class="indent-1">{{ $post->time_to_read }}</span>
+                                <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                            <div class="flex items-center space-x-4">
+                                <img class="h-7 w-7 rounded-full"
+                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
+                                    alt="Jese Leos avatar" />
+                                <span class="font-medium dark:text-white">
+                                    {{ $post->getName($post) }}
 
-                                    </span>
-                                </div>
-
+                                </span>
                             </div>
-                        </div>
-                    </article>
-                @endforeach
 
-            </div>
-            <div class="mt-10 flex w-full justify-center">
-                <div class="w-3/4">
-                    {{ $posts->links() }}
-                </div>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+
+        </div>
+        <div class="mt-10 flex w-full justify-center">
+            <div class="w-3/4">
+                {{ $posts->links() }}
             </div>
         </div>
-    </section>
+    </div>
+</section>
 @endsection

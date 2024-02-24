@@ -7,9 +7,9 @@
                 <h2 class="mb-4 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white lg:text-4xl">
                     Our Blog</h2>
                 <p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl">We use an agile approach to
-                    test assumptions and connect with the needs of your audience early and often.</p>
+                    test assumptions and connect with the needs of you early and often.</p>
             </div>
-            <div class="flex">
+            <div class="flex flex-col-reverse gap-20 lg:flex lg:flex-row lg:gap-0">
                 <aside class="mr-8 w-full">
                     <span class="sr-only">Blog Sidebar</span>
                     <div class="w-60 rounded-lg border bg-white p-4">
@@ -115,10 +115,10 @@
                             <div class="relative w-full">
                                 @if ($post->image)
                                     <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
-                                        class="h-[200px] w-[300px] object-cover object-center">
+                                        class="h-[200px] w-full object-cover object-center">
                                 @else
                                     <img src="https://source.unsplash.com/300x200?category={{ $post->category->name }}"
-                                        alt="Image" class="h-[200px] w-[300px] object-cover object-center">
+                                        alt="Image" class="h-[200px] w-full object-cover object-center">
                                 @endif
                                 <div class="absolute top-0 flex w-full items-center justify-between p-2 text-gray-500">
                                     <span
