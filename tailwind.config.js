@@ -1,5 +1,5 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
-module.exports = {
+/** @type {import('tailwindcss').Config} */
+export default {
     darkMode: "class",
     content: [
         "./resources/**/*.blade.php",
@@ -91,6 +91,5 @@ module.exports = {
         require("flowbite-typography"),
         require("@tailwindcss/forms"),
         require("@tailwindcss/typography"),
-        require("@tailwindcss/line-clamp"),
     ],
 };
