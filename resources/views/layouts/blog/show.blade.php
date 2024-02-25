@@ -3,8 +3,7 @@
 @section('content')
     <main class="pb-16 antialiased dark:bg-gray-900 lg:pb-24">
         <div class="mx-auto flex max-w-screen-xl justify-between px-4">
-            <article
-                class="format format-sm format-blue mx-auto w-full max-w-3xl dark:format-invert sm:format-base lg:format-lg">
+            <article class="mx-auto w-full max-w-3xl">
                 <header class="not-format mb-4 lg:mb-6">
                     <address class="mb-6 flex items-center not-italic">
                         <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">

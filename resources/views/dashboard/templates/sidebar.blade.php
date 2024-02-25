@@ -2,7 +2,7 @@
     class="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full pt-14 [transition:width_500ms_ease,_transform_500ms_ease] sm:translate-x-0 lg:pt-16"
     aria-label="Sidenav">
     <div
-        class="h-full overflow-y-auto border-r border-gray-200 bg-white px-3 py-5 dark:border-gray-700 dark:bg-gray-800">
+        class="no-scrollbar h-full overflow-y-auto border-r border-gray-200 bg-white px-3 py-5 dark:border-gray-700 dark:bg-gray-800">
         <ul class="space-y-2">
             {{-- Side Menu Overview --}}
             <li class="{{ Request::is('dashboard') ? 'bg-gray-200 rounded-lg' : '' }}">
