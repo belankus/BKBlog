@@ -47,18 +47,33 @@
 
             });
         </script>
+        <script>
+            let postData;
+            const jsonData = `{!! old('content', '') !!}`;
+            try {
+                postData = JSON.parse(atob(jsonData));
+            } catch (e) {
+                // Handle the case when the JSON data is not in the correct format
+                postData = {}; // Assign an empty object as the default value for postData
+            }
+        </script>
+        <script type="module" src="/js/editor-new.js"></script>
     @endif
-    <script>
-        let postData;
-        const jsonData = `{!! $post->content ?? addslashes(old('content', '')) !!}`;
-        try {
-            postData = JSON.parse(jsonData);
-        } catch (e) {
-            // Handle the case when the JSON data is not in the correct format
-            postData = {}; // Assign an empty object as the default value for postData
-        }
-    </script>
-    <script type="module" src="/js/editor.js"></script>
+    @if (Request::is('dashboard/posts/*/edit'))
+        <script>
+            let postData;
+            const jsonData = `{!! old('content', base64_encode($post->content)) !!}`;
+            try {
+                postData = JSON.parse(atob(jsonData));
+            } catch (e) {
+                // Handle the case when the JSON data is not in the correct format
+                postData = {}; // Assign an empty object as the default value for postData
+            }
+        </script>
+        <script type="module" src="/js/editor.js"></script>
+    @endif
+
+
 @endif
 <script>
     function previewImage() {

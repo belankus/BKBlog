@@ -7,7 +7,7 @@
         <h{{ $block['data']['level'] }} class="font-bold">
             {!! $block['data']['text'] !!}</h{{ $block['data']['level'] }}>
         @elseif($block['type'] == 'paragraph')
-            <p>{!! $block['data']['text'] !!}</p>
+            <p class="break-all text-justify">{!! $block['data']['text'] !!}</p>
         @elseif($block['type'] == 'list')
             {!! $block['data']['style'] == 'ordered' ? '<ol>' : '<ul>' !!}
             @foreach ($block['data']['items'] as $item)
