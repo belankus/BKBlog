@@ -5,20 +5,21 @@
 
 @foreach ($content['blocks'] as $block)
     @if ($block['type'] == 'header')
-        <h{{ $block['data']['level'] }} class="text-{{ 6 - $block['data']['level'] }}xl mb-2.5 font-bold">
+        <h{{ $block['data']['level'] }}
+            class="{{ $block['data']['level'] == 2 ? 'text-3xl mb-4' : '' }} {{ $block['data']['level'] == 3 ? 'text-2xl mb-2.5' : '' }} {{ $block['data']['level'] == 4 ? 'text-xl mb-2.5' : '' }} font-bold text-gray-700">
             {!! $block['data']['text'] !!}</h{{ $block['data']['level'] }}>
         @elseif($block['type'] == 'paragraph')
             <p
-                class="hyphens-auto break-words text-justify text-lg leading-relaxed text-gray-500 [&>a]:text-blue-500 [&>a]:underline [&>a]:transition hover:[&>a]:text-blue-600 hover:[&>a]:no-underline">
+                class="mb-6 hyphens-auto break-words text-justify text-lg leading-[1.8] text-gray-500 [&>a]:text-blue-500 [&>a]:underline [&>a]:transition hover:[&>a]:text-blue-600 hover:[&>a]:no-underline">
                 {!! $block['data']['text'] !!}
             </p>
         @elseif($block['type'] == 'list')
             {!! $block['data']['style'] == 'ordered'
-                ? '<ol class="list-decimal list-inside indent-10 text-lg leading-relaxed">'
-                : '<ul class="list-disc list-inside indent-10 text-lg leading-relaxed">' !!}
+                ? '<ol class="list-decimal list-inside indent-4 text-lg  mb-2.5">'
+                : '<ul class="list-disc list-inside indent-4 text-lg  mb-2.5">' !!}
             @foreach ($block['data']['items'] as $item)
                 <li
-                    class="text-gray-500 [&>a]:text-blue-500 [&>a]:underline [&>a]:transition hover:[&>a]:text-blue-600 hover:[&>a]:no-underline">
+                    class="leading-[2.5] text-gray-500 [&>a]:text-blue-500 [&>a]:underline [&>a]:transition hover:[&>a]:text-blue-600 hover:[&>a]:no-underline">
                     {!! $item !!}</li>
             @endforeach
             {!! $block['data']['style'] == 'ordered' ? '</ol>' : '</ul>' !!}
