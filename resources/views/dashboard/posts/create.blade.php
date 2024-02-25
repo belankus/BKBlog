@@ -138,22 +138,7 @@
                                 @enderror
                             </div>
 
-                            <div class="sm:col-span-2">
-                                <label for="content"
-                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Content
-                                    Body</label>
-                                <input type="hidden" name="content" id="content" value="{{ old('content') }}">
-                                <div id="editorjs"
-                                    class="{{ $errors->has('content')
-                                        ? 'border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500'
-                                        : 'border-gray-300 text-gray-900 focus:border-primary-600 focus:ring-primary-600' }} min-h-96 w-full rounded-lg border">
-                                </div>
-                                @error('content')
-                                    <div class="text-pink-600">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+
                         </div>
                     </div>
                     <div class="hidden rounded-lg bg-gray-50 p-4 dark:bg-gray-800" id="advance" role="tabpanel"
@@ -239,6 +224,25 @@
 
                     </div>
 
+                    <div class="grid gap-4 p-4 sm:grid-cols-2 sm:gap-6">
+
+                        <div class="sm:col-span-2">
+                            <label for="content"
+                                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Content
+                                Body</label>
+                            <input type="hidden" name="content" id="content" value="{{ old('content') }}">
+                            <div id="editorjs"
+                                class="{{ $errors->has('content')
+                                    ? 'border-pink-500 text-pink-600 focus:border-pink-500 focus:ring-pink-500'
+                                    : 'border-gray-300 text-gray-900 focus:border-primary-600 focus:ring-primary-600' }} min-h-96 w-full rounded-lg border">
+                            </div>
+                            @error('content')
+                                <div class="text-pink-600">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
 
                     <div class="flex justify-between">
                         <div>

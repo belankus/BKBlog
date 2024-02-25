@@ -44,15 +44,6 @@ const editor = new EditorJS({
             },
         },
     },
-    onReady: () => {
-        editor.save().then((outputData) => {
-            // Update the hidden input field with the JSON data
-            // console.log(outputData);
-            document.getElementById("content").value = btoa(
-                JSON.stringify(outputData, null, 4)
-            );
-        });
-    },
     onChange: () => {
         editor.save().then((outputData) => {
             // Update the hidden input field with the JSON data

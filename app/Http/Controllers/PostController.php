@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use Exception;
 use App\Models\Tag;
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use \Cviebrock\EloquentSluggable\Services\SlugService;
 
 class PostController extends Controller
 {
@@ -79,6 +80,8 @@ class PostController extends Controller
         ], ['tags.required' => 'Please select at least one tag']);
 
         $validatedData['user_id'] = Auth::user()->id;
+        $validatedData['content'] = base64_decode($request->input('content'));
+
 
         if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('post-img');
@@ -191,6 +194,8 @@ class PostController extends Controller
         // }
 
         $validatedData = $request->validate($rules);
+        $validatedData['content'] = base64_decode($request->input('content'));
+
 
         if ($request->file('image')) {
             if ($post->image != null) Storage::delete($post->image);
@@ -212,6 +217,7 @@ class PostController extends Controller
         // dd($validatedData);
         $postOri = $post;
         $postID = $post->id;
+
         Post::where('id', $post->id)->update($validatedData);
         $post = Post::where('id', $post->id)->first();
 

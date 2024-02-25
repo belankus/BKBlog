@@ -181,7 +181,7 @@
                                 <th scope="col" class="px-4 py-3">Title</th>
                                 <th scope="col" class="px-4 py-3">Category</th>
                                 <th scope="col" class="px-4 py-3">Tags</th>
-                                <th scope="col" class="px-4 py-3">Updated at</th>
+                                <th scope="col" class="px-4 py-3">Published at</th>
                                 <th scope="col" class="px-4 py-3">Status</th>
                                 <th scope="col" class="px-4 py-3">
                                     <span class="sr-only">Actions</span>
@@ -207,7 +207,7 @@
                                         </template>
                                     </td>
                                     <td class="px-4 py-3"><span
-                                            x-text="new Date(post.updated_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"></span>
+                                            x-text="new Date(post.published_at).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })"></span>
                                     </td>
                                     <td class="px-4 py-3">
                                         <template x-if="post.published==1 && (Date.parse(post.published_at) < Date.now())">
