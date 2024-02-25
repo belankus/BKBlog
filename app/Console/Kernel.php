@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () use ($postController) {
             $postController->cleanupTemporaryImages();
-        })->everyMinute();
+        })->daily();
     }
 
     /**
