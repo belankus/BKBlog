@@ -30,6 +30,7 @@ class RolesTableSeeder extends Seeder
         $createCategoryPermission = Permission::where('name', 'create category')->first();
         $editCategoryPermission = Permission::where('name', 'edit category')->first();
         $deleteCategoryPermission = Permission::where('name', 'delete category')->first();
+        $viewCategoryPermission = Permission::where('name', 'view category')->first();
         $createTagPermission = Permission::where('name', 'create tag')->first();
         $editTagPermission = Permission::where('name', 'edit tag')->first();
         $deleteTagPermission = Permission::where('name', 'delete tag')->first();
@@ -48,6 +49,7 @@ class RolesTableSeeder extends Seeder
             $createCategoryPermission,
             $editCategoryPermission,
             $deleteCategoryPermission,
+            $viewCategoryPermission,
             $createTagPermission,
             $editTagPermission,
             $deleteTagPermission,
@@ -63,6 +65,7 @@ class RolesTableSeeder extends Seeder
             $createCommentPermission,
             $editCommentPermission,
             $deleteCommentPermission,
+            $viewCategoryPermission
         ]);
         $visitorRole->givePermissionTo([
             $createCommentPermission, $editCommentPermission, $deleteCommentPermission, $createUserPermission,

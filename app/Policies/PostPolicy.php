@@ -45,6 +45,8 @@ class PostPolicy
         if ($user->hasAnyRole(['superadmin', 'user']) || $user->can('edit post')) {
             return $user->id === $post->user_id || $user->hasRole('superadmin');
         }
+
+        return false;
     }
 
     /**
@@ -52,9 +54,11 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        if ($user->hasAnyRole(['superadmin', 'user']) || $user->can('delete post')) {
+        if ($user->hasRole('superadmin') || $user->can('delete post')) {
             return $user->id === $post->user_id || $user->hasRole('superadmin');
         }
+
+        return false;
     }
 
     /**

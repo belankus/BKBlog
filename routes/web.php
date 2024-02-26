@@ -34,12 +34,14 @@ Route::prefix('blog')->group(function () {
 
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::get('/', function () {
-        return view('dashboard.index', ['posts' => Post::all()]);
+        if (Auth::user()->hasRole('superadmin')) {
+
+            $posts = Post::with('category', 'tags')->get();
+        } else {
+            $posts = Post::with('category', 'tags')->where('user_id', Auth::user()->id)->get();
+        }
+        return view('dashboard.index', ['posts' => $posts]);
     });
-    Route::get(
-        'categories',
-        [CategoryController::class, 'index']
-    );
     Route::get('tags', function () {
         return view('dashboard.tags.index');
     });
@@ -47,8 +49,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         return view('dashboard.users.index');
     });
     Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
+    Route::get('categories/checkSlug', [CategoryController::class, 'checkSlug']);
     Route::post('posts/cache-image', [PostController::class, 'cache']);
     Route::resource('posts', PostController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 

@@ -247,6 +247,7 @@
                                                 <li>
                                                     <a x-bind:href="'/blog/' + getYear(post.published_at) + '/' + post
                                                         .slug"
+                                                        target="_blank"
                                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                                 </li>
                                                 <li>
@@ -289,7 +290,7 @@
 
 
     <div x-data="{ showModal: false, postData: { category: { name: '' } } }" x-show="showModal"
-        x-on:show-modal.window="showModal = true; postData = $event.detail.postData ">
+        x-on:show-modal.window="showModal = true; postData = $event.detail.postData" style="display: none;">
         <div
             class="fixed inset-0 z-50 flex h-screen max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-50">
             <div class="relative max-h-full w-full max-w-md p-4">

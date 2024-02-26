@@ -35,7 +35,7 @@
                 </li>
             @endcan
 
-            @can('create category')
+            @can('view category')
                 {{-- Side Menu Categories --}}
                 <li class="{{ Request::is('dashboard/categories*') ? 'bg-gray-200 rounded-lg' : '' }}">
                     <a href="/dashboard/categories"

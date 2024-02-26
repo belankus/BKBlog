@@ -15,6 +15,11 @@ class CategorySeeder extends Seeder
     {
         Category::create([
             'parent_id' => 0,
+            'name' => 'General',
+            'slug' => 'general',
+        ]);
+        Category::create([
+            'parent_id' => 0,
             'name' => 'Personal',
             'slug' => 'personal',
         ]);
