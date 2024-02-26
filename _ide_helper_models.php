@@ -18,20 +18,24 @@ namespace App\Models{
  * @property int $id
  * @property int $parent_id
  * @property string $name
+ * @property string|null $icon
  * @property string $slug
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read int|null $posts_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Category findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category query()
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereIcon($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  */
 	class Category extends \Eloquent {}
 }

@@ -13,8 +13,13 @@ class PostTagSeeder extends Seeder
      */
     public function run(): void
     {
-        PostTag::factory()
-            ->count(200)
-            ->create();
+        // PostTag::factory()
+        //     ->count(200)
+        //     ->create();
+
+        PostTag::create([
+            'post_id' => 1,
+            'tag_id' => 1
+        ]);
     }
 }

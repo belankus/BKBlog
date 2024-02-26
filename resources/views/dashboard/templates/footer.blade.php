@@ -59,6 +59,7 @@
         </script>
         <script type="module" src="/js/editor-new.js"></script>
     @endif
+
     @if (Request::is('dashboard/posts/*/edit'))
         <script>
             let postData;
@@ -74,6 +75,19 @@
     @endif
 
 
+@endif
+@if (Request::is('dashboard/categories/create'))
+    <script>
+        const name = document.querySelector('#name');
+        const slug = document.querySelector('#slug');
+
+        name.addEventListener('change', function() {
+            fetch('/dashboard/categories/checkSlug?name=' + name.value)
+                .then(response => response.json())
+                .then(data => slug.value = data.slug)
+
+        });
+    </script>
 @endif
 <script>
     function previewImage() {

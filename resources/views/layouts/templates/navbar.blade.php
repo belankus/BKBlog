@@ -20,8 +20,9 @@
         <div class="hidden lg:flex lg:gap-x-12">
             <a href="/" class="text-sm font-semibold leading-6 text-gray-900">Home</a>
             <a href="/blog" class="text-sm font-semibold leading-6 text-gray-900">Blog</a>
-            <a href="/about" class="text-sm font-semibold leading-6 text-gray-900">About</a>
-            <a href="/contact" class="text-sm font-semibold leading-6 text-gray-900">Contact</a>
+            <a href="https://bellawan.my.id#about" class="text-sm font-semibold leading-6 text-gray-900">About</a>
+            <a href="https://bellawan.my.id#contact-me"
+                class="text-sm font-semibold leading-6 text-gray-900">Contact</a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
             @if (Auth::check())

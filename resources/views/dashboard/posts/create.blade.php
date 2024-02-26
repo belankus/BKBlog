@@ -174,11 +174,12 @@
                                 <label for="parent_id"
                                     class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Related
                                     Post</label>
-                                <input type="hidden" name="parent_id" id="parent_id" x-bind:value="selectedPost.id">
+                                <input type="hidden" name="parent_id" id="parent_id"
+                                    x-bind:value="selectedPost.id ? selectedPost.id : '{{ old('parent_id') }}'">
                                 <div class="group relative inline-block w-full">
                                     <button type="button"
                                         class="relative block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm focus:border-primary-600 focus:ring-1 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-                                        <div x-text="selectedPost ? selectedPost.title : 'Select Related post'"
+                                        <div x-text="selectedPost ? selectedPost.title : '{{ old('parent_id') ? ($parentPost = $posts->where('id', old('parent_id'))->first()->title) : 'Select Related post' }}'"
                                             x-on:click="open = !open"
                                             class="h-full w-full cursor-pointer p-2.5 text-left text-gray-500">
                                         </div>

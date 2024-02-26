@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('parent_id');
             $table->string('name');
+            $table->mediumText('icon')->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });

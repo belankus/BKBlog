@@ -34,7 +34,7 @@
                         </span>
                     </div>
                 </li>
-            @elseif($key == $length - 1 && Request::is('dashboard/posts/*/edit'))
+            @elseif($key == $length - 1 && Request::is('dashboard/*/*/edit'))
                 <li aria-current="page">
                     <div class="flex items-center">
                         <svg class="mx-1 h-3 w-3 text-gray-400 rtl:rotate-180" aria-hidden="true"
