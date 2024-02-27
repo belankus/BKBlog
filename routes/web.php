@@ -1,13 +1,15 @@
 <?php
 
+use App\Models\Tag;
+use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\AuthController;
-use App\Models\Category;
-use App\Models\Post;
 
 
 /*
@@ -42,9 +44,6 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         }
         return view('dashboard.index', ['posts' => $posts]);
     });
-    Route::get('tags', function () {
-        return view('dashboard.tags.index');
-    });
     Route::get('users', function () {
         return view('dashboard.users.index');
     });
@@ -53,11 +52,12 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::post('posts/cache-image', [PostController::class, 'cache']);
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('tags', TagController::class);
 });
 
 
 Route::get('/editor', function () {
-    return view('editor', ['postData' => Post::where('id', 107)->first()]);
+    return view('editor', ['postData' => Post::where('id', 1)->first()]);
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');

@@ -15,7 +15,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Post::class);
+        $this->authorize('viewAny', Category::class);
         if (Auth::user()->hasRole('superadmin')) {
             $categories = Category::with('posts')->get();
         } else {

@@ -11,6 +11,23 @@
 </head>
 
 <body>
+    <ul class="mb-1 flex flex-wrap gap-1">
+        <li><a href='/blog/tags/'
+                class='inline-flex w-full cursor-pointer items-center justify-center rounded border border-blue-400 bg-blue-100 px-2.5 py-0.5 text-blue-600 transition hover:bg-blue-400 hover:text-blue-100'><span
+                    class='text-center text-xs font-medium'>Satu</span></a></li>
+        <li><a href='/blog/tags/'
+                class='inline-flex w-full cursor-pointer items-center justify-center rounded border border-gray-400 bg-gray-100 px-2.5 py-0.5 text-gray-400 transition hover:bg-gray-400 hover:text-gray-100'><span
+                    class='text-center text-xs font-medium'>Satu</span></a></li>
+        <li><a href='/blog/tags/'
+                class='inline-flex w-full cursor-pointer items-center justify-center rounded border border-red-400 bg-red-100 px-2.5 py-0.5 text-red-400 transition hover:bg-red-400 hover:text-red-100'><span
+                    class='text-center text-xs font-medium'>Satu</span></a></li>
+        <li><a href='/blog/tags/'
+                class='inline-flex w-full cursor-pointer items-center justify-center rounded border border-green-400 bg-green-100 px-2.5 py-0.5 text-green-400 transition hover:bg-green-400 hover:text-green-100'><span
+                    class='text-center text-xs font-medium'>Satu</span></a></li>
+        <li><a href='/blog/tags/'
+                class='inline-flex w-full cursor-pointer items-center justify-center rounded border border-yellow-400 bg-yellow-50 px-2.5 py-0.5 text-yellow-400 hover:bg-yellow-300 hover:text-yellow-100'><span
+                    class='text-center text-xs font-medium'>Satu</span></a></li>
+    </ul>
     <h1 class="mb-10 text-center text-2xl">Hello Editor</h1>
     <div class="flex w-full justify-center">
         <form action="/dashboard/posts" method="post" class="flex w-3/4 flex-col justify-center gap-4">

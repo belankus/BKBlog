@@ -34,6 +34,7 @@ class RolesTableSeeder extends Seeder
         $createTagPermission = Permission::where('name', 'create tag')->first();
         $editTagPermission = Permission::where('name', 'edit tag')->first();
         $deleteTagPermission = Permission::where('name', 'delete tag')->first();
+        $viewTagPermission = Permission::where('name', 'view tag')->first();
         $editRolePermission = Permission::where('name', 'edit role')->first();
 
         $superAdminRole->givePermissionTo([
@@ -53,6 +54,7 @@ class RolesTableSeeder extends Seeder
             $createTagPermission,
             $editTagPermission,
             $deleteTagPermission,
+            $viewTagPermission,
             $editRolePermission
         ]);
         $userRole->givePermissionTo([
@@ -65,7 +67,8 @@ class RolesTableSeeder extends Seeder
             $createCommentPermission,
             $editCommentPermission,
             $deleteCommentPermission,
-            $viewCategoryPermission
+            $viewCategoryPermission,
+            $viewTagPermission
         ]);
         $visitorRole->givePermissionTo([
             $createCommentPermission, $editCommentPermission, $deleteCommentPermission, $createUserPermission,

@@ -24,7 +24,7 @@ class BlogController extends Controller
             /** @var \App\Models\Post $query **/
             $query->where('published', '=', 1)->where('published_at', '<=', Carbon::now());
         }])->get();
-        $tags = Tag::with('posts')->get();
+        $tags = Tag::with('posts', 'tagScheme')->get();
 
         $post_date = DB::table('posts')
             ->select(DB::raw('YEAR(published_at) AS year, MONTH(published_at) AS month, MONTHNAME(published_at) AS monthname'), DB::raw('count(*) as total'))
