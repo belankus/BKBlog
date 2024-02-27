@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TagController extends Controller
 {
@@ -12,7 +13,16 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', Tag::class);
+        if (Auth::user()->hasRole('superadmin')) {
+            $tags = Tag::with('posts')->get();
+        } else {
+            $tags = Tag::whereHas('posts', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })->get();
+        }
+
+        return view('dashboard.tags.index', ['tags' => $tags]);
     }
 
     /**

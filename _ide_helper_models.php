@@ -211,6 +211,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read int|null $posts_count
+ * @property-read \App\Models\TagScheme|null $tagScheme
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
@@ -222,6 +223,19 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
  */
 	class Tag extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\TagScheme
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme query()
+ */
+	class TagScheme extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -29,6 +29,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'create tag']);
         Permission::create(['name' => 'edit tag']);
         Permission::create(['name' => 'delete tag']);
+        Permission::create(['name' => 'view tag']);
         Permission::create(['name' => 'edit role']);
     }
 }

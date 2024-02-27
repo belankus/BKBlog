@@ -109,7 +109,7 @@
                                                 name="tags[]" id="{{ 'tag-' . $tag->id }}"
                                                 {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }} />
                                             <label for="{{ 'tag-' . $tag->id }}"
-                                                class="{{ $tag->class . ' peer-checked:border-blue-500 peer-checked:border-2 border peer-checked:shadow-lg px-2 rounded hover:cursor-pointer' }}">{{ $tag->name }}</label>
+                                                class="{{ $tag->tagScheme->class . ' peer-checked:border-blue-500 peer-checked:border-2 border peer-checked:shadow-lg px-2 rounded hover:cursor-pointer' }}">{{ $tag->name }}</label>
                                         </div>
                                     @endforeach
 

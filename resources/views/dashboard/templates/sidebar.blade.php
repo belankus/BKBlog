@@ -55,7 +55,7 @@
                 </li>
             @endcan
 
-            @can('create tag')
+            @can('view tag')
                 {{-- Side Menu Tags --}}
                 <li class="{{ Request::is('dashboard/tags*') ? 'bg-gray-200 rounded-lg' : '' }}">
                     <a href="/dashboard/tags"
@@ -82,6 +82,25 @@
                                 d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
                         </svg>
                         <span id="textMenu" class="ml-3 flex-1 whitespace-nowrap text-left">Users</span>
+                    </a>
+                </li>
+            @endcan
+
+            @can('create comment')
+                {{-- Side Menu Users --}}
+                <li class="{{ Request::is('dashboard/comments*') ? 'bg-gray-200 rounded-lg' : '' }}">
+                    <a href="/dashboard/comments"
+                        class="group flex w-full items-center rounded-lg p-2 text-base font-normal text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        <svg class="h-6 w-6 flex-shrink-0 text-gray-400 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M4 3a1 1 0 0 0-1 1v8c0 .6.4 1 1 1h1v2a1 1 0 0 0 1.7.7L9.4 13H15c.6 0 1-.4 1-1V4c0-.6-.4-1-1-1H4Z"
+                                clip-rule="evenodd" />
+                            <path fill-rule="evenodd"
+                                d="M8 17.2h.1l2.1-2.2H15a3 3 0 0 0 3-3V8h2c.6 0 1 .4 1 1v8c0 .6-.4 1-1 1h-1v2a1 1 0 0 1-1.7.7L14.6 18H9a1 1 0 0 1-1-.8Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span id="textMenu" class="ml-3 flex-1 whitespace-nowrap text-left">Comments</span>
                     </a>
                 </li>
             @endcan

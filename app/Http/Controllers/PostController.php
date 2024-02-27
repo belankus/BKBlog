@@ -50,7 +50,7 @@ class PostController extends Controller
         }
         $posts = Post::with('category')->get();
         $category = Category::with('posts')->get();
-        $tags = Tag::all();
+        $tags = Tag::with('tagScheme')->get();
         return view('dashboard.posts.create', [
             'title' => 'Dashboard | Post',
             'posts' => $posts,
@@ -156,7 +156,7 @@ class PostController extends Controller
 
         $posts = Post::with('category')->get();
         $category = Category::with('posts')->get();
-        $tags = Tag::all();
+        $tags = Tag::with('tagScheme')->get();
         return view('dashboard.posts.edit', [
             'post' => $post,
             'category' => $category,

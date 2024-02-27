@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategorySeeder::class,
             PostSeeder::class,
+            TagSchemeSeeder::class,
             TagSeeder::class,
             PostTagSeeder::class,
             // CommentSeeder::class,
