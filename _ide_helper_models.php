@@ -162,12 +162,16 @@ namespace App\Models{
  *
  * @property int $post_id
  * @property int $tag_id
+ * @property string $created_at
+ * @property string $updated_at
  * @method static \Database\Factories\PostTagFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PostTag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag wherePostId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PostTag whereTagId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PostTag whereUpdatedAt($value)
  */
 	class PostTag extends \Eloquent {}
 }
