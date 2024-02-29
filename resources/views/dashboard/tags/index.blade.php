@@ -114,7 +114,7 @@
                         <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-4 py-3">No</th>
-                                <th scope="col" class="px-4 py-3">Symbol</th>
+                                <th scope="col" class="px-4 py-3">Schema</th>
                                 <th scope="col" class="px-4 py-3">Tag Name</th>
                                 <th scope="col" class="px-4 py-3">Tag Slug</th>
                                 <th scope="col" class="px-4 py-3">Linked Post</th>
@@ -134,7 +134,12 @@
                                     <td class="w-10 px-4 py-3" x-text="(currentPage - 1) * itemsPerPage + index + 1">
                                     </td>
                                     <td class="w-10 px-4 py-3">
-                                        <div x-html="tag.icon"></div>
+                                        <div
+                                            :class="tag.tag_scheme.class +
+                                                ' inline-flex w-full cursor-pointer items-center justify-center rounded border px-2.5 py-0.5'">
+                                            <span class='text-center text-xs font-medium' x-text="tag.name">
+                                            </span>
+                                        </div>
                                     </td>
                                     <th scope="row"
                                         class="w-26 truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"
@@ -241,7 +246,7 @@
                                 this tag?</h3>
                             <p class="mb-3 rounded bg-red-400 p-2 text-red-700">Related Post to this tag, will not
                                 be
-                                deleted. But changed to <b>Communal</b> tag.</p>
+                                deleted. If there is no post related to this tag, it'll changed to <b>Communal</b> tag.</p>
                             <div
                                 class="mb-7 grid w-full grid-cols-[max-content_max-content_1fr] grid-rows-[repeat(3,max-content)] text-left font-sans text-slate-500">
                                 <p class="px-5">ID</p>

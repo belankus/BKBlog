@@ -12,7 +12,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         return view('auth.login', [
-            'title' => 'login Page'
+            'title' => 'Login Page | BKA Blog'
         ]); // Replace 'auth.login' with the actual name of your custom login view
     }
 
@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function register()
     {
         return view('auth.register', [
-            'title' => 'Register',
+            'title' => 'Register | BKA Blog',
             'location' => 'register',
             'description' => 'Register Now'
         ]);
