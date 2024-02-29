@@ -21,29 +21,34 @@ class Tag extends Model
 
         static::deleting(function ($tag) {
             DB::transaction(function () use ($tag) {
-                // Find posts without any other tags after the deletion of the tag
-                $postsWithoutTags = DB::table('post_tag')
+                // Find posts affected by the tag deletion
+                $postsAffected = DB::table('post_tag')
                     ->select('post_id')
                     ->where('tag_id', $tag->id)
                     ->groupBy('post_id')
-                    ->havingRaw('COUNT(tag_id) = 1')
                     ->pluck('post_id');
 
-                // Insert new rows for the default tag
-                $defaultTagId = 1; // Assuming the default tag has an ID of 1
-                $insertData = [];
-                foreach ($postsWithoutTags as $postId) {
-                    $insertData[] = [
-                        'post_id' => $postId,
-                        'tag_id' => $defaultTagId,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
+                foreach ($postsAffected as $postId) {
+                    // Check if the post has only one tag (the tag being deleted)
+                    $postTagCount = DB::table('post_tag')
+                        ->where('post_id', $postId)
+                        ->count();
+
+                    if ($postTagCount === 1) {
+                        // Insert a new row for the default tag
+                        $defaultTagId = 1; // Assuming the default tag has an ID of 1
+                        DB::table('post_tag')->insert([
+                            'post_id' => $postId,
+                            'tag_id' => $defaultTagId,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
                 }
-                DB::table('post_tag')->insert($insertData);
             });
         });
     }
+
 
     public function getRouteKeyName(): string
     {
