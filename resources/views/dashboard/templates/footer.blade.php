@@ -76,7 +76,8 @@
 
 
 @endif
-@if (Request::is('dashboard/categories/create'))
+
+@if (Request::is('dashboard/categories/create') || Request::is('dashboard/categories/*/edit'))
     <script>
         const name = document.querySelector('#name');
         const slug = document.querySelector('#slug');
@@ -89,6 +90,22 @@
         });
     </script>
 @endif
+
+@if (Request::is('dashboard/tags/create') || Request::is('dashboard/tags/*/edit'))
+    <script>
+        const name = document.querySelector('#name');
+        const slug = document.querySelector('#slug');
+
+        name.addEventListener('change', function() {
+            fetch('/dashboard/tags/checkSlug?name=' + name.value)
+                .then(response => response.json())
+                .then(data => slug.value = data.slug)
+
+        });
+    </script>
+@endif
+
+
 <script>
     function previewImage() {
         const image = document.querySelector('#image');

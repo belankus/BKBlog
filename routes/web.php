@@ -49,6 +49,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     });
     Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
     Route::get('categories/checkSlug', [CategoryController::class, 'checkSlug']);
+    Route::get('tags/checkSlug', [TagController::class, 'checkSlug']);
     Route::post('posts/cache-image', [PostController::class, 'cache']);
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);

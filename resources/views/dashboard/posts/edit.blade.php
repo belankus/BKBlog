@@ -3,7 +3,7 @@
 @section('content')
     <section class="mb-10 px-4">
         <div class="bg-white p-6 sm:rounded-lg">
-            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Add a new post</h2>
+            <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Edit post</h2>
             <form method="post" action="/dashboard/posts/{{ $post->slug }}" enctype="multipart/form-data">
                 @method('put')
                 @csrf

@@ -204,23 +204,25 @@ namespace App\Models{
  * App\Models\Tag
  *
  * @property int $id
+ * @property int $tag_scheme_id
  * @property string $name
  * @property string $slug
- * @property string $class
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
  * @property-read int|null $posts_count
- * @property-read \App\Models\TagScheme|null $tagScheme
+ * @property-read \App\Models\TagScheme $tagScheme
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag findSimilarSlugs(string $attribute, array $config, string $slug)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Tag query()
- * @method static \Illuminate\Database\Eloquent\Builder|Tag whereClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag whereTagSchemeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Tag whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Tag withUniqueSlugConstraints(\Illuminate\Database\Eloquent\Model $model, string $attribute, array $config, string $slug)
  */
 	class Tag extends \Eloquent {}
 }
@@ -229,11 +231,23 @@ namespace App\Models{
 /**
  * App\Models\TagScheme
  *
+ * @property int $id
+ * @property string $name
+ * @property string $slug
+ * @property string $class
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
  * @property-read int|null $tags_count
  * @method static \Illuminate\Database\Eloquent\Builder|TagScheme newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagScheme newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TagScheme query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TagScheme whereUpdatedAt($value)
  */
 	class TagScheme extends \Eloquent {}
 }

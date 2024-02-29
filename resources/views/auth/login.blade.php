@@ -10,11 +10,11 @@
 
         <div class="min-h-screen w-full pt-20">
             <div class="flex justify-center">
-                <div class="w-1/3 flex-none">
+                <div class="max-w-[1/2] flex-none lg:w-1/3">
 
                     @if (session()->has('success'))
                         <div id="alert-success-login"
-                            class="mb-4 flex items-center rounded-lg bg-green-50 text-green-800 dark:bg-gray-800 dark:text-green-400"
+                            class="mb-4 flex items-center rounded-lg bg-green-50 p-4 text-green-800 dark:bg-gray-800 dark:text-green-400"
                             role="alert">
                             <svg class="h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 fill="currentColor" viewBox="0 0 20 20">
@@ -98,8 +98,8 @@
                                 class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
                                 type="submit">Log in</button>
                         </form>
-                        <small class="mt-3 block text-center">Not registered? <a href="/register"
-                                class="ease text-biru hover:text-biru_darken transition duration-500 hover:underline">Register
+                        <small class="mt-3 block text-center text-gray-600">Not registered? <a href="/register"
+                                class="text-blue-500 underline hover:text-blue-700 hover:no-underline">Register
                                 Now!</a></small>
                     </main>
                 </div>

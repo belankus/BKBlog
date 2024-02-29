@@ -6,7 +6,7 @@
         <div class="hidden sm:mb-8 sm:flex sm:justify-center">
             <a href="/blog/{{ $latestPost->getYear($latestPost->published_at) }}/{{ $latestPost->slug }}"
                 class="relative flex gap-2 rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                <span class="max-w-32 truncate whitespace-nowrap">{{ $latestPost->title }}</span><span
+                <span class="sm:max-w-60 max-w-40 truncate whitespace-nowrap">{{ $latestPost->title }}</span><span
                     class="font-semibold text-indigo-600">Read more
                     <span aria-hidden="true">&rarr;</span></span>
             </a>

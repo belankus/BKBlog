@@ -30,26 +30,34 @@ class TagPolicy
     /**
      * Determine whether the user can create models.
      */
-    // public function create(User $user): bool
-    // {
-    //     //
-    // }
+    public function create(User $user): bool
+    {
+        return $user->hasRole('superadmin') || $user->can('create tag');
+    }
 
     /**
      * Determine whether the user can update the model.
      */
-    // public function update(User $user, Tag $tag): bool
-    // {
-    //     //
-    // }
+    public function edit(User $user, Tag $tag): bool
+    {
+        if ($user->hasRole('superadmin') || $user->can('edit tag')) {
+            return  $user->hasRole('superadmin');
+        }
+
+        return false;
+    }
 
     /**
      * Determine whether the user can delete the model.
      */
-    // public function delete(User $user, Tag $tag): bool
-    // {
-    //     //
-    // }
+    public function delete(User $user, Tag $tag): bool
+    {
+        if ($user->hasRole('superadmin') || $user->can('delete tag')) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Determine whether the user can restore the model.
