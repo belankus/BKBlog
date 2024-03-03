@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             TagSchemeSeeder::class,
             TagSeeder::class,
             PostTagSeeder::class,
-            // CommentSeeder::class,
+            CommentSeeder::class,
         ]);
     }
 }
