@@ -44,9 +44,6 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         }
         return view('dashboard.index', ['posts' => $posts]);
     });
-    Route::get('users', function () {
-        return view('dashboard.users.index');
-    });
     Route::get('posts/checkSlug', [PostController::class, 'checkSlug']);
     Route::get('categories/checkSlug', [CategoryController::class, 'checkSlug']);
     Route::get('tags/checkSlug', [TagController::class, 'checkSlug']);
@@ -54,6 +51,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('tags', TagController::class);
+    Route::resource('users', \App\Http\Controllers\UserController::class);
 });
 
 

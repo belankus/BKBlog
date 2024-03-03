@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -12,7 +13,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('viewAny', User::class);
+        $users = User::with('roles.permissions', 'posts', 'comments')->get();
+        $roles = Role::with('permissions')->get();
+        // dd($users->find(1)->roles[0]->permissions);
+        return view('dashboard.users.index', [
+            'users' => $users,
+            'roles' => $roles
+        ]);
     }
 
     /**
