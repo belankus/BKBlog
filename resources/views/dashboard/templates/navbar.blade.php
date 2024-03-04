@@ -1,16 +1,12 @@
 <header class="antialiased">
-    <nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-white px-4 py-2.5 dark:bg-gray-800 lg:px-6">
+
+    <nav x-data="{ openUserMenu: false }" @click.away="openUserMenu = false"
+        class="fixed top-0 z-50 w-full border-b border-gray-200 bg-white px-4 py-2.5 dark:bg-gray-800 lg:px-6">
+
         <div class="flex flex-wrap items-center justify-between">
             <div class="flex items-center justify-start">
-                {{-- <button id="toggleSidebar" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
-                    aria-controls="default-sidebar"
-                    class="hidden p-2 mr-3 text-gray-600 rounded cursor-pointer lg:inline hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 16 12">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 1h14M1 6h14M1 11h7" />
-                    </svg>
-                </button> --}}
+
+                {{-- Desktop Menu --}}
                 <button id="toggleSidebar" aria-expanded="true" aria-controls="default-sidebar"
                     class="mr-3 hidden cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline">
                     <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -19,15 +15,8 @@
                             d="M1 1h14M1 6h14M1 11h7" />
                     </svg>
                 </button>
-                {{-- <button aria-expanded="true" aria-controls="sidebar"
-                    class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer lg:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    <svg class="w-[18px] h-[18px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M1 1h15M1 7h15M1 13h15" />
-                    </svg>
-                    <span class="sr-only">Toggle sidebar</span>
-                </button> --}}
+
+                {{-- Mobile Menu --}}
                 <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
                     aria-controls="default-sidebar" type="button"
                     class="mr-1 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 lg:hidden">
@@ -234,17 +223,17 @@
                         </div>
                     </a>
                 </div>
-
-                <button type="button"
+                <button type="button" @click="openUserMenu = !openUserMenu"
                     class="mx-3 flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 md:mr-0"
-                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
+                    id="user-menu-button">
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full"
                         src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
-                <div class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700"
-                    id="dropdown">
+                <div x-show="openUserMenu" @click="openUserMenu = false"
+                    class="absolute top-1/2 z-50 my-4 w-56 list-none divide-y divide-gray-100 rounded bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700"
+                    id="dropdown" style="display: none;">
                     <div class="px-4 py-3">
                         <span
                             class="block text-sm font-semibold text-gray-900 dark:text-white">{{ Auth::user()->name }}</span>
@@ -323,5 +312,34 @@
                 </div>
             </div>
         </div>
+
     </nav>
+
 </header>
+@if (session()->has('message'))
+    <div class="absolute top-10 z-[51] flex w-full justify-center">
+        <div id="alert-success-login"
+            class="fixed top-[70px] z-[10] mx-4 flex w-1/2 items-center rounded-lg bg-green-100 px-4 py-5 text-green-800 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg class="h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm font-medium">
+                {{ session('message') }}
+            </div>
+            <button type="button"
+                class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 p-1.5 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-success-login" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+@endif

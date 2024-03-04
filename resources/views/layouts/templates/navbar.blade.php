@@ -1,4 +1,12 @@
 <header id="navbar" x-data="{ openSidebar: false }" class="fixed inset-x-0 top-0 z-50 transition duration-500 ease-in-out">
+    @if (Auth::check() && App\Models\User::find(Auth::user()->id)->email_verified_at == null)
+        <div class="bg-yellow-200 px-4 py-2 text-yellow-500">
+            Please confirm your email address. Check spam folder if you don't see it in your inbox. Or <form
+                action="{{ route('verification.send') }}" method="post" class="inline">@csrf <button type="submit"
+                    class="inline border-0 font-bold hover:underline">Resend</button></form>
+            verification email.
+        </div>
+    @endif
     <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
             <a href="#" class="-m-1.5 p-1.5">
@@ -84,3 +92,58 @@
     </div>
 </header>
 <div id="pseudo-navbar" class="{{ Request::is('login') || Request::is('register') ? '' : 'mt-12 h-12' }} w-full"></div>
+
+@if (session()->has('message'))
+    <div class="absolute top-10 z-[51] flex w-full justify-center">
+        <div id="alert-success-login"
+            class="fixed top-[70px] z-[10] mx-4 flex w-1/2 items-center rounded-lg bg-green-100 px-4 py-5 text-green-800 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg class="h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm font-medium">
+                {{ session('message') }}
+            </div>
+            <button type="button"
+                class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 p-1.5 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-success-login" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+@endif
+@if (session()->has('success'))
+    <div class="absolute top-10 z-[51] flex w-full justify-center">
+        <div id="alert-success-login"
+            class="fixed top-[70px] z-[10] mx-4 flex w-1/2 items-center rounded-lg bg-green-100 px-4 py-5 text-green-800 dark:bg-gray-800 dark:text-green-400"
+            role="alert">
+            <svg class="h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm font-medium">
+                {{ session('success') }}
+            </div>
+            <button type="button"
+                class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 p-1.5 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                data-dismiss-target="#alert-success-login" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                </svg>
+            </button>
+        </div>
+    </div>
+@endif
