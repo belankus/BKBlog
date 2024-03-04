@@ -101,7 +101,7 @@
 
                             <td class="flex items-center justify-end px-4 py-3" x-data="{ open: false }"
                                 @click.away="open = false">
-                                <button x-bind:id="user.id + 'btn'" @click="open = !open"
+                                <button id="{{ $user->id . 'btn' }}" @click="open = !open"
                                     class="inline-flex items-center rounded-lg p-0.5 text-center text-sm font-medium text-gray-500 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:text-gray-100"
                                     type="button">
                                     <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
@@ -110,8 +110,7 @@
                                             d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                                     </svg>
                                 </button>
-                                <div x-bind:id="'user' + {{ $user->id }}" x-show="open"
-                                    @click.outside="open = false"
+                                <div id="{{ 'user' . $user->id }}" x-show="open" @click.outside="open = false"
                                     class="absolute z-10 w-44 translate-y-1/2 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
                                     style="display:none;">
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"

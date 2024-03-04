@@ -11,6 +11,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
@@ -90,7 +91,18 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     // Fire the Verified event to trigger the event listener
     event(new Verified($user));
 
-    session()->flash('success', 'Verification successful! Please login.');
+    session()->flash('success', 'Verification successful! Please relogin.');
 
     return redirect('/login');
 })->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    /** @var MustVerifyEmail $user */
+    $user = auth()->user();
+    if ($user instanceof MustVerifyEmail && !$user->hasVerifiedEmail()) {
+        $user->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    }
+
+    return back();
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
