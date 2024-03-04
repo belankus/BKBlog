@@ -72,7 +72,7 @@
                         <form action="/login" method="post">
                             @csrf
                             <div class="group relative z-0 mb-5 w-full">
-                                <input type="email" name="email"
+                                <input type="email" name="email" autocomplete="off"
                                     class="@error('email') invalid:border-pink-500 invalid:text-pink-600
                                     focus:invalid:border-pink-500 focus:invalid:ring-pink-500 @enderror peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
                                     id="email" placeholder=" " autofocus required value="{{ old('email') }}">
@@ -85,13 +85,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="group relative z-0 mb-5 w-full">
-                                <input type="password" name="password"
-                                    class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-                                    id="password" placeholder=" " required>
-                                <label for="password"
-                                    class="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-blue-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4 dark:text-gray-400 peer-focus:dark:text-blue-500">Password</label>
-                            </div>
+                            <livewire:form.password />
 
 
                             <button

@@ -123,6 +123,7 @@
 
         headerObserver.observe(header)
     </script>
+    @livewireScripts
 </body>
 
 </html>
