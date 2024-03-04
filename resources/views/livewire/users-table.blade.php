@@ -38,11 +38,11 @@
 
                 </div>
             </div>
-            <div class="w-full text-center">
+            {{-- <div class="w-full text-center">
                 <span x-show="searchQuery !== ''">Showing <span x-text="totalResults"></span> results <span
                         x-show="searchQuery !== ''">for "<span x-text="searchQuery"></span>"</span></span><span
                     x-show="searchQuery !== ''"></span>
-            </div>
+            </div> --}}
             <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -50,7 +50,7 @@
                         <th scope="col" class="px-4 py-3">Role</th>
                         <th scope="col" class="px-4 py-3">Name</th>
                         <th scope="col" class="px-4 py-3">Status</th>
-                        <th scope="col" class="px-4 py-3">Permissions</th>
+                        <th scope="col" class="px-4 py-3">Last Activity</th>
                         <th scope="col" class="px-4 py-3">Posts</th>
                         <th scope="col" class="px-4 py-3">Comments</th>
                         <th scope="col" class="px-4 py-3">
@@ -71,36 +71,25 @@
                                 class="w-26 truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white">
                                 {{ $user->name }}</th>
                             <td class="w-10 px-4 py-3">
-                                @if ($user->activity)
-                                    @if ($user->activity->is_online)
-                                        <div class="flex items-center">
-                                            <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
-                                            Online
-                                        </div>
-                                    @else
-                                        <div class="flex items-center">
-                                            <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
-                                            Offline
-                                        </div>
-                                    @endif
+                                @if (Cache::has('user_' . $user->id . '_online'))
+                                    <div class="flex items-center">
+                                        <div class="me-2 h-2.5 w-2.5 rounded-full bg-green-500"></div>
+                                        Online
+                                    </div>
                                 @else
                                     <div class="flex items-center">
                                         <div class="me-2 h-2.5 w-2.5 rounded-full bg-red-500"></div>
                                         Offline
                                     </div>
                                 @endif
+
                             </td>
                             <td class="w-26 px-4 py-3">
-                                <ul>
-                                    <template
-                                        x-if="user.roles.length > 0 && (user.roles[0].name === 'user' || user.roles[0].name === 'visitor')">
-                                        <li>Basic</li>
-                                    </template>
-                                    <template x-if="user.roles.length > 0 && user.roles[0].name === 'superadmin' ">
-                                        <li>Full Previlege</li>
-                                    </template>
-
-                                </ul>
+                                @if ($user->activity)
+                                    {{ Carbon\Carbon::parse($user->activity->last_activity)->diffForHumans() }}
+                                @else
+                                    User has no activity yet
+                                @endif
                             </td>
                             <td class="truncate whitespace-nowrap px-4 py-3">
                                 <span>{{ $user->posts->count() }}</span>
@@ -123,7 +112,8 @@
                                 </button>
                                 <div x-bind:id="'user' + {{ $user->id }}" x-show="open"
                                     @click.outside="open = false"
-                                    class="absolute z-10 w-44 translate-y-1/2 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700">
+                                    class="absolute z-10 w-44 translate-y-1/2 divide-y divide-gray-100 rounded bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+                                    style="display:none;">
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="apple-imac-27-dropdown-button">
                                         <li>

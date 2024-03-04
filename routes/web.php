@@ -3,6 +3,7 @@
 use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AuthController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 /*
@@ -66,3 +68,29 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
 Route::post('/register', [AuthController::class, 'store']);
+
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    // Get the authenticated user
+    $user = $request->user();
+
+    // Unassign the previous role
+    if ($user->hasRole('visitor')) {
+        $user->removeRole('visitor');
+    }
+
+    // Assign the 'user' role upon successful email verification
+    $user->assignRole('user');
+
+    // Fire the Verified event to trigger the event listener
+    event(new Verified($user));
+
+    session()->flash('success', 'Verification successful! Please login.');
+
+    return redirect('/login');
+})->middleware(['auth', 'signed'])->name('verification.verify');

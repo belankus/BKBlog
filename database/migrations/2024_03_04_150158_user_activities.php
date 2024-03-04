@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('user_activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->timestamp('last_activity_at')->nullable();
-            $table->boolean('is_online')->default(false);
+            $table->timestamp('last_activity')->nullable();
             $table->timestamps();
         });
     }

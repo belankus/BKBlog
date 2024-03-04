@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -23,12 +25,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = Auth::user();
-            $user->activity()->updateOrCreate(
-                ['user_id' => $user->id],
-                ['last_activity_at' => now(), 'is_online' => true]
-            );
-
             return redirect()->intended('/dashboard'); // Replace '/dashboard' with the actual URL of your dashboard route
         }
 
@@ -37,8 +33,10 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $user = Auth::user();
-        $user->activity()->update(['is_online' => false]);
+        $userId = auth()->id();
+        if ($userId) {
+            Cache::forget('user_' . $userId . '_online');
+        }
 
 
 
@@ -73,7 +71,9 @@ class AuthController extends Controller
 
         $user->assignRole('visitor');
 
-        session()->flash('success', 'Registration successful! Please Login');
+        event(new Registered($user));
+
+        session()->flash('success', 'Registration successful! Please check your email for verification.');
 
         return redirect('/login');
     }

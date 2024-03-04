@@ -19,9 +19,14 @@ class TagController extends Controller
         if (Auth::user()->hasRole('superadmin')) {
             $tags = Tag::with('posts', 'tagScheme')->get();
         } else {
-            $tags = Tag::whereHas('posts', function ($query) {
+            $tags = Tag::with(['posts' => function ($query) {
                 $query->where('user_id', Auth::user()->id);
-            })->get();
+            }])
+                ->whereHas('posts', function ($query) {
+                    $query->where('user_id', Auth::user()->id);
+                })
+                ->with('tagScheme')
+                ->get();
         }
 
         return view('dashboard.tags.index', ['tags' => $tags]);
