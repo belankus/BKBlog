@@ -121,7 +121,7 @@
         }
     }
 </script>
-
+@livewireScripts
 
 </body>
 

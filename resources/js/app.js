@@ -1,5 +1,4 @@
 import "./bootstrap";
-import Alpine from "alpinejs";
 import "flowbite";
 import flatpickr from "flatpickr";
 import EditorJS from "@editorjs/editorjs";
@@ -9,9 +8,7 @@ import RawTool from "@editorjs/raw";
 import Paragraph from "editorjs-paragraph-with-alignment";
 import ImageTool from "@editorjs/image";
 
-window.Alpine = Alpine;
 window.flatpickr = flatpickr;
-Alpine.start();
 
 window.EditorJS = EditorJS;
 window.EJModules = {

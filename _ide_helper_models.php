@@ -269,6 +269,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\UserActivity|null $activity
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -296,5 +297,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserActivity
+ *
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity query()
+ */
+	class UserActivity extends \Eloquent {}
 }
 

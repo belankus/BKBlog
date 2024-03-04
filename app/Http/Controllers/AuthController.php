@@ -23,6 +23,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            $user = Auth::user();
+            $user->activity()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['last_activity_at' => now(), 'is_online' => true]
+            );
+
             return redirect()->intended('/dashboard'); // Replace '/dashboard' with the actual URL of your dashboard route
         }
 
@@ -31,6 +37,11 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        $user = Auth::user();
+        $user->activity()->update(['is_online' => false]);
+
+
+
         Auth::logout();
 
         $request->session()->invalidate();
