@@ -272,6 +272,8 @@ namespace App\Models{
  * @property-read \App\Models\UserActivity|null $activity
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Post> $posts
@@ -296,17 +298,27 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
 
 namespace App\Models{
 /**
  * App\Models\UserActivity
  *
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $last_activity
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereLastActivity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereUserId($value)
  */
 	class UserActivity extends \Eloquent {}
 }
