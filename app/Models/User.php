@@ -43,4 +43,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+
+    public function activity()
+    {
+        return $this->hasOne(UserActivity::class);
+    }
 }
