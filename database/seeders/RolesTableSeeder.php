@@ -61,7 +61,6 @@ class RolesTableSeeder extends Seeder
             $createPostPermission,
             $editPostPermission,
             $deletePostPermission,
-            $createUserPermission,
             $editUserPermission,
             $deleteUserPermission,
             $createCommentPermission,
@@ -71,7 +70,7 @@ class RolesTableSeeder extends Seeder
             $viewTagPermission
         ]);
         $visitorRole->givePermissionTo([
-            $createCommentPermission, $editCommentPermission, $deleteCommentPermission, $createUserPermission,
+            $createCommentPermission, $editCommentPermission, $deleteCommentPermission,
             $editUserPermission,
             $deleteUserPermission,
         ]);

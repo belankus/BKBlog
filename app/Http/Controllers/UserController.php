@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -28,7 +29,16 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('create', User::class);
+
+        $users = User::with('roles', 'permissions')->get();
+        $roles = Role::with('permissions')->get();
+        $permissions = Permission::all();
+        return view('dashboard.users.create', [
+            'users' => $users,
+            'roles' => $roles,
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -36,7 +46,24 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->authorize('create', User::class);
+
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:100',
+            'username' => 'required|min:3|max:100|unique:users,username|alpha_dash',
+            'email' => 'required|email:rfc,dns|unique:users,email',
+            'password' => 'required',
+        ]);
+
+        $user = User::create($validatedData);
+        $user->assignRole(Role::find($request->role_id)->name);
+        if ($request->permission_id) {
+            foreach ($request->permission_id as $permission) {
+                $user->givePermissionTo(Permission::find($permission)->name);
+            }
+        }
+
+        return redirect('/dashboard/users')->with('success', 'User Created');
     }
 
     /**

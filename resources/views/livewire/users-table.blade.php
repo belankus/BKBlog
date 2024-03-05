@@ -48,6 +48,7 @@
                     <tr>
                         <th scope="col" class="px-4 py-3">No</th>
                         <th scope="col" class="px-4 py-3">Role</th>
+                        <th scope="col" class="px-4 py-3">Direct Permissions</th>
                         <th scope="col" class="px-4 py-3">Name</th>
                         <th scope="col" class="px-4 py-3">Status</th>
                         <th scope="col" class="px-4 py-3">Last Activity</th>
@@ -66,6 +67,9 @@
                             </td>
                             <td class="w-10 px-4 py-3">
                                 <span>{{ $user->roles->first()->name }}</span>
+                            </td>
+                            <td class="w-10 px-4 py-3">
+                                <span>{{ $user->permissions->pluck('name')->join(', ') }}</span>
                             </td>
                             <th scope="row"
                                 class="w-26 truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white">
@@ -116,13 +120,11 @@
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="apple-imac-27-dropdown-button">
                                         <li>
-                                            <a x-bind:href="'/blog/users/' + user
-                                                .slug"
-                                                target="_blank"
+                                            <a href="{{ '/blog/users/' . $user->username }}" target="_blank"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                         </li>
                                         <li>
-                                            <a x-bind:href="'/dashboard/users/' + user.slug + '/edit'"
+                                            <a href="{{ '/dashboard/users/' . $user->username . '/edit' }}"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                         </li>
                                     </ul>
