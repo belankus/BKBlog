@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -61,11 +62,16 @@ class AuthController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'username' => 'required|min:5|max:255|unique:users',
-            'email' => 'required|email:dns|unique:users',
-            'password' => 'required|min:5|max:255'
+            'name' => 'required|min:3|max:100',
+            'username' => 'required|min:3|max:100|unique:users,username',
+            'email' => 'required|email:rfc,dns|unique:users,email',
+            'password' => ['required', Password::min(6)->letters()->mixedCase()->numbers()]
         ]);
+
+        if ($request->has('password_confirmation')) {
+            $request->validate(['password_confirmation' => 'required|same:password']);
+        }
+
 
         $user = User::create($validatedData);
 
@@ -73,7 +79,7 @@ class AuthController extends Controller
 
         event(new Registered($user));
 
-        session()->flash('success', 'Registration successful! Please check your email for verification.');
+        session()->flash('successRegister', 'Registration successful! Please check your email for verification.');
 
         return redirect('/login');
     }
