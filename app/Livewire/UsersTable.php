@@ -12,7 +12,7 @@ class UsersTable extends Component
     {
 
         return view('livewire.users-table', [
-            'users' => \App\Models\User::with('roles', 'posts', 'comments', 'activity')->paginate(10)
+            'users' => \App\Models\User::with('roles', 'permissions', 'posts', 'comments', 'activity')->paginate(10)
         ]);
     }
 }

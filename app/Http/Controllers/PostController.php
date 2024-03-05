@@ -19,7 +19,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', Post::class);
+        $this->authorize('create', Post::class);
 
         if (Auth::user()->hasRole('superadmin')) {
 
