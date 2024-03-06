@@ -48,7 +48,7 @@
                     <tr>
                         <th scope="col" class="px-4 py-3">No</th>
                         <th scope="col" class="px-4 py-3">Role</th>
-                        <th scope="col" class="px-4 py-3">Direct Permissions</th>
+                        <th scope="col" class="px-4 py-3">Permissions</th>
                         <th scope="col" class="px-4 py-3">Name</th>
                         <th scope="col" class="px-4 py-3">Status</th>
                         <th scope="col" class="px-4 py-3">Last Activity</th>
@@ -66,10 +66,16 @@
                                 <span>{{ $loop->iteration }}</span>
                             </td>
                             <td class="w-10 px-4 py-3">
-                                <span>{{ $user->roles->first()->name }}</span>
+                                <span>{{ ucfirst($user->roles->first()->name) }}</span>
                             </td>
                             <td class="w-10 px-4 py-3">
-                                <span>{{ $user->permissions->pluck('name')->join(', ') }}</span>
+                                @if ($user->permissions->count() > 0)
+                                    <span>{{ $user->permissions->pluck('name')->join(', ') }}</span>
+                                @else
+                                    <div class="w-full text-center">
+                                        <span>-</span>
+                                    </div>
+                                @endif
                             </td>
                             <th scope="row"
                                 class="w-26 truncate whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white">
@@ -120,7 +126,7 @@
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                                         aria-labelledby="apple-imac-27-dropdown-button">
                                         <li>
-                                            <a href="{{ '/blog/users/' . $user->username }}" target="_blank"
+                                            <a href="{{ '/dashboard/users/' . $user->username }}" target="_blank"
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Show</a>
                                         </li>
                                         <li>
@@ -128,7 +134,25 @@
                                                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                         </li>
                                     </ul>
-
+                                    @if ($user->email_verified_at === null)
+                                        <div class="py-1">
+                                            <form action="{{ '/dashboard/users/' . $user->username . '/verify' }}"
+                                                method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-green-500 hover:text-white dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Verify</button>
+                                            </form>
+                                        </div>
+                                    @else
+                                        <div class="py-1">
+                                            <form action="{{ '/dashboard/users/' . $user->username . '/unverify' }}"
+                                                method="post">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-yellow-400 hover:text-white dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Unverify</button>
+                                            </form>
+                                        </div>
+                                    @endif
                                     <div class="py-1">
                                         <button
                                             @click="window.dispatchEvent(new CustomEvent('show-modal', { detail: { userData: {{ $user }} } }))"

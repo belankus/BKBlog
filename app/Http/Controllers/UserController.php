@@ -71,7 +71,14 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        $this->authorize('view', $user);
+
+        $posts = $user->posts->where('published', 1)->where('published_at', '<', now());
+
+        return view('dashboard.users.preview', [
+            'user' => $user,
+            'posts' => $posts
+        ]);
     }
 
     /**
@@ -96,5 +103,35 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function verify(string $username)
+    {
+        $this->authorize('verify', User::class);
+
+        $user = User::where('username', $username)->first();
+
+        if ($user) {
+            $user->email_verified_at = now();
+            $user->save();
+        } else {
+            abort(404);
+        }
+
+        return redirect('/dashboard/users')->with('success', 'User Verified');
+    }
+    public function unverify(string $username)
+    {
+        $this->authorize('verify', User::class);
+
+        $user = User::where('username', $username)->first();
+
+        if ($user) {
+            $user->update(['email_verified_at' => null]);
+        } else {
+            abort(404);
+        }
+
+        return redirect('/dashboard/users')->with('success', 'User Unverified');
     }
 }
