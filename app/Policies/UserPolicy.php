@@ -21,10 +21,14 @@ class UserPolicy
     /**
      * Determine whether the user can view the model.
      */
-    // public function view(User $user, User $model): bool
-    // {
-    //     //
-    // }
+    public function view(User $user, User $model): bool
+    {
+        if ($user->hasRole('superadmin') || ($user->can('edit user') && $user->id == $model->id)) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Determine whether the user can create models.
@@ -65,4 +69,12 @@ class UserPolicy
     // {
     //     //
     // }
+
+    /**
+     * Determine whether the user can create models.
+     */
+    public function verify(User $user): bool
+    {
+        return $user->hasRole('superadmin');
+    }
 }
