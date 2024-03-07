@@ -21,6 +21,7 @@ class PostSeeder extends Seeder
             'user_id' => 6,
             'category_id' => 4,
             'published' => 1,
+            'published_at' => now(),
             'title' => 'Maju Bersama Dev Handal',
             'slug' => 'maju-bersama-dev-handal',
             'content' => '{

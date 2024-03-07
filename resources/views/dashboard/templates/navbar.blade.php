@@ -242,7 +242,7 @@
                     </div>
                     <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="dropdown">
                         <li>
-                            <a href="/dashboard/users/{{ Auth::user()->username }}"
+                            <a wire:navigate href="/dashboard/users/{{ Auth::user()->username }}"
                                 class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">My
                                 profile</a>
                         </li>

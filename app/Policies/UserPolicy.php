@@ -49,10 +49,14 @@ class UserPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    // public function delete(User $user, User $model): bool
-    // {
-    //     //
-    // }
+    public function delete(User $user, User $model): bool
+    {
+        if ($user->hasRole('superadmin') || ($user->id == $model->id && $user->can('delete user'))) {
+
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Determine whether the user can restore the model.

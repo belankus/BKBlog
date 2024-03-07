@@ -141,7 +141,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $this->authorize('delete', $user);
+
+        User::destroy($user->id);
+
+        return redirect('/dashboard/users')->with('success', 'User has been deleted!');
     }
 
     public function verify(string $username)

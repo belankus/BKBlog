@@ -69,7 +69,7 @@
 
 
 
-    <div x-data="{ showModal: false, userData: { posts: '' } }" x-show="showModal"
+    <div x-data="{ showModal: false, userData: { posts: '', comments: '' } }" x-show="showModal"
         x-on:show-modal.window="showModal = true; userData = $event.detail.userData" style="display: none;">
         <div
             class="fixed inset-0 z-50 flex h-screen max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-black bg-opacity-50">
@@ -90,35 +90,37 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                         </svg>
-                        <div x-show="userData.slug === 'communal'">
+                        <div x-show="userData.username === `{{ Auth::user()->username }}`">
                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Error !</h3>
-                            <p class="mb-3 rounded bg-red-400 p-2 text-red-700">You're attemp to delete <b>Communal</b>
-                                user which is default user.</p>
+                            <p class="mb-3 rounded bg-red-400 p-2 text-red-700">You're attemp to delete <b>Your Own
+                                    Account</b>
+                                mate !</p>
                             <button type="button" @click="showModal = false"
                                 class="ms-3 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Cancel</button>
                         </div>
-                        <div x-show="userData.slug !== 'communal'">
+                        <div x-show="userData.username !== `{{ Auth::user()->username }}`">
                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want
                                 to
                                 delete
                                 this user?</h3>
-                            <p class="mb-3 rounded bg-red-400 p-2 text-red-700">Related Post to this user, will not
+                            <p class="mb-3 rounded bg-red-400 p-2 text-red-700">Related Posts and Comments to this user,
+                                will
                                 be
-                                deleted. If there is no post related to this user, it'll changed to <b>Communal</b> user.
+                                deleted, and can't be recovered.
                             </p>
                             <div
                                 class="mb-7 grid w-full grid-cols-[max-content_max-content_1fr] grid-rows-[repeat(3,max-content)] text-left font-sans text-slate-500">
-                                <p class="px-5">ID</p>
-                                <p>:</p>
-                                <p class="indent-2" x-text="userData.id"></p>
-                                <p class="px-5">Contain Post</p>
-                                <p>:</p>
-                                <p class="indent-2" x-text="userData.posts.length"></p>
-                                <p class="px-5">Tag Name</p>
+                                <p class="px-5">Name</p>
                                 <p>:</p>
                                 <p class="indent-2" x-text="userData.name"></p>
+                                <p class="px-5">Posts</p>
+                                <p>:</p>
+                                <p class="indent-2" x-text="userData.posts.length"></p>
+                                <p class="px-5">Comments</p>
+                                <p>:</p>
+                                <p class="indent-2" x-text="userData.comments.length"></p>
                             </div>
-                            <form x-bind:action="'/dashboard/users/' + userData.slug" method="post" class="inline">
+                            <form x-bind:action="'/dashboard/users/' + userData.username" method="post" class="inline">
                                 @method('delete')
                                 @csrf
                                 <button type="submit"
