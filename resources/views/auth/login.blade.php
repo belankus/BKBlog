@@ -12,7 +12,7 @@
             <div class="flex justify-center">
                 <div class="max-w-[1/2] flex-none lg:w-1/3">
 
-                    @if (session()->has('successRegister'))
+                    @if (session()->has('successRegister') || session()->has('loginAgain'))
                         <div id="alert-success-login"
                             class="mb-4 flex items-center rounded-lg bg-green-50 p-4 text-green-800 dark:bg-gray-800 dark:text-green-400"
                             role="alert">
@@ -23,7 +23,11 @@
                             </svg>
                             <span class="sr-only">Info</span>
                             <div class="ms-3 text-sm font-medium">
-                                {{ session('successRegister') }}
+                                @if (session()->has('successRegister'))
+                                    {{ session('successRegister') }}
+                                @elseif(session()->has('loginAgain'))
+                                    {{ session('loginAgain') }}
+                                @endif
                             </div>
                             <button type="button"
                                 class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 p-1.5 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
@@ -90,9 +94,9 @@
                                     x-bind:type="showPassword ? 'text' : 'password'" name="password"
                                     class="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
                                     id="password" placeholder=" " required>
-                                <button title="Show Password"
+                                <button type="button" title="Show Password"
                                     x-on:click="showPassword = !showPassword; $nextTick(() => $refs.passwordInput.focus())"
-                                    @click.prevent class="absolute right-3 top-1/2 -translate-y-1/2">
+                                    @click.prevent tabindex="-1" class="absolute right-3 top-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="h-6 w-6"
                                         :class="{ 'text-blue-500': showPassword, 'text-gray-300': !showPassword }">
@@ -109,7 +113,7 @@
 
                             <button
                                 class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
-                                type="submit">Log in</button>
+                                type="submit" tabindex="0">Log in</button>
                         </form>
                         <small class="mt-3 block text-center text-gray-600">Not registered? <a href="/register"
                                 class="text-blue-500 underline hover:text-blue-700 hover:no-underline">Register
