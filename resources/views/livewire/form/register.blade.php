@@ -4,7 +4,7 @@
         <input type="text" name="name" wire:model.live="name" autocomplete="off"
             class="@error('name') invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500 @enderror peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0 dark:border-gray-600 dark:text-white dark:focus:border-blue-500"
-            id="name" placeholder=" " required value="{{ old('name') }}">
+            id="name" placeholder=" " required autofocus value="{{ old('name') }}">
         @if ($name && !$errors->has('name'))
             <label for="name" title="Name is Valid"" @click.prevent
                 class="absolute -right-3 top-1/2 -translate-y-1/2 translate-x-full">
@@ -85,9 +85,9 @@
                 </svg>
             </label>
         @endif
-        <button title="Show Password"
+        <button type="button" title="Show Password"
             x-on:click="showPassword = !showPassword; $nextTick(() => $refs.passwordInput.focus())" @click.prevent
-            class="absolute right-3 top-1/4 -translate-y-1/2">
+            class="absolute right-3 top-1/4 -translate-y-1/2" tabindex="-1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"
                 :class="{ 'text-blue-500': showPassword, 'text-gray-300': !showPassword }">
                 <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -129,9 +129,10 @@
                 </svg>
             </label>
         @endif
-        <button title="Show Password"
+        <button type="button" title="Show Password"
             x-on:click="showPassword = !showPassword; $nextTick(() => $refs.passwordInput.focus())" @click.prevent
-            class="{{ $errors->has('password_confirmation') ? 'top-1/4' : 'top-1/2' }} absolute right-3 -translate-y-1/2">
+            class="{{ $errors->has('password_confirmation') ? 'top-1/4' : 'top-1/2' }} absolute right-3 -translate-y-1/2"
+            tabindex="-1">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6"
                 :class="{ 'text-blue-500': showPassword, 'text-gray-300': !showPassword }">
                 <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -152,5 +153,5 @@
     </div>
     <button
         class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:w-auto"
-        type="submit">Register</button>
+        type="submit" tabindex="0">Register</button>
 </form>

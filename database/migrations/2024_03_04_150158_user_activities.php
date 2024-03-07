@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->timestamp('last_activity')->nullable();
+            $table->boolean('is_logged_out')->default(false);
             $table->timestamps();
         });
     }

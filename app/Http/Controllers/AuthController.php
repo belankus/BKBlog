@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+            Auth::user()->activity()->update(['is_logged_out' => 0]);
             return redirect()->intended('/dashboard'); // Replace '/dashboard' with the actual URL of your dashboard route
         }
 

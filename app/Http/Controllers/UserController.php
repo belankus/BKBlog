@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;
 use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -86,7 +88,17 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $this->authorize('edit', $user);
+
+        $users = User::with('roles', 'permissions')->get();
+        $roles = Role::with('permissions')->get();
+        $permissions = Permission::all();
+        return view('dashboard.users.edit', [
+            'user' => $user,
+            'users' => $users,
+            'roles' => $roles,
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -94,7 +106,34 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $this->authorize('edit', $user);
+
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:100',
+            'username' => [Rule::requiredIf($user->username !== $request->username), Rule::unique('users')->ignore($user->username, 'username'), 'min:3', 'max:100', 'alpha_dash'],
+            'email' => [Rule::requiredIf($user->email !== $request->email), Rule::unique('users')->ignore($user->email, 'email'), 'email:rfc,dns'],
+            'password_confirmation' => 'required_with:password|same:password',
+        ]);
+
+        if ($request->password) {
+            $user->activity()->update(['is_logged_out' => 1]);
+            $validatedData['password'] = bcrypt($request->password);
+        }
+
+        $user->update($validatedData);
+        if ($user->roles->first()->id !== $request->role_id) {
+            $user->removeRole($user->roles->first()->name);
+            $user->assignRole(Role::find($request->role_id)->name);
+        }
+
+        $user->revokePermissionTo($user->permissions->pluck('name')->toArray());
+        if ($request->permission_id) {
+            foreach ($request->permission_id as $permission) {
+                $user->givePermissionTo(Permission::find($permission)->name);
+            }
+        }
+
+        return redirect('/dashboard/users')->with('success', 'User Updated');
     }
 
     /**

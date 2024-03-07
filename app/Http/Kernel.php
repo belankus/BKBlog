@@ -38,6 +38,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\ForceHttps::class,
             \App\Http\Middleware\UserActivity::class,
+            \App\Http\Middleware\LogoutUser::class
         ],
 
         'api' => [
