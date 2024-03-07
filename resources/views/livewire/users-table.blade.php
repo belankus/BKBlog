@@ -1,7 +1,7 @@
 <div class="mb-10 mt-4 pb-20">
     <!-- Start coding here -->
     {{-- {{ $categories->values()->push('All')->sort()->values() }} --}}
-    <div class="relative overflow-hidden bg-white pb-20 shadow-md dark:bg-gray-800 sm:rounded-lg">
+    <div class="relative overflow-hidden bg-white pb-32 shadow-md dark:bg-gray-800 sm:rounded-lg">
 
         <div class="overflow-x-auto">
             <div class="flex flex-col items-center justify-between space-y-3 p-4 md:flex-row md:space-x-4 md:space-y-0">

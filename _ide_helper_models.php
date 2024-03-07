@@ -272,6 +272,7 @@ namespace App\Models{
  * @property-read \App\Models\UserActivity|null $activity
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
+ * @property-read \App\Models\UserDetail|null $details
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
@@ -323,5 +324,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereUserId($value)
  */
 	class UserActivity extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\UserDetail
+ *
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|UserDetail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserDetail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserDetail query()
+ */
+	class UserDetail extends \Eloquent {}
 }
 

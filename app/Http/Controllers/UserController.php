@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Permission;
+use App\Models\UserDetail;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
@@ -76,10 +77,11 @@ class UserController extends Controller
         $this->authorize('view', $user);
 
         $posts = $user->posts->where('published', 1)->where('published_at', '<', now());
-
+        $details = UserDetail::where('user_id', $user->id)->first();
         return view('dashboard.users.preview', [
             'user' => $user,
-            'posts' => $posts
+            'posts' => $posts,
+            'details' => $details
         ]);
     }
 

@@ -122,7 +122,6 @@
     }
 </script>
 
-
 @livewireScripts
 
 </body>

@@ -1,11 +1,41 @@
 @extends('dashboard.templates.main')
 
 @section('content')
+    @if (session()->has('successUpdate'))
+        <div x-data="{ show: true }" x-show="show" x-effect="setTimeout(() => show = false, 3000)"
+            class="fixed left-0 top-[70px] z-[10] flex w-full justify-center">
+            <div id="alert-success-update"
+                class="mx-4 flex w-1/2 items-center rounded-lg bg-green-100 px-4 py-5 text-green-800 dark:bg-gray-800 dark:text-green-400">
+                <svg class="h-4 w-4 flex-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('successUpdate') }}
+                </div>
+                <button type="button" @click="show = false"
+                    class="-mx-1.5 -my-1.5 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-green-50 p-1.5 text-green-500 hover:bg-green-200 focus:ring-2 focus:ring-green-400 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
+                    aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
     <section class="mb-10 px-4">
         <div class="bg-white p-6 sm:rounded-lg">
             {{-- Header section --}}
-            <section class="flex items-center justify-between">
+            <section class="flex items-center gap-4" x-data="{ showEdit: false }" @mouseenter="showEdit = true"
+                @mouseleave="showEdit = false">
                 <div class='flex items-center gap-4'>
+                    {{-- User Profile Image --}}
                     <div class="relative h-32 w-32 rounded-full border-4 border-white bg-cover shadow-lg"
                         style="background-image: url('{{ env('APP_URL') }}/img/bellawan.jpg')">
                         {{-- Verified Badge --}}
@@ -19,7 +49,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                                 {{-- Tooltip badge --}}
-                                <div x-show="showTooltip"
+                                <div x-show="showTooltip" x-cloak
                                     class="absolute left-1/2 top-full w-fit -translate-x-1/2 transform whitespace-nowrap rounded bg-black px-2 py-1 text-sm text-white transition-all duration-300"
                                     style="display:none;">
                                     User Verified
@@ -27,6 +57,8 @@
                             </div>
                         @endif
                     </div>
+
+                    {{-- User Name, status online and Tagline --}}
                     <div class="relative translate-y-2">
                         <h2 class="flex items-center gap-3 text-3xl font-bold text-gray-700">{{ $user->name }}
                             <span>
@@ -41,25 +73,85 @@
                                 @endif
                             </span>
                         </h2>
-                        <p class="text-gray-500">{{ $user->email }}</p>
+                        <p class="text-gray-500">
+                            {{ $details ? $details->tagline : 'No Tagline' }}</p>
                     </div>
                 </div>
-                <div>
-                    <button class="relative translate-y-2 rounded-lg bg-blue-500 px-3 py-1.5 text-white hover:bg-blue-600">
-                        Follow
-                    </button>
-                </div>
+
+                {{-- Edit Button --}}
+                @if (Request::is('dashboard/users/*'))
+                    <div>
+                        <button
+                            @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }} } }))"
+                            x-show="showEdit" x-cloak class="relative text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
+                                <path
+                                    d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                <path
+                                    d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                            </svg>
+
+                        </button>
+                    </div>
+                @else
+                    <div>
+                        <button
+                            class="relative translate-y-2 rounded-lg bg-blue-500 px-3 py-1.5 text-white hover:bg-blue-600">
+                            Follow
+                        </button>
+                    </div>
+                @endif
             </section>
+
             {{-- Profile section --}}
-            <section class="mt-20 grid grid-cols-[1.5fr_1fr] gap-8">
+            <section class="mt-20 flex flex-col gap-4 lg:grid lg:grid-cols-[1.5fr_1fr] lg:gap-8">
+
                 {{-- Left Section --}}
                 <div class="bg-gray-50 p-6 sm:rounded-md">
-                    <div class="border-b pb-6">
-                        <h3 class="mb-2 text-xl font-bold text-gray-700">Description</h3>
+                    <div class="border-b pb-6" x-data="{ showEdit: false }" @mouseenter="showEdit = true"
+                        @mouseleave="showEdit = false">
+                        <div class="flex items-center gap-2">
+                            <h3 class="mb-2 text-xl font-bold text-gray-700">Description</h3>
+
+                            {{-- Edit Button --}}
+                            @if (Request::is('dashboard/users/*'))
+                                <div class="flex items-center">
+                                    <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="h-6 w-6">
+                                            <path
+                                                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                            <path
+                                                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                        </svg>
+
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                         <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                     </div>
-                    <div class="mt-6 pb-6">
-                        <h3 class="mb-2 text-xl font-bold text-gray-700">About Me</h3>
+                    <div class="mt-6 pb-6" x-data="{ showEdit: false }" @mouseenter="showEdit = true"
+                        @mouseleave="showEdit = false">
+                        <div class="flex items-center gap-2">
+                            <h3 class="mb-2 text-xl font-bold text-gray-700">About Me</h3>
+
+                            {{-- Edit Button --}}
+                            @if (Request::is('dashboard/users/*'))
+                                <div class="flex items-center">
+                                    <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                            class="h-6 w-6">
+                                            <path
+                                                d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                            <path
+                                                d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                        </svg>
+
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
                         <div x-data="{ expanded: false }">
                             <p class="line-clamp-4 text-gray-500" x-show="!expanded">
                                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, neque aperiam id quos earum
@@ -95,21 +187,40 @@
                 </div>
 
                 {{-- Right section --}}
-                <div class="bg-gray-50 p-6 sm:rounded-md">
-                    <div class="mb-6">
-                        <h3 class="mb-2 font-bold text-gray-500">Location</h3>
-                        <div class="flex items-center gap-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512">
-                                <mask id="a">
-                                    <circle cx="256" cy="256" r="256" fill="#fff" />
-                                </mask>
-                                <g mask="url(#a)">
-                                    <path fill="#ffffff" d="m0 256 249.6-41.3L512 256v256H0z" />
-                                    <path fill="#ff0000" d="M0 0h512v256H0z" />
-                                </g>
-                            </svg>
-                            <span class="font-bold text-gray-700">Jakarta, Indonesia</span>
+                <div class="bg-gray-50 p-6 sm:rounded-md" x-data="{ showEdit: false }" @mouseenter="showEdit = true"
+                    @mouseleave="showEdit = false">
+                    <div class="flex justify-between">
+                        <div class="mb-6">
+                            <h3 class="mb-2 font-bold text-gray-500">Location</h3>
+                            <div class="flex items-center gap-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 512 512">
+                                    <mask id="a">
+                                        <circle cx="256" cy="256" r="256" fill="#fff" />
+                                    </mask>
+                                    <g mask="url(#a)">
+                                        <path fill="#ffffff" d="m0 256 249.6-41.3L512 256v256H0z" />
+                                        <path fill="#ff0000" d="M0 0h512v256H0z" />
+                                    </g>
+                                </svg>
+                                <span class="font-bold text-gray-700">Jakarta, Indonesia</span>
+                            </div>
                         </div>
+
+                        {{-- Edit Button --}}
+                        @if (Request::is('dashboard/users/*'))
+                            <div class="flex items-center">
+                                <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                        class="h-6 w-6">
+                                        <path
+                                            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                        <path
+                                            d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                    </svg>
+
+                                </button>
+                            </div>
+                        @endif
                     </div>
                     <div class="mb-6">
                         <h3 class="font-bold text-gray-500">Website</h3>
@@ -139,6 +250,7 @@
                     </div>
                 </div>
             </section>
+
             {{-- Post section --}}
             <section>
                 <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Posts</h2>
@@ -151,11 +263,13 @@
                                     <div class="group relative w-full">
                                         @if ($post->image)
                                             <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}">
-                                                <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}"
+                                                <img src="{{ asset('storage/' . $post->image) }}"
+                                                    alt="{{ $post->title }}"
                                                     class="ease h-[200px] w-full object-cover object-center transition duration-500 group-hover:brightness-[85%]">
                                             </a>
                                         @else
-                                            <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}">
+                                            <a
+                                                href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}">
                                                 <img src="https://source.unsplash.com/300x200?category={{ $post->category->name }}"
                                                     alt="Image"
                                                     class="ease h-[200px] w-full object-cover object-center transition duration-500 group-hover:brightness-[85%]">
@@ -230,4 +344,6 @@
         </section>
     </div>
 </section>
+
+<livewire:user.modal-header :user="$user" :tagline="$details->tagline" :name="$user->name" />
 @endsection
