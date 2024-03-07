@@ -34,33 +34,7 @@
         {{-- @include('dashboard.templates.stats') --}}
         <div class="mt-4 rounded-md bg-white p-6 shadow">
             <h1 class="text-2xl font-bold text-gray-400">All Users</h1>
-            {{-- <div x-data="{ roles: {{ $roles }}, showPermissions: false }">
-                <button @click="showPermissions = !showPermissions"
-                    class="mb-5 mt-10 flex items-center justify-center rounded-lg bg-primary-700 px-4 py-2 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    <svg class="mr-3 h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                        viewBox="0 0 24 24">
-                        <path fill-rule="evenodd"
-                            d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm9-3a1.5 1.5 0 0 1 2.5 1.1 1.4 1.4 0 0 1-1.5 1.5 1 1 0 0 0-1 1V14a1 1 0 1 0 2 0v-.5a3.4 3.4 0 0 0 2.5-3.3 3.5 3.5 0 0 0-7-.3 1 1 0 0 0 2 .1c0-.4.2-.7.5-1Zm1 7a1 1 0 1 0 0 2 1 1 0 1 0 0-2Z"
-                            clip-rule="evenodd" />
-                    </svg>
 
-                    Permissions</button>
-                <div class="rounded bg-green-300 p-4 text-green-700" x-show="showPermissions">
-                    User Basic Permissions
-                    <ul class="flex gap-10">
-                        <template x-for="role in roles">
-                            <li class="flex flex-col">
-                                <h2 x-text="role.name.charAt(0).toUpperCase() + role.name.slice(1)"></h2>
-                                <ul>
-                                    <template x-for="permission in role.permissions">
-                                        <li x-text="permission.name"></li>
-                                    </template>
-                                </ul>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
-            </div> --}}
         </div>
         <livewire:users-table />
     </div>

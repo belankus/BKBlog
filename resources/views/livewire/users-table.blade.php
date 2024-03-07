@@ -17,8 +17,8 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <input x-model="searchQuery" type="text" x-on:input="currentPage=1" autocomplete="off"
-                                id="simple-search"
+                            <input wire:model.live="searchQuery" type="text" x-on:input="currentPage=1"
+                                autocomplete="off" id="simple-search"
                                 class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 pl-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                                 placeholder="Search" required="">
                         </div>
@@ -38,11 +38,7 @@
 
                 </div>
             </div>
-            {{-- <div class="w-full text-center">
-                <span x-show="searchQuery !== ''">Showing <span x-text="totalResults"></span> results <span
-                        x-show="searchQuery !== ''">for "<span x-text="searchQuery"></span>"</span></span><span
-                    x-show="searchQuery !== ''"></span>
-            </div> --}}
+
             <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -165,7 +161,7 @@
                 </tbody>
             </table>
             <div class="mt-4 flex w-full flex-col justify-center p-4">
-                {{ $users->links() }}
+                {{-- {{ $users->links() }} --}}
             </div>
         </div>
 

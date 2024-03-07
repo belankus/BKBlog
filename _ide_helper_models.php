@@ -308,6 +308,7 @@ namespace App\Models{
  * @property int $id
  * @property int $user_id
  * @property string|null $last_activity
+ * @property int $is_logged_out
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $user
@@ -316,6 +317,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity query()
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereIsLoggedOut($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereLastActivity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UserActivity whereUserId($value)
