@@ -78,6 +78,9 @@ class UserController extends Controller
 
         $posts = $user->posts->where('published', 1)->where('published_at', '<', now());
         $details = UserDetail::where('user_id', $user->id)->first();
+        if (!$details) {
+            $details = UserDetail::create(['user_id' => $user->id]);
+        }
         return view('dashboard.users.preview', [
             'user' => $user,
             'posts' => $posts,
