@@ -122,6 +122,9 @@
     }
 </script>
 
+@if (Request::is('dashboard/users/*'))
+@endif
+
 @livewireScripts
 
 </body>

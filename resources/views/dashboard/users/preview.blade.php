@@ -78,11 +78,11 @@
                     </div>
                 </div>
 
-                {{-- Edit Button --}}
+                {{-- Edit Button Header --}}
                 @if (Request::is('dashboard/users/*'))
                     <div>
                         <button
-                            @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }} } }))"
+                            @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }}, selectedTab: 'tabHeader' } }))"
                             x-show="showEdit" x-cloak class="relative text-gray-500">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6">
                                 <path
@@ -113,10 +113,12 @@
                         <div class="flex items-center gap-2">
                             <h3 class="mb-2 text-xl font-bold text-gray-700">Description</h3>
 
-                            {{-- Edit Button --}}
+                            {{-- Edit Button Description --}}
                             @if (Request::is('dashboard/users/*'))
                                 <div class="flex items-center">
-                                    <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                    <button
+                                        @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }}, selectedTab: 'tabDescription' } }))"
+                                        x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="h-6 w-6">
                                             <path
@@ -136,10 +138,12 @@
                         <div class="flex items-center gap-2">
                             <h3 class="mb-2 text-xl font-bold text-gray-700">About Me</h3>
 
-                            {{-- Edit Button --}}
+                            {{-- Edit Button About --}}
                             @if (Request::is('dashboard/users/*'))
                                 <div class="flex items-center">
-                                    <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                    <button
+                                        @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }}, selectedTab: 'tabAbout' } }))"
+                                        x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                             class="h-6 w-6">
                                             <path
@@ -262,7 +266,8 @@
                                     class="relative flex flex-col overflow-clip rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
                                     <div class="group relative w-full">
                                         @if ($post->image)
-                                            <a href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}">
+                                            <a
+                                                href="/blog/{{ $post->getYear($post->published_at) }}/{{ $post->slug }}">
                                                 <img src="{{ asset('storage/' . $post->image) }}"
                                                     alt="{{ $post->title }}"
                                                     class="ease h-[200px] w-full object-cover object-center transition duration-500 group-hover:brightness-[85%]">

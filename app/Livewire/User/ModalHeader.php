@@ -12,6 +12,7 @@ class ModalHeader extends Component
 {
     public $user;
     public $details;
+    public $isDescriptionActive = false;
 
     #[Validate('required', message: 'Please fill in your name!')]
     #[Validate('min:3', message: 'Your name\'s too short!')]
@@ -40,6 +41,8 @@ class ModalHeader extends Component
         }
         if ($this->tagline) {
             $this->details->update(['tagline' => $this->tagline]);
+        } else {
+            $this->details->update(['tagline' => null]);
         }
 
         session()->flash('successUpdate', 'Your profile successfully updated.');

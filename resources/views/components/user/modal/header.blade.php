@@ -41,7 +41,7 @@
      <div class="relative">
          <div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                 class="h-4 w-4 text-gray-500">
+                 class="{{ $errors->has('tagline') ? 'text-pink-500' : 'text-gray-500' }} h-4 w-4">
                  <path fill-rule="evenodd"
                      d="M4.5 3.75a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-15Zm4.125 3a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Zm-3.873 8.703a4.126 4.126 0 0 1 7.746 0 .75.75 0 0 1-.351.92 7.47 7.47 0 0 1-3.522.877 7.47 7.47 0 0 1-3.522-.877.75.75 0 0 1-.351-.92ZM15 8.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15ZM14.25 12a.75.75 0 0 1 .75-.75h3.75a.75.75 0 0 1 0 1.5H15a.75.75 0 0 1-.75-.75Zm.75 2.25a.75.75 0 0 0 0 1.5h3.75a.75.75 0 0 0 0-1.5H15Z"
                      clip-rule="evenodd" />
@@ -50,7 +50,7 @@
 
          </div>
          <input type="text" name="tagline" id="tagline" autocomplete="off" wire:model.live="tagline"
-             class="{{ $errors->has('name') ? 'border-pink-500 text-pink-500 focus:border-pink-500 focus:ring-pink-500' : 'border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500' }} block w-full rounded-lg border bg-gray-50 p-2.5 ps-10 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
+             class="{{ $errors->has('tagline') ? 'border-pink-500 text-pink-500 focus:border-pink-500 focus:ring-pink-500' : 'border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500' }} block w-full rounded-lg border bg-gray-50 p-2.5 ps-10 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
      </div>
      <div>
          <p
