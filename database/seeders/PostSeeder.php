@@ -21,11 +21,15 @@ class PostSeeder extends Seeder
             'user_id' => 6,
             'category_id' => 4,
             'published' => 1,
-            'published_at' => now(),
-            'title' => 'Maju Bersama Dev Handal',
-            'slug' => 'maju-bersama-dev-handal',
+            'created_at' => '2024-02-25 01:00:19',
+            'updated_at' => '2024-02-25 01:00:19',
+            'published_at' => '2024-02-25 01:00:19',
+            'image' => 'post-img/cfJtPsM2eMAKJ1ngMRvSkvXRRwb2eV0UGf37ShIi.png',
+            'title' => 'Belajar Tak Ada Batasnya: Bersama Codepolitan dan Alibaba Cloud',
+            'slug' => 'belajar-tak-ada-batasnya-bersama-codepolitan-dan-alibaba-cloud',
+            'summary' => 'Event beasiswa Kodebisat, diselenggarakan oleh Devhandal.id khusus di tahun kabisat, untuk techsavvy di Indonesia.',
             'content' => '{
-                "time": 1708881440763,
+                "time": 1708970469077,
                 "blocks": [
                     {
                         "id": "8MSGcMFSkS",
@@ -76,13 +80,13 @@ class PostSeeder extends Seeder
                         }
                     },
                     {
-                        "id": "6vxUdBCT8i",
+                        "id": "td0cDiaP9P",
                         "type": "image",
                         "data": {
                             "file": {
-                                "url": "https://blog.test/storage/post-images/aaaaa/temp-images/XoGVqdrvFAJMz8OOWLODDHiDC1ooFM5MJ0qqiLsr.png"
+                                "url": "https://blog.bellawan.my.id/storage/post-images/belajar-tak-ada-batasnya-bersama-codepolitan-dan-alibaba-cloud/temp-images/iDwjGhd7vgZC6ApK9lxYL35Hl1SCuPuxBQXJxWEp.jpg"
                             },
-                            "caption": "KodeBisat by Devhandal<br>",
+                            "caption": "<b>KodeBisat</b> by Devhandal.id",
                             "withBorder": false,
                             "stretched": false,
                             "withBackground": false
@@ -92,7 +96,7 @@ class PostSeeder extends Seeder
                         "id": "0ttfJ8IunT",
                         "type": "paragraph",
                         "data": {
-                            "text": "Awal mula menemukan platform devhandal ini, berawal dari rutinitas saya mengais ilmu di YouTube. Awal tahun 2024 ketika explore channel youtube salah satu pengajar web yang sedang naik daun, pak Sandhika Galih dengan channel <a href=\"https://www.youtube.com/@sandhikagalihWPU\">Web Programming UNPAS</a>&nbsp;-nya. Dari sana muncul ketertarikan untuk mencoba mengikuti event beasiswa menjadi seorang web developer.",
+                            "text": "Awal mula menemukan platform devhandal ini, berawal dari rutinitas saya mengais ilmu di YouTube. Awal tahun 2024 ketika explore channel youtube salah satu pengajar web yang sedang naik daun, pak Sandhika Galih dengan channel <a href=\"https://www.youtube.com/@sandhikagalihWPU\">Web Programming UNPAS</a>-nya. Dari sana muncul ketertarikan untuk mencoba mengikuti event beasiswa menjadi seorang web developer.",
                             "alignment": "left"
                         }
                     },
@@ -137,13 +141,13 @@ class PostSeeder extends Seeder
                         }
                     },
                     {
-                        "id": "ZD7TfL-A_8",
+                        "id": "_T8Cw_YazU",
                         "type": "image",
                         "data": {
                             "file": {
-                                "url": "https://blog.test/storage/post-images/aaaaa/temp-images/6IZIX2w5SbWem1ZW5E4XeOVviJunGrIy3JmgW9yI.jpg"
+                                "url": "https://blog.bellawan.my.id/storage/post-images/belajar-tak-ada-batasnya-bersama-codepolitan-dan-alibaba-cloud/temp-images/glh2qemW4anMVImuNqrItW70uufzceMZl1mbrlBg.jpg"
                             },
-                            "caption": "",
+                            "caption": "Deploy MySQL Database di Server Alibaba Cloud",
                             "withBorder": false,
                             "stretched": false,
                             "withBackground": false

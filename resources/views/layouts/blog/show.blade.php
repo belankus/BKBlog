@@ -15,8 +15,8 @@
                                         href="https://bellawan.my.id" rel="author"
                                         class="hover:underline">Bellawan</a></a></p>
                                 <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate
-                                        datetime="{{ Carbon\Carbon::parse($singlePost->updated_at)->format('Y-m-d') }}"
-                                        title="{{ Carbon\Carbon::parse($singlePost->updated_at)->format('F jS, Y') }}">{{ Carbon\Carbon::parse($singlePost->published_at)->format('M. j, Y') }}</time>
+                                        datetime="{{ Carbon\Carbon::parse($singlePost->published_at)->format('Y-m-d') }}"
+                                        title="{{ Carbon\Carbon::parse($singlePost->published_at)->format('F jS, Y') }}">{{ Carbon\Carbon::parse($singlePost->published_at)->format('M. j, Y') }}</time>
                                 </p>
                             </div>
                         </div>
