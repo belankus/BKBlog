@@ -1,10 +1,16 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo">BKBlog</a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<p align="center"><a href="https://blog.bellawan.my.id" target="_blank"><img src="https://bellawan.my.id/img/favicon.png" width="100" alt="Bellawan Logo" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);" /></a></p>
+<p align="center"><a href="https://blog.bellawan.my.id" style="text-decoration: none;"><span style=" background-clip:text; -webkit-background-clip: text;color:transparent; background-image:linear-gradient(to right,#38bdf8,#059669); font-size: 36px; font-weight: 700;">BK Blog</span></a></p>
+<p style="width:100%; display: flex; gap: 8px; align-items: center; justify-content: center;">
+<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 512 512">
+    <mask id="a">
+        <circle cx="256" cy="256" r="256" fill="#fff" />
+    </mask>
+    <g mask="url(#a)">
+        <path fill="#ffffff" d="m0 256 249.6-41.3L512 256v256H0z" />
+        <path fill="#ff0000" d="M0 0h512v256H0z" />
+    </g>
+</svg>
+<a href="https://github.com/belankus/BKBlog/blob/main/README_ID.md">Bahasa Indonesia</a>
 </p>
 
 ## About BKBlog
@@ -17,36 +23,75 @@ With the development of website technology, with many frameworks that make it ea
 
 You can visit this project real demo at [BKBlog Website](https://blog.bellawan.my.id)
 
+## Features
+
+All of these features supported by powerful interactive build in dashboard.
+
+#### 1.1 Post Management
+
+#### 1.2 Categories Management
+
+#### 1.3 Tags Management
+
+#### 1.4 Users Management (on going)
+
+#### 1.5 Comments Management (on going)
+
 ## Technologies
 
 I'm proud to share some of the technologies I've used to create the BKBlog app.
 
--   **[Laravel 10.x]({#laravel})**
+-   **[Laravel 10](#laravel)**
+-   **[Livewire 3](#livewire)**
+-   **[TailwindCSS 3](#tailwind)**
+-   **[EditorJS 2](#editorjs)**
 
 ### Software Dependencies
 
 | No  | Software                                   | Version |
-| :-: | ------------------------------------------ | ------- |
-| 1.  | [Laravel](#laravel)                        | 10.x    |
-| 2.  | [TailwindCSS](#tailwind)                   | 10.x    |
-| 3.  | [Laravel - Livewire + AlpineJS](#livewire) | 10.x    |
-| 4.  | [EditorJS](#editorjs)                      | 10.x    |
+| :-: | ------------------------------------------ | ------: |
+| 1.  | [Laravel](#laravel)                        |   10.44 |
+| 2.  | [Laravel - Livewire + AlpineJS](#livewire) |     3.4 |
+| 3.  | [TailwindCSS](#tailwind)                   |   3.4.1 |
+| 4.  | [EditorJS](#editorjs)                      |  2.28.2 |
 
 ### Laravel<a name="laravel"></a>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/documentation).
+Laravel is a web application framework with expressive, elegant syntax. A web framework provides a structure and starting point for creating your application, allowing you to focus on creating something amazing while we sweat the details.
 
-## Features
+[Laravel documentation](https://laravel.com/docs/10.x/installation)
+
+### Livewire + AlpineJS<a name="livewire"></a>
+
+Laravel Livewire is a framework for building Laravel powered frontends that feel dynamic, modern, and alive just like frontends built with modern JavaScript frameworks like Vue and React.
+
+[Livewire documentation](https://livewire.laravel.com/docs/quickstart)
+
+### TailwindCSS<a name="tailwind"></a>
+
+Rapidly build modern websites without ever leaving your HTML.
+
+A utility-first CSS framework packed with classes like flex, pt-4, text-center and rotate-90 that can be composed to build any design, directly in your markup.
+
+[TailwindCSS documentation](https://tailwindcss.com/docs/installation)
+
+### EditorJS<a name="editorjs"></a>
+
+Free block-style editor with a universal JSON output
+
+Editor.js provides maximum power for developers and products staying focused on the end-user experience
+
+[EditorJS documentation](https://editorjs.io/getting-started/)
 
 ## Acknowledgement
 
 This project was inspired by some of these great people, if you're interested you can visit their channels:
 
--   **[Sandhika Galih (WPU Channel)]({#laravel})**
--   **[Parsinta]({#laravel})**
--   **[Kelas Terbuka]({#laravel})**
--   **[YeloCode]({#laravel})**
+-   **[Sandhika Galih (WPU Channel)](https://www.youtube.com/@sandhikagalihWPU)**
+-   **[Parsinta](https://www.youtube.com/@parsinta)**
+-   **[Kelas Terbuka](https://www.youtube.com/@KelasTerbuka)**
+-   **[YeloCode](https://www.youtube.com/@yelocode)**
 
 ## License
 
-The BKBlog project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The BKBlog project is open-sourced software licensed under the [MIT license](LICENSE).
