@@ -30,4 +30,5 @@
             });
         </script>
     @endif
+    @livewireStyles
 </head>
