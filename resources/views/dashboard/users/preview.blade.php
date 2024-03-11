@@ -74,7 +74,7 @@
                             </span>
                         </h2>
                         <p class="text-gray-500">
-                            {{ $details ? $details->tagline : 'No Tagline' }}</p>
+                            {!! $details->tagline ?? '<i>No Tagline</i>' !!}</p>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@
                                 </div>
                             @endif
                         </div>
-                        <p class="text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                        <p class="text-gray-500">{!! $details->description ?? '<i>Please edit your short yet representative description</i>' !!}</p>
                     </div>
                     <div class="mt-6 pb-6" x-data="{ showEdit: false }" @mouseenter="showEdit = true"
                         @mouseleave="showEdit = false">
@@ -156,34 +156,20 @@
                                 </div>
                             @endif
                         </div>
-                        <div x-data="{ expanded: false }">
-                            <p class="line-clamp-4 text-gray-500" x-show="!expanded">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, neque aperiam id quos earum
-                                est totam dolore. Modi et reiciendis aliquam nostrum, quibusdam autem. Aliquam ea molestias
-                                tempore voluptatum alias molestiae, excepturi totam vero maxime adipisci, deleniti illo
-                                enim, impedit quibusdam ipsam culpa similique qui sunt dolore magnam tempora ratione
-                                laboriosam labore perspiciatis! Vero distinctio aut nisi animi consequatur beatae facilis
-                                quam tempore reprehenderit ad enim nostrum rem, consectetur nemo itaque laboriosam ratione
-                                porro eveniet quaerat assumenda sed? Iusto iure sapiente corporis, quo a quidem sunt
-                                reiciendis dolorem nihil fugiat neque quas, aut ea, doloremque ut dicta atque officiis
-                                praesentium. </p>
-                            <button @click="expanded = !expanded" x-show="!expanded"
-                                class="mt-6 text-blue-500 hover:underline">
+                        <div x-data="{ expanded: false, contentHeight: 0 }" x-init="contentHeight = $refs.content.offsetHeight">
+                            <p :class="contentHeight > 100 ? 'line-clamp-4' : ''" class="text-gray-500" x-show="!expanded"
+                                x-ref="content">
+                                {!! $details->about ?? '<i>Please edit your info, eg. your background and your activities</i>' !!}
+                            </p>
+                            <button @click="expanded = !expanded" x-show="!expanded && contentHeight > 100"
+                                class="mt-6 text-blue-500 hover:underline" x-cloak>
                                 Read more
                             </button>
-                            <p x-show="expanded" class="text-gray-500" style="display:none;">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, neque aperiam id quos earum
-                                est totam dolore. Modi et reiciendis aliquam nostrum, quibusdam autem. Aliquam ea molestias
-                                tempore voluptatum alias molestiae, excepturi totam vero maxime adipisci, deleniti illo
-                                enim, impedit quibusdam ipsam culpa similique qui sunt dolore magnam tempora ratione
-                                laboriosam labore perspiciatis! Vero distinctio aut nisi animi consequatur beatae facilis
-                                quam tempore reprehenderit ad enim nostrum rem, consectetur nemo itaque laboriosam ratione
-                                porro eveniet quaerat assumenda sed? Iusto iure sapiente corporis, quo a quidem sunt
-                                reiciendis dolorem nihil fugiat neque quas, aut ea, doloremque ut dicta atque officiis
-                                praesentium.
+                            <p x-show="expanded" class="text-gray-500" x-cloak>
+                                {!! $details->about ?? '<i>Please edit your info, eg. your background and your activities</i>' !!}
                             </p>
-                            <button @click="expanded = !expanded" x-show="expanded"
-                                class="mt-6 text-blue-500 hover:underline" style="display:none;">
+                            <button @click="expanded = !expanded" x-show="expanded && contentHeight > 100"
+                                class="mt-6 text-blue-500 hover:underline" x-cloak>
                                 Read less
                             </button>
                         </div>
@@ -213,7 +199,9 @@
                         {{-- Edit Button --}}
                         @if (Request::is('dashboard/users/*'))
                             <div class="flex items-center">
-                                <button x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
+                                <button
+                                    @click="window.dispatchEvent(new CustomEvent('show-modal-header', { detail: { userData: {{ $user }}, details:{{ $details }}, selectedTab: 'tabLocation' } }))"
+                                    x-show="showEdit" x-cloak class="relative -translate-y-2 text-gray-500">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                         class="h-6 w-6">
                                         <path
@@ -350,5 +338,6 @@
     </div>
 </section>
 
-<livewire:user.modal-header :user="$user" :tagline="$details->tagline" :name="$user->name" />
+<livewire:user.modal-profile :details="$details" :user="$user" :tagline="$details->tagline" :name="$user->name" :description="$details->description"
+    :show-description="$details->showDescription" />
 @endsection

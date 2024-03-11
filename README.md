@@ -1,16 +1,8 @@
 <p align="center"><a href="https://blog.bellawan.my.id" target="_blank"><img src="https://bellawan.my.id/img/favicon.png" width="100" alt="Bellawan Logo" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);" /></a></p>
-<p align="center"><a href="https://blog.bellawan.my.id" style="text-decoration: none;"><span style=" background-clip:text; -webkit-background-clip: text;color:transparent; background-image:linear-gradient(to right,#38bdf8,#059669); font-size: 36px; font-weight: 700;">BK Blog</span></a></p>
-<p style="width:100%; display: flex; gap: 8px; align-items: center; justify-content: center;">
-<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 512 512">
-    <mask id="a">
-        <circle cx="256" cy="256" r="256" fill="#fff" />
-    </mask>
-    <g mask="url(#a)">
-        <path fill="#ffffff" d="m0 256 249.6-41.3L512 256v256H0z" />
-        <path fill="#ff0000" d="M0 0h512v256H0z" />
-    </g>
-</svg>
-<a href="https://github.com/belankus/BKBlog/blob/main/README_ID.md">Bahasa Indonesia</a>
+<a href="https://blog.bellawan.my.id" style="text-decoration: none;"><h1 align="center">BK Blog</h1></a>
+<p align="center">
+<img src="https://github.com/belankus/BKBlog/blob/public/public/img/indonesia_round_icon_64.png" alt="Indonesian Flag" />
+<a href="https://github.com/belankus/BKBlog/blob/public/README_ID.md">Bahasa Indonesia</a>
 </p>
 
 ## About BKBlog

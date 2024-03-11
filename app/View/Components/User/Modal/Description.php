@@ -8,13 +8,17 @@ use Illuminate\Contracts\View\View;
 
 class Description extends Component
 {
-    public $isDescriptionActive;
+    public $details;
+    public $description;
+    public $showDescription;
     /**
      * Create a new component instance.
      */
-    public function __construct($isDescriptionActive)
+    public function __construct($details, $description, $showDescription)
     {
-        $this->isDescriptionActive = $isDescriptionActive;
+        $this->details = $details;
+        $this->description = $description;
+        $this->showDescription = $showDescription;
     }
 
     /**
