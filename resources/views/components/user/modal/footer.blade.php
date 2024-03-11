@@ -1,5 +1,5 @@
 {{-- Line Button --}}
-<div class="mt-6 w-full border-t pt-4">
+<div class="mt-2 w-full border-t pt-4">
     {{-- Wrapper Button --}}
     <div class="flex justify-between px-6">
         <div class="group flex items-center text-sm text-gray-600">
