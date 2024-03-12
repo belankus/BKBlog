@@ -3,14 +3,16 @@
 @section('content')
     {{-- Hero Section --}}
     <div class="mx-auto max-w-2xl">
-        <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-            <a href="/blog/{{ $latestPost->getYear($latestPost->published_at) }}/{{ $latestPost->slug }}"
-                class="relative flex gap-2 rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-                <span class="sm:max-w-60 max-w-40 truncate whitespace-nowrap">{{ $latestPost->title }}</span><span
-                    class="font-semibold text-indigo-600">Read more
-                    <span aria-hidden="true">&rarr;</span></span>
-            </a>
-        </div>
+        @if ($latestPost)
+            <div class="hidden sm:mb-8 sm:flex sm:justify-center">
+                <a href="/blog/{{ $latestPost->getYear($latestPost->published_at) }}/{{ $latestPost->slug }}"
+                    class="relative flex gap-2 rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
+                    <span class="sm:max-w-60 max-w-40 truncate whitespace-nowrap">{{ $latestPost->title }}</span><span
+                        class="font-semibold text-indigo-600">Read more
+                        <span aria-hidden="true">&rarr;</span></span>
+                </a>
+            </div>
+        @endif
         <div class="text-center">
             <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Welcome to <span
                     class="bg-gradient-to-r from-sky-400 to-emerald-600 bg-clip-text text-transparent">BKA
