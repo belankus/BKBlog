@@ -20,9 +20,7 @@ return new class extends Migration
             $table->text('about')->nullable();
             $table->boolean('showAbout')->default(false);
             $table->string('location')->nullable();
-            $table->boolean('showLocation')->default(false);
             $table->string('website')->nullable();
-            $table->boolean('showWebsite')->default(false);
             $table->string('profile_pic')->nullable();
             $table->string('setting_pic')->nullable();
             $table->timestamp('created_at')->useCurrent();

@@ -28,6 +28,14 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/u/{username}', function ($username) {
+    $user = \App\Models\User::where('username', $username)->first();
+    if (!$user) {
+        abort(404);
+    }
+    return view('blog');
+});
+
 Route::prefix('blog')->group(function () {
     Route::get('/', [BlogController::class, 'index']);
     Route::get('categories/{category:slug}', [BlogController::class, 'category']);
@@ -64,9 +72,9 @@ Route::get('/editor', function () {
     return view('editor', ['postData' => Post::where('id', 1)->first()]);
 });
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('auth.login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
 Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
