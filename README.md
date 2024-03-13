@@ -1,7 +1,7 @@
 <p align="center"><a href="https://blog.bellawan.my.id" target="_blank"><img src="https://bellawan.my.id/img/favicon.png" width="100" alt="Bellawan Logo" style="box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);" /></a></p>
 <a href="https://blog.bellawan.my.id" style="text-decoration: none;"><h1 align="center">BK Blog</h1></a>
 <p align="center">
-<img src="https://github.com/belankus/BKBlog/blob/public/public/img/indonesia_round_icon_64.png" alt="Indonesian Flag" />
+<img src="https://github.com/belankus/BKBlog/blob/public/public/img/indonesia_round_icon_64.png" height="16" alt="Indonesian Flag" />
 <a href="https://github.com/belankus/BKBlog/blob/public/README_ID.md">Bahasa Indonesia</a>
 </p>
 

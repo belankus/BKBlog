@@ -2,10 +2,7 @@
 
 namespace App\Livewire\User;
 
-use App\Models\User;
 use Livewire\Component;
-use App\Models\UserDetail;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 
@@ -19,6 +16,7 @@ class ModalProfile extends Component
     #[Validate('min:3', message: 'Your name\'s too short!')]
     #[Validate('max:100', message: 'Oops, your name\'s too long!')]
     public $name;
+
     #[Validate('nullable')]
     #[Validate('min:3', message: 'Your tagline\'s too short!')]
     #[Validate('max:100', message: 'Woopsie! It seems your tagline\'s too long!')]
@@ -56,12 +54,15 @@ class ModalProfile extends Component
 
     public function save()
     {
-        // sleep(2);
         $this->validate();
         $this->user->update(['name' => $this->name ?? $this->user->name]);
-        $this->details->update(['tagline' => $this->tagline ? $this->tagline : null]);
+        $this->details->update(['tagline' => $this->tagline ?? $this->tagline]);
         $this->details->update(['description' => $this->description ? $this->description : null]);
-        $this->details->update(['showDescription' => $this->showDescription]);
+        $this->details->update(['showDescription' => $this->showDescription ?? $this->details->showDescription]);
+        $this->details->update(['about' => $this->about ? $this->about : null]);
+        $this->details->update(['showAbout' => $this->showAbout ?? $this->details->showAbout]);
+        $this->details->update(['location' => $this->location ? $this->location : null]);
+        $this->details->update(['website' => $this->website ? $this->website : null]);
 
         session()->flash('successUpdate', 'Your profile successfully updated.');
         return $this->redirect('/dashboard/users/' . $this->user->username, navigate: true);

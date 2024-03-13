@@ -54,18 +54,20 @@
              class="{{ $errors->has('tagline') ? 'border-pink-500 text-pink-500 focus:border-pink-500 focus:ring-pink-500' : 'border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500' }} block w-full rounded-lg border bg-gray-50 p-2.5 ps-10 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
      </div>
      <div>
-         <p
-             class="{{ $errors->has('tagline') ? 'text-pink-500' : '' }} {{ !$errors->has('tagline') && $tagline ? 'text-green-500' : '' }} indent-1 text-sm">
-             <span
-                 class="{{ $errors->has('tagline') || (!$errors->has('tagline') && $tagline !== $details->tagline && $tagline) ? 'hidden' : 'text-transparent' }}">Placeholder</span>
-             @if (!$errors->has('tagline') && $tagline !== $details->tagline && $tagline)
-                 <b>Horay!</b>
-                 <span>All looks pretty!</span>
-             @endif
-             @error('tagline')
-                 <b>Warning!</b>
-                 {{ $message }}
-             @enderror
-         </p>
+         @if ($tagline)
+             <p
+                 class="{{ $errors->has('tagline') ? 'text-pink-500' : '' }} {{ !$errors->has('tagline') && $tagline ? 'text-green-500' : '' }} indent-1 text-sm">
+                 <span
+                     class="{{ $errors->has('tagline') || (!$errors->has('tagline') && $tagline !== $details->tagline && $tagline) ? 'hidden' : 'text-transparent' }}">Placeholder</span>
+                 @if (!$errors->has('tagline') && $tagline !== $details->tagline && $tagline)
+                     <b>Horay!</b>
+                     <span>All looks pretty!</span>
+                 @endif
+                 @error('tagline')
+                     <b>Warning!</b>
+                     {{ $message }}
+                 @enderror
+             </p>
+         @endif
      </div>
  </div>
