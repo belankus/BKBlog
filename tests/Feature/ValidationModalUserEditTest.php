@@ -10,7 +10,7 @@ use App\Livewire\User\ModalProfile;
 use Database\Seeders\AllPoliciesSeeder;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ModalUserEditTest extends TestCase
+class ValidationModalUserEditTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -72,6 +72,20 @@ class ModalUserEditTest extends TestCase
             $response->assertHasErrors('description');
         }
     }
+    public function test_validation_when_show_description_is_not_set_and_description_is_not_empty(): void
+    {
+
+        foreach ($this->users as $user) {
+            $this->actingAs($user)->get('/dashboard/users/' . $user->username);
+            $details = UserDetail::where('user_id', $user->id)->first();
+            $response = Livewire::test(ModalProfile::class, ['user' => $user, 'details' => $details, 'tagline' => $details->tagline])
+                ->set('showDescription', false) // same as not set
+                ->set('description', 'foo')
+                ->call('save');
+
+            $response->assertHasNoErrors('description');
+        }
+    }
     public function test_validation_when_show_description_is_set_and_description_is_not_empty(): void
     {
 
@@ -112,6 +126,20 @@ class ModalUserEditTest extends TestCase
                 ->call('save');
 
             $response->assertHasErrors('about');
+        }
+    }
+    public function test_validation_when_show_about_is_not_set_and_about_is_not_empty(): void
+    {
+
+        foreach ($this->users as $user) {
+            $this->actingAs($user)->get('/dashboard/users/' . $user->username);
+            $details = UserDetail::where('user_id', $user->id)->first();
+            $response = Livewire::test(ModalProfile::class, ['user' => $user, 'details' => $details, 'tagline' => $details->tagline])
+                ->set('showAbout', false) // same as not set
+                ->set('about', 'foo')
+                ->call('save');
+
+            $response->assertHasNoErrors('about');
         }
     }
     public function test_validation_when_show_about_is_set_and_about_is_not_empty(): void

@@ -101,7 +101,7 @@
                 <div class="flex h-full flex-col justify-between">
                     <div>
                         <div x-show="activeTab === 'tabHeader'">
-                            <x-user.modal.header :name="$name" :tagline="$this->tagline" :user="$user"
+                            <x-user.modal.header :name="$name" :tagline="$tagline" :user="$user"
                                 :details="$details" />
                         </div>
                         <div x-show="activeTab === 'tabDescription'">
