@@ -11,6 +11,8 @@ class ModalProfile extends Component
     public $user;
     public $details;
     public $showDescription;
+    public $showAbout;
+    public $location;
 
     #[Validate('required', message: 'Please fill in your name!')]
     #[Validate('min:3', message: 'Your name\'s too short!')]
@@ -24,6 +26,14 @@ class ModalProfile extends Component
 
     #[Validate]
     public $description;
+
+    #[Validate]
+    public $about;
+
+    #[Validate('nullable')]
+    #[Validate('regex:/^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+)\.([a-zA-Z]{2,})(\/\S*)?$/', message: 'Your website is not valid!')]
+    #[Validate('min:8', message: 'Your website\'s too short!')]
+    public $website;
 
     public function mount($user, $details)
     {
@@ -40,6 +50,12 @@ class ModalProfile extends Component
                 'min:3',
                 'max:255',
             ],
+            'about' => [
+                'nullable',
+                Rule::requiredIf($this->showAbout),
+                'min:3',
+                'max:500',
+            ],
         ];
     }
 
@@ -49,6 +65,9 @@ class ModalProfile extends Component
             'description.min' => 'Your description\'s too short!',
             'description.max' => 'Woopsie! It seems your description\'s too long!',
             'description.required' => 'When show to public, description can not be empty!',
+            'about.min' => 'Your about\'s too short!',
+            'about.max' => 'Woopsie! It seems your about\'s too long!',
+            'about.required' => 'When show to public, about can not be empty!',
         ];
     }
 

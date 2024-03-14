@@ -51,6 +51,7 @@
 
          </div>
          <input type="text" name="tagline" id="tagline" autocomplete="off" wire:model.live="tagline"
+             placeholder="Your tagline here"
              class="{{ $errors->has('tagline') ? 'border-pink-500 text-pink-500 focus:border-pink-500 focus:ring-pink-500' : 'border-gray-300 text-gray-900 focus:border-blue-500 focus:ring-blue-500' }} block w-full rounded-lg border bg-gray-50 p-2.5 ps-10 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500">
      </div>
      <div>

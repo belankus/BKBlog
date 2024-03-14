@@ -6,18 +6,18 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class About extends Component
+class Location extends Component
 {
+
     public $details;
-    public $about;
-    public $showAbout;
+    public $location;
+    public $website;
 
-
-    public function __construct($details, $about, $showAbout)
+    public function __construct($details, $location, $website)
     {
         $this->details = $details;
-        $this->about = $about;
-        $this->showAbout = $showAbout;
+        $this->location = $location;
+        $this->website = $website;
     }
 
     /**
@@ -25,6 +25,6 @@ class About extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.user.modal.about');
+        return view('components.user.modal.location');
     }
 }

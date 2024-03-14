@@ -28,6 +28,14 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/u/{username}', function ($username) {
+    $user = \App\Models\User::where('username', $username)->first();
+    if (!$user) {
+        abort(404);
+    }
+    return view('blog');
+});
+
 Route::prefix('blog')->group(function () {
     Route::get('/', [BlogController::class, 'index']);
     Route::get('categories/{category:slug}', [BlogController::class, 'category']);

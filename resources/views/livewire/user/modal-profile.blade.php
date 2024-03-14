@@ -27,7 +27,7 @@
             x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
             x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-90" x-cloak
-            class="relative left-1/2 z-[100] my-20 flex h-[75vh] w-1/2 -translate-x-1/2 flex-col rounded-xl bg-zinc-50 py-4"
+            class="relative left-1/2 z-[100] my-20 flex h-[90vh] w-1/2 -translate-x-1/2 flex-col rounded-xl bg-zinc-50 py-4"
             @click.outside="closeModalHeader">
             <div class="relative mx-6 mb-5 flex justify-between">
                 <h2 class="text-2xl font-bold text-gray-700">Edit Profile</h2>
@@ -109,10 +109,13 @@
                                 :showDescription="$showDescription" />
                         </div>
                         <div x-show="activeTab === 'tabAbout'">
-                            <x-user.modal.about :user="$user" :details="$details" />
+                            <x-user.modal.about :user="$user" :details="$details" :about="$about"
+                                :showAbout="$showAbout" />
                         </div>
                         <div x-show="activeTab === 'tabLocation'">
-                            Location </div>
+                            <x-user.modal.location :user="$user" :details="$details" :location="$location"
+                                :website="$website" />
+                        </div>
                     </div>
                     <div>
                         <p class="ms-10 text-xs text-gray-500"><sup class="text-red-500">*</sup> Required</p>

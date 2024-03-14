@@ -1,23 +1,22 @@
 <?php
 
-namespace App\View\Components\User\Modal;
+namespace App\View\Components\User;
 
 use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class About extends Component
+class Preview extends Component
 {
+    public $user;
     public $details;
-    public $about;
-    public $showAbout;
+    public $posts;
 
-
-    public function __construct($details, $about, $showAbout)
+    public function __construct($user, $details, $posts)
     {
+        $this->user = $user;
         $this->details = $details;
-        $this->about = $about;
-        $this->showAbout = $showAbout;
+        $this->posts = $posts;
     }
 
     /**
@@ -25,6 +24,6 @@ class About extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.user.modal.about');
+        return view('components.user.preview');
     }
 }
