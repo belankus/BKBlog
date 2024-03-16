@@ -35,4 +35,6 @@
 
     <livewire:user.modal-profile :details="$details" :user="$user" :tagline="$details->tagline" :name="$user->name" :description="$details->description"
         :show-description="$details->showDescription" :about="$details->about" :show-about="$details->showAbout" :location="$details->location" :website="$details->website" />
+
+    <livewire:user.modal-image :user="$user" :details="$details" />
 @endsection

@@ -58,7 +58,9 @@
             </svg>
         </a>
         <div class="flex items-center space-x-4">
-            <img class="h-7 w-7 rounded-full" src="/img/bellawan.jpg" alt="Bellawann Kusuma Aji" />
+            <img class="h-7 w-7 rounded-full"
+                src="{{ $post->user->details ? ($post->user->details->profile_pic ? env('APP_URL') . '/storage\/' . $post->user->details->profile_pic : env('APP_URL') . '/img/user_photo.png') : env('APP_URL') . '/img/user_photo.png' }}"
+                alt="{{ $post->user->name }}" />
             <span class="font-medium dark:text-white">
                 {{ $post->getName($post) }}
 
