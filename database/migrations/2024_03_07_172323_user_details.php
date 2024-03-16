@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('website')->nullable();
             $table->string('profile_pic')->nullable();
-            $table->string('setting_pic')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

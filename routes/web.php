@@ -61,6 +61,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::post('posts/cache-image', [PostController::class, 'cache']);
     Route::post('users/{username}/verify', [\App\Http\Controllers\UserController::class, 'verify']);
     Route::post('users/{username}/unverify', [\App\Http\Controllers\UserController::class, 'unverify']);
+    Route::post('users/{user:username}/saveImage', [\App\Http\Controllers\UserController::class, 'saveImage'])->name('users.saveImage');
     Route::resource('posts', PostController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('tags', TagController::class);
@@ -70,6 +71,10 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
 
 Route::get('/editor', function () {
     return view('editor', ['postData' => Post::where('id', 1)->first()]);
+});
+
+Route::get('/cropper', function () {
+    return view('cropper');
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');

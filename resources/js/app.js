@@ -7,7 +7,6 @@ import List from "@editorjs/list";
 import RawTool from "@editorjs/raw";
 import Paragraph from "editorjs-paragraph-with-alignment";
 import ImageTool from "@editorjs/image";
-import Cropper from "cropperjs";
 
 window.flatpickr = flatpickr;
 window.Cropper = Cropper;

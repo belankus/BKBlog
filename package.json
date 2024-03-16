@@ -25,8 +25,8 @@
         "@editorjs/raw": "^2.5.0",
         "@tailwindcss/line-clamp": "^0.4.4",
         "alpinejs": "^3.13.5",
-        "cropperjs": "^1.6.1",
         "editorjs-paragraph-with-alignment": "^3.0.0",
-        "flatpickr": "^4.6.13"
+        "flatpickr": "^4.6.13",
+        "jquery": "^3.7.1"
     }
 }

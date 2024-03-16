@@ -7,16 +7,18 @@
                 <header class="not-format mb-4 lg:mb-6">
                     <address class="mb-6 flex items-center not-italic">
                         <div class="mr-3 inline-flex items-center text-sm text-gray-900 dark:text-white">
-                            <img class="mr-4 h-16 w-16 rounded-full" src="/img/bellawan.jpg" alt="Bellawan Kusuma Aji">
+                            <img class="mr-4 h-16 w-16 rounded-full"
+                                src="{{ $singlePost->user->details ? ($singlePost->user->details->profile_pic ? env('APP_URL') . '/storage\/' . $singlePost->user->details->profile_pic : env('APP_URL') . '/img/user_photo.png') : env('APP_URL') . '/img/user_photo.png' }}"
+                                alt="{{ $singlePost->user->name }}">
                             <div>
                                 <a href="#" rel="author" class="text-xl text-gray-900 dark:text-white">By
                                     <span class="indent-1 font-bold">{{ $singlePost->user->name }}</span></a>
-                                <p class="text-base text-gray-500 dark:text-gray-400">Crafting a minified milestone at <a
-                                        href="https://bellawan.my.id" rel="author"
-                                        class="hover:underline">Bellawan</a></a></p>
+                                <p class="text-base text-gray-500 dark:text-gray-400">
+                                    {{ $singlePost->user->details->tagline ?? '' }}</p>
                                 <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate
                                         datetime="{{ Carbon\Carbon::parse($singlePost->published_at)->format('Y-m-d') }}"
-                                        title="{{ Carbon\Carbon::parse($singlePost->published_at)->format('F jS, Y') }}">{{ Carbon\Carbon::parse($singlePost->published_at)->format('M. j, Y') }}</time>
+                                        title="{{ Carbon\Carbon::parse($singlePost->published_at)->format('F jS, Y') }}">Published
+                                        on {{ Carbon\Carbon::parse($singlePost->published_at)->format('M. j, Y') }}</time>
                                 </p>
                             </div>
                         </div>

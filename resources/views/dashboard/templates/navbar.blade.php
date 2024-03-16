@@ -228,7 +228,8 @@
                     id="user-menu-button">
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                        src="{{ Auth::user()->details ? (Auth::user()->details->profile_pic ? env('APP_URL') . '/storage\/' . Auth::user()->details->profile_pic : env('APP_URL') . '/img/user_photo.png') : env('APP_URL') . '/img/user_photo.png' }}"
+                        alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div x-show="openUserMenu" @click="openUserMenu = false"

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use Tests\TestCase;
 use App\Models\User;
@@ -8,8 +8,6 @@ use Livewire\Livewire;
 use App\Models\UserDetail;
 use App\Livewire\User\ModalProfile;
 use Database\Seeders\AllPoliciesSeeder;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ViewModalUserEditTest extends TestCase

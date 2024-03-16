@@ -105,22 +105,23 @@
     </script>
 @endif
 
+@if (!Request::is('dashboard/users/*'))
+    <script>
+        function previewImage() {
+            const image = document.querySelector('#image');
+            const imgPreview = document.querySelector('.img-preview');
 
-<script>
-    function previewImage() {
-        const image = document.querySelector('#image');
-        const imgPreview = document.querySelector('.img-preview');
+            imgPreview.style.display = 'block';
 
-        imgPreview.style.display = 'block';
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(image.files[0]);
 
-        const oFReader = new FileReader();
-        oFReader.readAsDataURL(image.files[0]);
-
-        oFReader.onload = function(oFREvent) {
-            imgPreview.src = oFREvent.target.result;
+            oFReader.onload = function(oFREvent) {
+                imgPreview.src = oFREvent.target.result;
+            }
         }
-    }
-</script>
+    </script>
+@endif
 
 @livewireScripts
 </body>

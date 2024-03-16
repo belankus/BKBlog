@@ -5,7 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Http\Controllers\PostController;
-
+use App\Livewire\User\ModalImage;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,9 +16,14 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $postController = app()->make(PostController::class);
+        $imageProfileController = app()->make(ModalImage::class);
 
         $schedule->call(function () use ($postController) {
             $postController->cleanupTemporaryImages();
+        })->daily();
+
+        $schedule->call(function () use ($imageProfileController) {
+            $imageProfileController->cleanupTemporaryImages();
         })->daily();
     }
 
